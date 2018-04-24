@@ -1,5 +1,12 @@
 ### Territory Manager
 
+[![Build Status](https://travis-ci.org/shierro/territory-manager.svg?branch=master)](https://travis-ci.org/shierro/territory-manager)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f60e0883a1c98f548293/maintainability)](https://codeclimate.com/github/shierro/territory-manager/maintainability)
+[![codecov](https://codecov.io/gh/shierro/territory-manager/branch/master/graph/badge.svg)](https://codecov.io/gh/shierro/territory-manager)
+[![dependency status](https://david-dm.org/shierro/territory-manager/status.svg)](https://david-dm.org/shierro/territory-manager/status.svg)
+[![devDependency status](https://david-dm.org/shierro/territory-manager/dev-status.svg)](https://david-dm.org/shierro/territory-manager/dev-status.svg)
+[![Known Vulnerabilities](https://snyk.io/test/github/shierro/territory-manager/badge.svg)](https://snyk.io/test/github/shierro/territory-manager)
+
 * Web application to manage JW territories
 
 ### Credits
