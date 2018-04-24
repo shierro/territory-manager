@@ -1,5 +1,7 @@
 ### Territory Manager
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/shierro/territory-manager.svg)](https://greenkeeper.io/)
+
 * Web application to manage JW territories
 
 ### Credits
