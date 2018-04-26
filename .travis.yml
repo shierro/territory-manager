@@ -11,9 +11,9 @@ script:
 
 before_install:
   - pip install --user codecov
-after_success: 'npm run coveralls'
-# after_success:
-#   - codecov --file coverage/lcov.info --disable search
+after_success:
+  - yarn cover
+  - codecov --file coverage/lcov.info --disable search
 deploy:
   local_dir: 'build'
   provider: pages
