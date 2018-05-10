@@ -10,3 +10,6 @@
  */
 
 export const DEFAULT_LOCALE = 'en';
+export const SET_TOKEN = 'app/App/SET_TOKEN';
+export const LOGOUT = 'app/App/LOGOUT';
+export const TOGGLE_DRAWER = 'app/App/TOGGLE_DRAWER';

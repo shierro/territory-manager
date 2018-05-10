@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginPage Sagas login Saga should call the setError action if the response errors - Error with message 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      "https://52791820.ngrok.io/api/login",
+      Object {},
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+}
+`;
+
+exports[`LoginPage Sagas login Saga should call the setError action if the response errors - generic 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      "https://52791820.ngrok.io/api/login",
+      Object {},
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+}
+`;
+
+exports[`LoginPage Sagas login Saga should dispatch the setToken & redirect if login is successfull 1`] = `
+Object {
+  "@@redux-saga/IO": true,
+  "CALL": Object {
+    "args": Array [
+      "https://52791820.ngrok.io/api/login",
+      Object {},
+    ],
+    "context": null,
+    "fn": [Function],
+  },
+}
+`;

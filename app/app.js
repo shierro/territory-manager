@@ -15,6 +15,7 @@ import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
 import 'sanitize.css/sanitize.css';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 
 // Import root app
 import App from 'containers/App';
@@ -44,6 +45,7 @@ import { translationMessages } from './i18n';
 
 // Import CSS reset and Global Styles
 import './global-styles';
+import './styles/_index.scss';
 
 // Create redux store with history
 const initialState = {};
@@ -51,14 +53,33 @@ const history = createHistory();
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: '#9fffe0',
+      main: '#69f0ae',
+      dark: '#2bbd7e',
+      contrastText: '#fff',
+    },
+    secondary: {
+      light: '#b5ffff',
+      main: '#80d8ff',
+      dark: '#49a7cc',
+      contrastText: '#fff',
+    },
+  },
+});
+
 const render = (messages) => {
   ReactDOM.render(
     <Provider store={store}>
-      <LanguageProvider messages={messages}>
-        <ConnectedRouter history={history}>
-          <App />
-        </ConnectedRouter>
-      </LanguageProvider>
+      <MuiThemeProvider theme={theme}>
+        <LanguageProvider messages={messages}>
+          <ConnectedRouter history={history}>
+            <App />
+          </ConnectedRouter>
+        </LanguageProvider>
+      </MuiThemeProvider>
     </Provider>,
     MOUNT_NODE
   );
