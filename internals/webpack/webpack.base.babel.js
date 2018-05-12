@@ -14,8 +14,8 @@ process.noDeprecation = true;
 module.exports = (options) => ({
   entry: options.entry,
   output: Object.assign({ // Compile into js/build.js
-    path: path.resolve(process.cwd(), 'build'),
-    publicPath: '/',
+    path: path.resolve(process.cwd(), 'build/territory-manager/'),
+    publicPath: '/territory-manager/',
   }, options.output), // Merge with env dependent settings
   module: {
     rules: [
