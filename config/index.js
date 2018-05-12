@@ -1,6 +1,6 @@
-const development = require('./development.json');
-const production = require('./production.json');
-const test = require('./test.json');
+import development from './development.json';
+import production from './production.json';
+import test from './test.json';
 
 const env = process.env.NODE_ENV || 'production';
 
@@ -10,4 +10,4 @@ const configs = {
   test,
 };
 
-module.exports = configs[env];
+export default configs[env];

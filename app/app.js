@@ -14,7 +14,6 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
-import 'sanitize.css/sanitize.css';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 
 // Import root app
@@ -36,7 +35,10 @@ import '!file-loader?name=[name].[ext]!./images/icon-384x384.png';
 import '!file-loader?name=[name].[ext]!./images/icon-512x512.png';
 import '!file-loader?name=[name].[ext]!./manifest.json';
 import 'file-loader?name=[name].[ext]!./.htaccess';
+import 'typeface-roboto/index.css';
 /* eslint-enable import/no-unresolved, import/extensions */
+
+import CssBaseline from 'material-ui/CssBaseline';
 
 import configureStore from './configureStore';
 
@@ -44,7 +46,6 @@ import configureStore from './configureStore';
 import { translationMessages } from './i18n';
 
 // Import CSS reset and Global Styles
-import './global-styles';
 import './styles/_index.scss';
 
 // Create redux store with history
@@ -72,15 +73,18 @@ const theme = createMuiTheme({
 
 const render = (messages) => {
   ReactDOM.render(
-    <Provider store={store}>
-      <MuiThemeProvider theme={theme}>
-        <LanguageProvider messages={messages}>
-          <ConnectedRouter history={history}>
-            <App />
-          </ConnectedRouter>
-        </LanguageProvider>
-      </MuiThemeProvider>
-    </Provider>,
+    <div>
+      <CssBaseline />
+      <Provider store={store}>
+        <MuiThemeProvider theme={theme}>
+          <LanguageProvider messages={messages}>
+            <ConnectedRouter history={history}>
+              <App />
+            </ConnectedRouter>
+          </LanguageProvider>
+        </MuiThemeProvider>
+      </Provider>
+    </div>,
     MOUNT_NODE
   );
 };

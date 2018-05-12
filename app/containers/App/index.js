@@ -17,8 +17,8 @@ import { Switch, Route } from 'react-router-dom';
 import { withStyles } from 'material-ui/styles';
 import classNames from 'classnames';
 
-import Header from 'components/Header';
 import Footer from 'components/Footer';
+import Header from 'components/Header';
 import LeftDrawer from 'components/LeftDrawer';
 import LoginPage from 'containers/LoginPage/Loadable';
 import MapPage from 'containers/MapPage/Loadable';
@@ -93,8 +93,8 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
 
 App.propTypes = {
   classes: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired,
   token: PropTypes.string.isRequired,
+  location: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
   drawerOpen: PropTypes.bool.isRequired,
