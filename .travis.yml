@@ -7,7 +7,6 @@ install:
 script:
   - yarn lint
   - yarn test -u
-  - yarn rebuild node-sass
   - yarn build
 
 before_install:
@@ -25,4 +24,7 @@ deploy:
 notifications:
   slack: $SLACK_ID
   email:
-    - $SLACK_EMAIL
+    recipients:
+      - $SLACK_EMAIL
+    on_success: never # default: change
+    on_failure: always # default: always
