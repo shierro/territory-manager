@@ -1,0 +1,36 @@
+/* Styles */
+body {
+  font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  line-height: 1.5em;
+  margin: 0 auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-font-smoothing: antialiased;
+  font-weight: 300;
+}
+// header {
+//   margin-left: 240px;
+// }
+#app, #main {
+  // height: 100vh;
+  width: 100%;
+  z-index: 1;
+  
+  .appFrame {
+    // position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .menu {
+    &__button {
+      margin-left: 12px;
+      margin-right: 36px;
+    }
+  }
+  .app-bar {
+    z-index: 5;
+    position: relative;
+    // width: calc(100% - 240px);
+  }
+}
+

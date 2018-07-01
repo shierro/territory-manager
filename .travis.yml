@@ -1,0 +1,28 @@
+language: node_js
+node_js:
+  - 9.11.1
+install:
+  - npm i yarn@1.5.1 -g
+  - yarn install
+script:
+  - yarn lint
+  - yarn test -u
+  - npm rebuild node-sass
+  - yarn build
+
+before_install:
+  - pip install --user codecov
+after_success:
+  - yarn cover
+  - codecov --file coverage/lcov.info --disable search
+deploy:
+  local_dir: 'build'
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+  on:
+    branch: master
+notifications:
+  slack: $SLACK_ID
+  email:
+    - $SLACK_EMAIL
