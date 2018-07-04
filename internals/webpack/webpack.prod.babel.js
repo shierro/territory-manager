@@ -19,7 +19,7 @@ module.exports = require('./webpack.base.babel')({
   output: {
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].chunk.js',
-    publicPath: '/territory-manager',
+    publicPath: '/territory-manager/',
   },
 
   optimization: {
@@ -56,11 +56,9 @@ module.exports = require('./webpack.base.babel')({
     // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
     new OfflinePlugin({
       relativePaths: false,
-      publicPath: '/',
-      appShell: '/',
 
-      // publicPath: '/territory-manager/',
-      // appShell: '/territory-manager/',
+      publicPath: '/territory-manager/',
+      appShell: '/territory-manager/',
 
       // No need to cache .htaccess. See http://mxs.is/googmp,
       // this is applied before any match in `caches` section
