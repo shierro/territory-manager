@@ -5,6 +5,9 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const OfflinePlugin = require('offline-plugin');
 const { HashedModuleIdsPlugin } = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = require('./webpack.base.babel')({
   mode: 'production',
@@ -21,13 +24,15 @@ module.exports = require('./webpack.base.babel')({
   optimization: {
     minimize: true,
     nodeEnv: 'production',
-    sideEffects: true,
+    sideEffects: false,
     concatenateModules: true,
     splitChunks: { chunks: 'all' },
     runtimeChunk: true,
   },
 
   plugins: [
+    new CopyWebpackPlugin([{ from: 'app/404.html' }]),
+
     // Minify and optimize the index.html
     new HtmlWebpackPlugin({
       template: 'app/index.html',
@@ -50,8 +55,11 @@ module.exports = require('./webpack.base.babel')({
     // assets manipulations and do leak its manipulations to HtmlWebpackPlugin
     new OfflinePlugin({
       relativePaths: false,
-      publicPath: '/territory-manager/',
-      appShell: '/territory-manager/',
+      publicPath: '/',
+      appShell: '/',
+
+      // publicPath: '/territory-manager/',
+      // appShell: '/territory-manager/',
 
       // No need to cache .htaccess. See http://mxs.is/googmp,
       // this is applied before any match in `caches` section
@@ -95,6 +103,14 @@ module.exports = require('./webpack.base.babel')({
       // both options are optional
       filename: '[name].css',
       chunkFilename: '[id].css',
+    }),
+
+    new UglifyJSPlugin({
+      sourceMap: true,
+    }),
+
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
     }),
   ],
 

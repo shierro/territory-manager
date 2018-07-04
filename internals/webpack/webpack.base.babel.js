@@ -19,7 +19,8 @@ module.exports = options => ({
     {
       // Compile into js/build.js
       path: path.resolve(process.cwd(), 'build/'),
-      publicPath: '/territory-manager/',
+      // publicPath: '/territory-manager/',
+      publicPath: '/',
     },
     options.output,
   ), // Merge with env dependent settings

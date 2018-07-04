@@ -22,9 +22,13 @@ deploy:
   on:
     branch: master
 notifications:
-  slack: $SLACK_ID
+  slack:
+    rooms:
+      - ninjaro:clZjvDamAByBYA004CYcYlH6#build
+    on_success: always # default: always
+    on_failure: always # default: always
   email:
     recipients:
-      - $SLACK_EMAIL
-    on_success: never # default: change
+      - theodoro.pelingan@gmail.com
+    on_success: always # default: change
     on_failure: always # default: always
