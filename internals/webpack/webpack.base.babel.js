@@ -4,7 +4,6 @@
 
 const path = require('path');
 const webpack = require('webpack');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 // Remove this line once the following warning goes away (it was meant for webpack loader authors not users):
 // 'DeprecationWarning: loaderUtils.parseQuery() received a non-string value which can be problematic,
@@ -19,7 +18,6 @@ module.exports = options => ({
     {
       // Compile into js/build.js
       path: path.resolve(process.cwd(), 'build/'),
-      // publicPath: '/territory-manager/',
       publicPath: options.output.publicPath || '/',
     },
     options.output,
@@ -35,35 +33,13 @@ module.exports = options => ({
           options: options.babelQuery,
         },
       },
-      // {
-      //   // Preprocess our own .css files
-      //   // This is the place to add your own loaders (e.g. sass/less etc.)
-      //   // for a list of loaders, see https://webpack.js.org/loaders/#styling
-      //   test: /\.scss$/,
-      //   exclude: /node_modules/,
-      //   use: ['style-loader', 'css-loader', 'sass-loader'],
-      // },
       {
+        // Preprocess our own .css files
+        // This is the place to add your own loaders (e.g. sass/less etc.)
+        // for a list of loaders, see https://webpack.js.org/loaders/#styling
         test: /\.scss$/,
-        // exclude: /node_modules/,
-        use: [
-          // fallback to style-loader in development
-          process.env.NODE_ENV !== 'production'
-            ? 'style-loader'
-            : MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
-        ],
+        exclude: /node_modules/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         // Preprocess 3rd party .css files located in node_modules

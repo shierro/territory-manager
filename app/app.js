@@ -14,7 +14,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
-// import 'sanitize.css/sanitize.css';
+import 'sanitize.css/sanitize.css';
 
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -66,9 +66,9 @@ const theme = createMuiTheme({
 const render = messages => {
   ReactDOM.render(
     <React.Fragment>
-      <CssBaseline />
       <Provider store={store}>
         <MuiThemeProvider theme={theme}>
+          <CssBaseline />
           <LanguageProvider messages={messages}>
             <ConnectedRouter history={history}>
               <App />
