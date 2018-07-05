@@ -18,9 +18,9 @@ import messages from './messages';
 export default class NotFound extends React.PureComponent {
   render() {
     return (
-      <h1>
+      <h2>
         <FormattedMessage {...messages.header} />
-      </h1>
+      </h2>
     );
   }
 }

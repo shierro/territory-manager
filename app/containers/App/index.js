@@ -72,7 +72,7 @@ class App extends React.Component {
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/" component={LoginPage} />
             <PrivateRoute exact path="/map" component={MapPage} token={token} />
-            <Route component={NotFoundPage} />
+            <Route path="*" component={NotFoundPage} />
           </Switch>
         </main>
         <Footer />

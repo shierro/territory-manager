@@ -53,7 +53,6 @@ const styles = theme => ({
 });
 
 class LeftDrawer extends React.PureComponent {
-  // eslint-disable-line react/prefer-stateless-function
   render() {
     const { classes, theme, open, toggleDrawer, hidden } = this.props;
     return (

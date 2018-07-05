@@ -1,0 +1,14 @@
+.header {
+  a {
+    &:link {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+    &:visited {
+        text-decoration: none;
+        color: inherit;
+        cursor: pointer;
+    }
+  }
+}

@@ -8,6 +8,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
 import { geolocated } from 'react-geolocated';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import 'leaflet/dist/leaflet.css';
 
 import injectSaga from 'utils/injectSaga';
@@ -22,7 +23,12 @@ export class MapPage extends React.Component {
   };
   render() {
     if (!this.props.coords) {
-      return <h1>waiting for location data...</h1>;
+      return (
+        <div>
+          <LinearProgress />
+          <h4>waiting for location data...</h4>
+        </div>
+      );
     }
     const { latitude, longitude } = this.props.coords;
     const position = [latitude, longitude];

@@ -6,6 +6,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { NavLink } from 'react-router-dom';
+import './_Header.scss';
 
 const drawerWidth = 240;
 
@@ -43,7 +45,11 @@ class Header extends React.PureComponent {
     return (
       <AppBar
         position="absolute"
-        className={classNames(classes.appBar, open && classes.appBarShift)}
+        className={classNames(
+          classes.appBar,
+          open && classes.appBarShift,
+          'header',
+        )}
       >
         <Toolbar disableGutters={!open}>
           {token && (
@@ -60,7 +66,9 @@ class Header extends React.PureComponent {
               <MenuIcon />
             </IconButton>
           )}
-          <h2 className={classNames(classes.title)}>Territory Manager</h2>
+          <NavLink to="/" className={classNames(classes.title)}>
+            <h2>Territory Manager</h2>
+          </NavLink>
         </Toolbar>
       </AppBar>
     );
