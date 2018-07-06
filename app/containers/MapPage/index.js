@@ -9,7 +9,6 @@ import { compose } from 'redux';
 import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
 import { geolocated } from 'react-geolocated';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import 'leaflet/dist/leaflet.css';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
@@ -33,7 +32,7 @@ export class MapPage extends React.Component {
     const { latitude, longitude } = this.props.coords;
     const position = [latitude, longitude];
     return (
-      <div>
+      <div className="maps">
         <Helmet>
           <title>MapPage</title>
           <meta name="description" content="Description of MapPage" />
@@ -44,9 +43,7 @@ export class MapPage extends React.Component {
             url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
           />
           <Marker position={position}>
-            <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </Popup>
+            <Popup>You are here!</Popup>
           </Marker>
         </LeafletMap>
       </div>
@@ -85,6 +82,7 @@ export default compose(
     positionOptions: {
       enableHighAccuracy: true,
     },
+    watchPosition: true,
     userDecisionTimeout: 5000,
   })(MapPage),
 );
