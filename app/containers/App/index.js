@@ -49,6 +49,8 @@ const styles = theme => ({
   },
 });
 
+const base = process.env.PUBLIC_PATH || '';
+
 class App extends React.Component {
   render() {
     const { classes, location, token, drawerOpen } = this.props;
@@ -69,10 +71,15 @@ class App extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Switch>
-            <Route exact path="/login" component={LoginPage} />
-            <Route exact path="/" component={LoginPage} />
-            <PrivateRoute exact path="/map" component={MapPage} token={token} />
-            <Route path="*" component={NotFoundPage} />
+            <Route exact path={`${base}/login`} component={LoginPage} />
+            <Route exact path={`${base}/`} component={LoginPage} />
+            <PrivateRoute
+              exact
+              path={`${base}/map`}
+              component={MapPage}
+              token={token}
+            />
+            <Route component={NotFoundPage} />
           </Switch>
         </main>
         <Footer />

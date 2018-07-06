@@ -42,7 +42,7 @@ import './styles/_index.scss';
 
 // Create redux store with history
 const initialState = {};
-const history = createHistory();
+const history = createHistory({ basename: '/territory-manager' });
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
