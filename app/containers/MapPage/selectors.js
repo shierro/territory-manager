@@ -1,20 +1,12 @@
 import { createSelector } from 'reselect';
 
-/**
- * Direct selector to the mapPage state domain
- */
-const selectMapPageDomain = state => state.get('mapPage');
+export const selectMapPage = state => state.get('mapPage');
 
-/**
- * Other specific selectors
- */
+export const makeSelectInitialLocation = () =>
+  createSelector(selectMapPage, state => state.get('initialLocation').toJS());
 
-/**
- * Default selector used by MapPage
- */
+export const makeSelectInitialLocationLoaded = () =>
+  createSelector(selectMapPage, state => state.get('initialLocationLoaded'));
 
-const makeSelectMapPage = () =>
-  createSelector(selectMapPageDomain, substate => substate.toJS());
-
-export default makeSelectMapPage;
-export { selectMapPageDomain };
+export const makeSelectZoom = () =>
+  createSelector(selectMapPage, state => state.get('zoom'));

@@ -5,23 +5,35 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
-import { compose } from 'redux';
-import { Map as LeafletMap, TileLayer, Marker, Popup } from 'react-leaflet';
 import { geolocated } from 'react-geolocated';
+import { compose } from 'redux';
+import {
+  Map as LeafletMap,
+  TileLayer,
+  CircleMarker,
+  Popup,
+} from 'react-leaflet';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import makeSelectMapPage from './selectors';
+import {
+  makeSelectInitialLocation,
+  makeSelectInitialLocationLoaded,
+  makeSelectZoom,
+} from './selectors';
+import { setInitialLocation } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 
 export class MapPage extends React.Component {
-  state = {
-    zoom: 17,
-  };
+  componentDidMount() {
+    if (!this.props.initialLocationLoaded) {
+      this.props.setInitialLocation();
+    }
+  }
   render() {
-    if (!this.props.coords) {
+    if (!this.props.initialLocationLoaded || !this.props.coords) {
       return (
         <div>
           <LinearProgress />
@@ -29,22 +41,24 @@ export class MapPage extends React.Component {
         </div>
       );
     }
-    const { latitude, longitude } = this.props.coords;
-    const position = [latitude, longitude];
+    const {
+      initialLocation,
+      coords: { latitude, longitude },
+    } = this.props;
     return (
       <div className="maps">
         <Helmet>
-          <title>MapPage</title>
-          <meta name="description" content="Description of MapPage" />
+          <title>Map Page</title>
+          <meta name="description" content="Maps" />
         </Helmet>
-        <LeafletMap center={position} zoom={this.state.zoom}>
+        <LeafletMap center={initialLocation} zoom={this.props.zoom}>
           <TileLayer
             attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
             url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
           />
-          <Marker position={position}>
+          <CircleMarker center={[latitude, longitude]}>
             <Popup>You are here!</Popup>
-          </Marker>
+          </CircleMarker>
         </LeafletMap>
       </div>
     );
@@ -52,17 +66,24 @@ export class MapPage extends React.Component {
 }
 
 MapPage.propTypes = {
-  coords: PropTypes.object,
+  coords: PropTypes.shape({
+    latitude: PropTypes.number,
+    longitude: PropTypes.number,
+  }),
+  initialLocationLoaded: PropTypes.bool.isRequired,
+  initialLocation: PropTypes.array.isRequired,
+  zoom: PropTypes.number.isRequired,
+  setInitialLocation: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
-  mappage: makeSelectMapPage(),
+  initialLocation: makeSelectInitialLocation(),
+  initialLocationLoaded: makeSelectInitialLocationLoaded(),
+  zoom: makeSelectZoom(),
 });
 
 function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
+  return { setInitialLocation: () => dispatch(setInitialLocation()) };
 }
 
 const withConnect = connect(
@@ -83,6 +104,6 @@ export default compose(
       enableHighAccuracy: true,
     },
     watchPosition: true,
-    userDecisionTimeout: 5000,
+    userDecisionTimeout: 15000,
   })(MapPage),
 );
