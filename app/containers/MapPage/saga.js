@@ -3,6 +3,7 @@ import {
   SET_INITIAL_LOCATION,
   GET_INITIAL_LOCATION,
   SET_PAGE_ERROR,
+  SET_LOADING,
 } from './constants';
 import { getLocation } from '../../utils/location';
 
@@ -12,6 +13,7 @@ export function* setInitLocation() {
     yield put({ type: SET_INITIAL_LOCATION, coords: [latitude, longitude] });
   } catch (error) {
     yield put({ type: SET_PAGE_ERROR, error });
+    yield put({ type: SET_LOADING, value: false });
   }
 }
 

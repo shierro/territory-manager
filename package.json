@@ -1,6 +1,6 @@
 {
   "name": "territory-manager",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "territory manager for Jehovah's Witnesses",
   "repository": {
     "type": "git",
@@ -121,10 +121,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "statements": 90,
+        "statements": 85,
         "branches": 85,
-        "functions": 82,
-        "lines": 80
+        "functions": 85,
+        "lines": 85
       }
     },
     "moduleDirectories": [

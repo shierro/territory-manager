@@ -10,3 +10,6 @@ export const makeSelectInitialLocationLoaded = () =>
 
 export const makeSelectZoom = () =>
   createSelector(selectMapPage, state => state.get('zoom'));
+
+export const makeSelectLoading = () =>
+  createSelector(selectMapPage, state => state.get('loading'));

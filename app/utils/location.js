@@ -10,7 +10,7 @@ export function getLocation() {
 
     const geoOptions = {
       enableHighAccuracy: true,
-      timeout: 3000,
+      timeout: 15000,
       maximumAge: 27000,
     };
 

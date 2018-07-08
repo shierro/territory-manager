@@ -4,4 +4,10 @@
     height: calc(100vh - 65px);
     width: 100%;
   }
+  &__button {
+    &--recenter {
+      position: absolute;
+      top: 0;
+    }
+  }
 }
