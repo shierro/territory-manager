@@ -7,6 +7,7 @@ import classNames from 'classnames';
 import Footer from 'components/Footer';
 import Header from 'components/Header';
 import LeftDrawer from 'components/LeftDrawer';
+import PrivateRoute from 'components/PrivateRoute';
 import LoginPage from 'containers/LoginPage/Loadable';
 import MapPage from 'containers/MapPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
@@ -24,7 +25,6 @@ import {
 import { logout, toggleDrawer } from './actions';
 import reducer from './reducer';
 import saga from './saga';
-import PrivateRoute from './privateRoute';
 
 const styles = theme => ({
   root: {

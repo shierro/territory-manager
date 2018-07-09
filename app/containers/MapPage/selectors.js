@@ -13,3 +13,21 @@ export const makeSelectZoom = () =>
 
 export const makeSelectLoading = () =>
   createSelector(selectMapPage, state => state.get('loading'));
+
+export const makeSelectAddingPerson = () =>
+  createSelector(selectMapPage, state => state.get('addingPerson'));
+
+export const makeSelectSteps = () =>
+  createSelector(selectMapPage, state => state.get('steps').toJS());
+
+export const makeSelectNewPerson = () =>
+  createSelector(selectMapPage, state => state.get('newPerson').toJS());
+
+export const makeSelectCompleted = () =>
+  createSelector(selectMapPage, state => state.get('completed').toJS());
+
+export const makeSelectActiveStep = () =>
+  createSelector(selectMapPage, state => state.get('activeStep'));
+
+export const makeSelectPersons = () =>
+  createSelector(selectMapPage, state => state.get('persons').toJS());
