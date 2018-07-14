@@ -45,8 +45,14 @@ function mapPageReducer(state = initialState, action) {
       return state.set('error', Map(action.error));
     case SET_LOADING:
       return state.set('loading', action.value);
-    case ADD_PERSON_START:
-      return state.set('addingPerson', true);
+    case ADD_PERSON_START: {
+      const newPerson = state.get('newPerson');
+      const updatedPerson = newPerson.set(
+        'location',
+        state.get('initialLocation').toJS(),
+      );
+      return state.set('addingPerson', true).set('newPerson', updatedPerson);
+    }
     case SAVE_PERSON_DATA: {
       const persons = state.get('persons');
       const newPerson = state.get('newPerson');
