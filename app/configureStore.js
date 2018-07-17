@@ -13,7 +13,7 @@ import {
   persistAutoRehydrate,
   offlineStateLens,
 } from 'redux-offline-immutable-config';
-import { Iterable, fromJS } from 'immutable';
+import { Iterable } from 'immutable';
 import createReducer from './reducers';
 
 const persistOptions = {
@@ -22,8 +22,11 @@ const persistOptions = {
   blacklist: ['rehydrate'],
 };
 
+const { NODE_ENV } = process.env;
+
 const sagaMiddleware = createSagaMiddleware();
 
+/* istanbul ignore next */
 const transform = state => {
   if (Iterable.isIterable(state)) {
     return state.toJS();
@@ -31,18 +34,19 @@ const transform = state => {
   return state;
 };
 
+/* istanbul ignore next */
 const logger = createLogger({ stateTransformer: state => transform(state) });
 
-export default function configureStore(initialState = {}, history) {
+export default function configureStore(initialState, history) {
   // Create the store with two middlewares
   // 1. sagaMiddleware: Makes redux-sagas work
   // 2. routerMiddleware: Syncs the location/URL path to the state
   const middlewares = [sagaMiddleware, routerMiddleware(history)];
-  const { NODE_ENV } = process.env;
-  if (NODE_ENV !== 'production' && NODE_ENV !== 'test') {
+
+  /* istanbul ignore next */
+  if (NODE_ENV !== 'test') {
     middlewares.push(logger);
   }
-  // const enhancers = [applyMiddleware(...middlewares)];
 
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
   /* eslint-disable no-underscore-dangle, indent */
@@ -58,16 +62,19 @@ export default function configureStore(initialState = {}, history) {
       : compose;
   /* eslint-enable */
 
+  /* istanbul ignore next */
+  const persistCallback = () => {
+    if (store.dispatch) {
+      store.dispatch({ type: 'REHYDRATE_STORE' });
+    }
+  };
+
   const config = {
     ...offlineConfig,
     persist,
     persistAutoRehydrate,
     persistOptions,
-    persistCallback: () => {
-      if (store.dispatch) {
-        store.dispatch({ type: 'REHYDRATE_STORE' });
-      }
-    },
+    persistCallback,
     offlineStateLens,
   };
 
@@ -76,14 +83,12 @@ export default function configureStore(initialState = {}, history) {
     enhanceReducer,
     enhanceStore,
   } = createOffline(config);
-  if (NODE_ENV !== 'test') {
-    middlewares.push(offlineMiddleware);
-  }
+  middlewares.push(offlineMiddleware);
   const middleware = applyMiddleware(...middlewares);
 
   const store = createStore(
     enhanceReducer(createReducer()),
-    NODE_ENV === 'test' ? fromJS(initialState) : undefined,
+    undefined,
     composeEnhancers(enhanceStore, middleware),
   );
 

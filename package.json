@@ -1,6 +1,6 @@
 {
   "name": "territory-manager",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "territory manager for Jehovah's Witnesses",
   "repository": {
     "type": "git",
@@ -123,13 +123,17 @@
       "global": {
         "statements": 85,
         "branches": 85,
-        "functions": 85,
+        "functions": 80,
         "lines": 85
       }
     },
     "moduleDirectories": [
       "node_modules",
       "app"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/app/utils/reducerInjectors.js",
+      "<rootDir>/app/utils/sagaInjectors.js"
     ],
     "moduleNameMapper": {
       ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",

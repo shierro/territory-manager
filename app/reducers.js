@@ -18,9 +18,7 @@ import loginPageReducer from 'containers/LoginPage/reducer';
  */
 
 // Initial routing state
-const routeInitialState = fromJS({
-  location: null,
-});
+const routeInitialState = fromJS({ location: null });
 
 /**
  * Merge route into the global application state
@@ -39,6 +37,7 @@ export function routeReducer(state = routeInitialState, action) {
 
 export function rehydrateReducer(state = false, action) {
   switch (action.type) {
+    /* istanbul ignore next */
     case 'REHYDRATE_STORE':
       return true;
     default:
