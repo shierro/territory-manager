@@ -1,10 +1,24 @@
-// import React from 'react';
-// import { shallow } from 'enzyme';
-
+import React from 'react';
+import { mount } from 'enzyme';
+import { MemoryRouter } from 'react-router-dom';
 import Header from '../index';
 
-describe.skip('<Header />', () => {
-  it('Expect to have unit tests specified', () => {
-    expect(Header.length).toEqual(0);
+describe('<Header />', () => {
+  it('should render with an AppBar & drawer toggle', () => {
+    const props = {
+      classes: {},
+      token: 'test',
+      open: true,
+      handleDrawerOpen: () => true,
+    };
+    const rendered = mount(
+      <MemoryRouter initialIndex={2} initialEntries={['/', '/map']}>
+        <Header {...props} />
+      </MemoryRouter>,
+    );
+    expect(rendered.length).toEqual(1);
+    expect(rendered.find('header').length).toEqual(1);
+    expect(rendered.find('h2').length).toEqual(1);
+    expect(rendered.find('button.drawer-toggle').length).toEqual(1);
   });
 });

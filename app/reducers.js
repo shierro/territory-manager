@@ -7,7 +7,8 @@ import { fromJS } from 'immutable';
 import { LOCATION_CHANGE } from 'react-router-redux';
 
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
-
+import mapPageReducer from 'containers/MapPage/reducer';
+import loginPageReducer from 'containers/LoginPage/reducer';
 /*
  * routeReducer
  *
@@ -17,9 +18,7 @@ import languageProviderReducer from 'containers/LanguageProvider/reducer';
  */
 
 // Initial routing state
-const routeInitialState = fromJS({
-  location: null,
-});
+const routeInitialState = fromJS({ location: null });
 
 /**
  * Merge route into the global application state
@@ -36,11 +35,24 @@ export function routeReducer(state = routeInitialState, action) {
   }
 }
 
+export function rehydrateReducer(state = false, action) {
+  switch (action.type) {
+    /* istanbul ignore next */
+    case 'REHYDRATE_STORE':
+      return true;
+    default:
+      return state;
+  }
+}
+
 /**
  * Creates the main reducer with the dynamically injected ones
  */
 export default function createReducer(injectedReducers) {
   return combineReducers({
+    mapPage: mapPageReducer,
+    loginPage: loginPageReducer,
+    rehydrate: rehydrateReducer,
     route: routeReducer,
     language: languageProviderReducer,
     ...injectedReducers,
