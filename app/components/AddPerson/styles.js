@@ -1,18 +1,20 @@
 const styles = () => ({
+  cancelButton: {
+    position: 'absolute',
+    right: 0,
+  },
   form: {
     margin: '0 auto',
-    marginTop: 40,
     maxWidth: 550,
-    padding: 20,
+    padding: '15px 20px 20px 20px',
   },
   addressForm: {
-    marginTop: 40,
-    // maxWidth: 700,
     padding: 20,
   },
   buttonContainer: {
     marginTop: 20,
     margin: '0 auto',
+    textAlign: 'right',
   },
 });
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import AddPersonButton from '@material-ui/icons/Add';
+import SaveButton from '@material-ui/icons/CheckCircle';
 import { MapPage } from '../index';
 const pageProps = {
   coords: {
@@ -22,7 +24,8 @@ const pageProps = {
   addPersonStart: () => true,
   savePersonData: () => true,
   handleFormChange: () => true,
-  goNextStep: () => true,
+  moveToStep: () => true,
+  cancelAdd: () => true,
   handleNewPersonPositionChange: () => true,
 };
 
@@ -42,12 +45,22 @@ describe('<MapPage />', () => {
     expect(renderedComponent.contains('You are here!')).toEqual(true);
   });
 
-  it('should render page with loading indicator', () => {
+  it('should render page with loading indicator and add button', () => {
     pageProps.loading = true;
-    pageProps.addingPerson = true;
+    pageProps.addingPerson = false;
     pageProps.activeStep = 1;
     navigator.geolocation = true;
     const renderedComponent = shallow(<MapPage {...pageProps} />);
     expect(renderedComponent.contains(<LinearProgress />)).toEqual(true);
+    expect(renderedComponent.contains(<AddPersonButton />)).toEqual(true);
+  });
+  it('should render page with empty floating', () => {
+    pageProps.loading = false;
+    pageProps.addingPerson = true;
+    pageProps.activeStep = 1;
+    navigator.geolocation = true;
+    const renderedComponent = shallow(<MapPage {...pageProps} />);
+    expect(renderedComponent.contains(<AddPersonButton />)).toEqual(false);
+    expect(renderedComponent.contains(<SaveButton />)).toEqual(false);
   });
 });

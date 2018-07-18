@@ -9,6 +9,7 @@ describe('<AddPersonStepper />', () => {
       activeStep: 1,
       completed: { 0: true },
       classes: { stepper: 'step' },
+      stepClicked: () => true,
     };
     const rendered = mount(<AddPersonStepper {...props} />);
     expect(rendered.length).toEqual(1);

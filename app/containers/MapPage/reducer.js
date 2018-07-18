@@ -6,9 +6,10 @@ import {
   SET_LOADING,
   ADD_PERSON_START,
   SAVE_PERSON_DATA,
-  GO_NEXT_STEP,
   PERSON_FORM_CHANGE,
   UPDATE_NEW_MARKER_LOCATION,
+  SET_STEP,
+  CANCEL_ADD,
 } from './constants';
 
 const personSchema = {
@@ -64,13 +65,6 @@ function mapPageReducer(state = initialState, action) {
         .set('newPerson', Map(personSchema))
         .set('completed', Map());
     }
-    case GO_NEXT_STEP: {
-      const activeStep = state.get('activeStep');
-      const nextStep = activeStep + 1;
-      const updatedState = state.set('activeStep', nextStep);
-      const completed = state.get('completed').set(activeStep, true);
-      return updatedState.set('completed', completed);
-    }
     case PERSON_FORM_CHANGE: {
       const result = state.get('newPerson').set(action.key, action.value);
       return state.set('newPerson', result);
@@ -81,6 +75,35 @@ function mapPageReducer(state = initialState, action) {
       const updatedNewPerson = newPerson.set('location', [lat, lng]);
       return state.set('newPerson', updatedNewPerson);
     }
+    case SET_STEP: {
+      const activeStep = state.get('activeStep');
+      const steps = state.get('steps').toJS();
+      let latestState = state;
+      let completed = state.get('completed');
+      // go next
+      if (activeStep < action.step) {
+        completed = completed.set(activeStep, true);
+        latestState = latestState.set('completed', completed);
+      }
+      // go back
+      if (activeStep > action.step) {
+        completed = completed.set(activeStep, false);
+        latestState = latestState.set('completed', completed);
+      }
+      steps.forEach((step, index) => {
+        if (index >= action.step) {
+          completed = completed.set(index, false);
+        }
+      });
+      return latestState
+        .set('activeStep', action.step)
+        .set('completed', completed);
+    }
+    case CANCEL_ADD:
+      return state
+        .set('activeStep', 0)
+        .set('completed', Map())
+        .set('addingPerson', false);
     default:
       return state;
   }

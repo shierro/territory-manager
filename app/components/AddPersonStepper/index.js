@@ -13,7 +13,12 @@ class AddPersonStepper extends React.PureComponent {
       <Stepper nonLinear activeStep={activeStep} className={classes.stepper}>
         {steps.map((label, index) => (
           <Step key={label}>
-            <StepButton completed={completed[index]}>{label}</StepButton>
+            <StepButton
+              completed={completed[index]}
+              onClick={() => this.props.stepClicked(index)}
+            >
+              {label}
+            </StepButton>
           </Step>
         ))}
       </Stepper>
@@ -25,6 +30,7 @@ AddPersonStepper.propTypes = {
   activeStep: PropTypes.number.isRequired,
   completed: PropTypes.object.isRequired,
   steps: PropTypes.array.isRequired,
+  stepClicked: PropTypes.func.isRequired,
   classes: PropTypes.object,
 };
 
