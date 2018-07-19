@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Route } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import classNames from 'classnames';
 
 import Footer from 'components/Footer';
@@ -21,6 +22,7 @@ import {
   makeSelectLocation,
   makeSelectToken,
   makeSelectDrawerOpen,
+  makeSelectRehydrated,
 } from './selectors';
 import { logout, toggleDrawer } from './actions';
 import reducer from './reducer';
@@ -54,6 +56,9 @@ const base = process.env.PUBLIC_PATH || '';
 class App extends React.Component {
   render() {
     const { classes, location, token, drawerOpen } = this.props;
+    if (!this.props.rehydrated) {
+      return <LinearProgress />;
+    }
     return (
       <div className={classNames(classes.root, 'root-app')}>
         <Header
@@ -95,12 +100,14 @@ App.propTypes = {
   logout: PropTypes.func.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
   drawerOpen: PropTypes.bool.isRequired,
+  rehydrated: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   location: makeSelectLocation(),
   token: makeSelectToken(),
   drawerOpen: makeSelectDrawerOpen(),
+  rehydrated: makeSelectRehydrated(),
 });
 
 function mapDispatchToProps(dispatch) {

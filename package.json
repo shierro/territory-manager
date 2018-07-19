@@ -1,6 +1,6 @@
 {
   "name": "territory-manager",
-  "version": "0.6.0",
+  "version": "0.8.2",
   "description": "territory manager for Jehovah's Witnesses",
   "repository": {
     "type": "git",
@@ -123,13 +123,17 @@
       "global": {
         "statements": 85,
         "branches": 85,
-        "functions": 85,
+        "functions": 80,
         "lines": 85
       }
     },
     "moduleDirectories": [
       "node_modules",
       "app"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/app/utils/reducerInjectors.js",
+      "<rootDir>/app/utils/sagaInjectors.js"
     ],
     "moduleNameMapper": {
       ".*\\.(css|less|styl|scss|sass)$": "<rootDir>/internals/mocks/cssModule.js",
@@ -148,15 +152,16 @@
   "dependencies": {
     "@material-ui/core": "^1.3.1",
     "@material-ui/icons": "^1.1.0",
+    "@redux-offline/redux-offline": "^2.4.0",
     "axios": "^0.18.0",
     "babel-polyfill": "6.26.0",
     "chalk": "^2.4.1",
-    "compression": "1.7.2",
+    "compression": "1.7.3",
     "cross-env": "5.2.0",
     "express": "4.16.3",
     "fontfaceobserver": "2.0.13",
     "history": "4.7.2",
-    "hoist-non-react-statics": "2.5.5",
+    "hoist-non-react-statics": "3.0.0-rc.1",
     "immutable": "3.8.2",
     "intl": "1.2.5",
     "invariant": "2.2.4",
@@ -177,6 +182,7 @@
     "react-router-redux": "5.0.0-alpha.9",
     "redux": "4.0.0",
     "redux-immutable": "4.0.0",
+    "redux-offline-immutable-config": "^1.0.0",
     "redux-saga": "0.16.0",
     "reselect": "3.0.1",
     "sanitize.css": "4.1.0",
@@ -190,7 +196,7 @@
     "babel-cli": "6.26.0",
     "babel-core": "6.26.3",
     "babel-eslint": "8.2.6",
-    "babel-loader": "7.1.4",
+    "babel-loader": "7.1.5",
     "babel-plugin-dynamic-import-node": "1.2.0",
     "babel-plugin-react-intl": "2.4.0",
     "babel-plugin-react-transform": "3.0.0",
@@ -216,7 +222,7 @@
     "eslint-config-prettier": "2.9.0",
     "eslint-import-resolver-webpack": "0.10.0",
     "eslint-plugin-import": "2.12.0",
-    "eslint-plugin-jsx-a11y": "6.1.0",
+    "eslint-plugin-jsx-a11y": "6.1.1",
     "eslint-plugin-prettier": "2.6.0",
     "eslint-plugin-react": "7.9.1",
     "eslint-plugin-redux-saga": "0.9.0",
@@ -242,6 +248,7 @@
     "pre-commit": "1.2.2",
     "prettier": "1.13.5",
     "react-test-renderer": "16.4.1",
+    "redux-logger": "^3.0.6",
     "rimraf": "2.6.2",
     "sass-loader": "^7.0.3",
     "shelljs": "^0.8.2",
@@ -252,10 +259,10 @@
     "stylelint-processor-styled-components": "1.3.1",
     "svg-url-loader": "2.3.2",
     "url-loader": "1.0.1",
-    "webpack": "4.15.1",
-    "webpack-cli": "3.0.8",
+    "webpack": "4.16.0",
+    "webpack-cli": "3.1.0",
     "webpack-dev-middleware": "3.1.3",
-    "webpack-hot-middleware": "2.22.2",
+    "webpack-hot-middleware": "2.22.3",
     "webpack-pwa-manifest": "3.6.2"
   }
 }

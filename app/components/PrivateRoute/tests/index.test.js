@@ -1,14 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { ConnectedRouter } from 'react-router-redux';
-import createHistory from 'history/createBrowserHistory';
-import { Provider } from 'react-redux';
+import { MemoryRouter } from 'react-router-dom';
 import PrivateRoute from '../index';
-import configureStore from '../../../configureStore';
-const history = createHistory({ initialEntries: ['/map'], basename: '/map' });
-const store = configureStore({}, history);
 
-describe.skip('<PrivateRoute />', () => {
+describe('<PrivateRoute />', () => {
   it('should render private route successfully', () => {
     const props = {
       token: 'token',
@@ -17,11 +12,9 @@ describe.skip('<PrivateRoute />', () => {
       path: '/map',
     };
     const element = (
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <PrivateRoute {...props} />
-        </ConnectedRouter>,
-      </Provider>
+      <MemoryRouter initialIndex={2} initialEntries={['/', '/map']}>
+        <PrivateRoute {...props} />
+      </MemoryRouter>
     );
     const rendered = mount(element);
     expect(rendered.length).toEqual(1);

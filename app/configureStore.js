@@ -3,25 +3,55 @@
  */
 
 import { createStore, applyMiddleware, compose } from 'redux';
-import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import createSagaMiddleware from 'redux-saga';
+import { createLogger } from 'redux-logger';
+import { createOffline } from '@redux-offline/redux-offline';
+import offlineConfig from '@redux-offline/redux-offline/lib/defaults';
+import {
+  persist,
+  persistAutoRehydrate,
+  offlineStateLens,
+} from 'redux-offline-immutable-config';
+import { Iterable } from 'immutable';
 import createReducer from './reducers';
+
+const persistOptions = {
+  key: 'root',
+  whitelist: ['mapPage', 'loginPage', 'App', 'route'],
+  blacklist: ['rehydrate'],
+};
+
+const { NODE_ENV } = process.env;
 
 const sagaMiddleware = createSagaMiddleware();
 
-export default function configureStore(initialState = {}, history) {
+/* istanbul ignore next */
+const transform = state => {
+  if (Iterable.isIterable(state)) {
+    return state.toJS();
+  }
+  return state;
+};
+
+/* istanbul ignore next */
+const logger = createLogger({ stateTransformer: state => transform(state) });
+
+export default function configureStore(initialState, history) {
   // Create the store with two middlewares
   // 1. sagaMiddleware: Makes redux-sagas work
   // 2. routerMiddleware: Syncs the location/URL path to the state
   const middlewares = [sagaMiddleware, routerMiddleware(history)];
 
-  const enhancers = [applyMiddleware(...middlewares)];
+  /* istanbul ignore next */
+  if (NODE_ENV !== 'test') {
+    middlewares.push(logger);
+  }
 
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
   /* eslint-disable no-underscore-dangle, indent */
   const composeEnhancers =
-    process.env.NODE_ENV !== 'production' &&
+    NODE_ENV !== 'production' &&
     typeof window === 'object' &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
@@ -32,10 +62,34 @@ export default function configureStore(initialState = {}, history) {
       : compose;
   /* eslint-enable */
 
+  /* istanbul ignore next */
+  const persistCallback = () => {
+    if (store.dispatch) {
+      store.dispatch({ type: 'REHYDRATE_STORE' });
+    }
+  };
+
+  const config = {
+    ...offlineConfig,
+    persist,
+    persistAutoRehydrate,
+    persistOptions,
+    persistCallback,
+    offlineStateLens,
+  };
+
+  const {
+    middleware: offlineMiddleware,
+    enhanceReducer,
+    enhanceStore,
+  } = createOffline(config);
+  middlewares.push(offlineMiddleware);
+  const middleware = applyMiddleware(...middlewares);
+
   const store = createStore(
-    createReducer(),
-    fromJS(initialState),
-    composeEnhancers(...enhancers),
+    enhanceReducer(createReducer()),
+    undefined,
+    composeEnhancers(enhanceStore, middleware),
   );
 
   // Extensions

@@ -4,6 +4,7 @@ import {
   GET_INITIAL_LOCATION,
   SET_PAGE_ERROR,
   SET_LOADING,
+  ADD_PERSON_START,
 } from '../constants';
 
 // import { setInitialLocation } from './actions';
@@ -45,10 +46,14 @@ describe('MapPage Sagas', () => {
 
   describe('watchMapsPageSagas Saga', () => {
     const sagas = watchMapsPageSagas();
-    it('should start task to watch for GET_INITIAL_LOCATION action', () => {
+    it('should start task to watch ALL actions', () => {
       const takeLatestDescriptor = sagas.next().value;
       expect(takeLatestDescriptor).toEqual(
         takeLatest(GET_INITIAL_LOCATION, setInitLocation),
+      );
+      const takeLatestDescriptorSecond = sagas.next().value;
+      expect(takeLatestDescriptorSecond).toEqual(
+        takeLatest(ADD_PERSON_START, setInitLocation),
       );
     });
   });

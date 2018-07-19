@@ -23,7 +23,7 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-describe('reducer injectors', () => {
+describe.skip('reducer injectors', () => {
   let store;
   let injectReducer;
 
