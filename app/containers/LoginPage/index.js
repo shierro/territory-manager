@@ -1,9 +1,3 @@
-/**
- *
- * LoginPage
- *
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -21,6 +15,7 @@ import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
 
 import { makeSelectError, makeSelectLoading } from './selectors';
+import { makeSelectToken } from '../App/selectors';
 
 import { doLogin } from './actions';
 
@@ -28,7 +23,6 @@ import reducer from './reducer';
 import saga from './saga';
 
 export class LoginPage extends React.Component {
-  // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
     this.state = {
@@ -37,6 +31,12 @@ export class LoginPage extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.token) {
+      this.props.history.push('/map');
+    }
   }
 
   handleChange(key, value) {
@@ -104,11 +104,14 @@ LoginPage.propTypes = {
   error: PropTypes.string,
   loading: PropTypes.bool,
   login: PropTypes.func.isRequired,
+  token: PropTypes.string,
+  history: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
   error: makeSelectError(),
   loading: makeSelectLoading(),
+  token: makeSelectToken(),
 });
 
 function mapDispatchToProps(dispatch) {

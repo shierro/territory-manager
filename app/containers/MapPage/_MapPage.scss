@@ -1,4 +1,16 @@
-.leaflet-container {
-  height: calc(100vh - 100px);
-  width: 100%;
+.maps {
+  margin: -24px;
+  .leaflet-container {
+    height: calc(100vh - 65px);
+    width: 100%;
+  }
+  &__button {
+    &--recenter {
+      position: absolute;
+      top: 0;
+    }
+  }
+  .leaflet-control-attribution.leaflet-control {
+    display: none;
+  }
 }

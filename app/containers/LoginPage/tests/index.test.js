@@ -9,6 +9,7 @@ const pageProps = {
   error: '',
   loading: true,
   login: () => true,
+  history: { push: () => true },
 };
 
 describe.only('<LoginPage />', () => {

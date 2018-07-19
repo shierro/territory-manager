@@ -1,13 +1,17 @@
-import { defaultAction } from '../actions';
-import { DEFAULT_ACTION } from '../constants';
+import { addPersonStart, cancelAdd } from '../actions';
+import { ADD_PERSON_START, CANCEL_ADD } from '../constants';
 
 describe('MapPage actions', () => {
-  describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
-      const expected = {
-        type: DEFAULT_ACTION,
-      };
-      expect(defaultAction()).toEqual(expected);
-    });
+  it('has a type of ADD_PERSON_START', () => {
+    const expected = {
+      type: ADD_PERSON_START,
+    };
+    expect(addPersonStart()).toEqual(expected);
+  });
+  it('has a type of CANCEL_ADD', () => {
+    const expected = {
+      type: CANCEL_ADD,
+    };
+    expect(cancelAdd()).toEqual(expected);
   });
 });
