@@ -12,6 +12,7 @@ import {
   makeSelectSteps,
   makeSelectActiveStep,
   makeSelectPersons,
+  makeSelectDefaultAgeRange,
 } from '../selectors';
 
 describe('selectMapPage', () => {
@@ -89,5 +90,12 @@ describe('selectMapPage', () => {
     const persons = { firstName: 'test' };
     const mockedState = fromJS({ mapPage: { persons } });
     expect(ticketsSelector(mockedState)).toEqual(persons);
+  });
+
+  it('should select the defaultAgeRange state', () => {
+    const selector = makeSelectDefaultAgeRange();
+    const defaultAgeRange = { min: 1, max: 5 };
+    const mockedState = fromJS({ mapPage: { defaultAgeRange } });
+    expect(selector(mockedState)).toEqual(defaultAgeRange);
   });
 });

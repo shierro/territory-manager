@@ -15,3 +15,5 @@ export const makeSelectDrawerOpen = () =>
 
 export const makeSelectRehydrated = () =>
   createSelector(selectRehydrate, rehydrateState => rehydrateState);
+
+export { selectRoute, selectApp, selectRehydrate };

@@ -22,10 +22,15 @@ describe('mapPageReducer', () => {
     lastName: '',
     notes: '',
     address: '',
+    ageRange: {
+      min: 1,
+      max: 119,
+    },
   };
   const initStateObject = {
     initialLocation: List([0, 0]),
     initialLocationLoaded: false,
+    defaultAgeRange: { min: 1, max: 120 },
     loading: false,
     addingPerson: false,
     zoom: 16,

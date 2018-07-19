@@ -31,3 +31,6 @@ export const makeSelectActiveStep = () =>
 
 export const makeSelectPersons = () =>
   createSelector(selectMapPage, state => state.get('persons').toJS());
+
+export const makeSelectDefaultAgeRange = () =>
+  createSelector(selectMapPage, state => state.get('defaultAgeRange').toJS());
