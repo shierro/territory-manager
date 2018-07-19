@@ -24,25 +24,20 @@ export default ({ key, saga, mode }) => WrappedComponent => {
     static displayName = `withSaga(${WrappedComponent.displayName ||
       WrappedComponent.name ||
       'Component'})`;
-
     componentWillMount() {
       const { injectSaga } = this.injectors;
 
       injectSaga(key, { saga, mode }, this.props);
     }
-
     componentWillUnmount() {
       const { ejectSaga } = this.injectors;
 
       ejectSaga(key);
     }
-
     injectors = getInjectors(this.context.store);
-
     render() {
       return <WrappedComponent {...this.props} />;
     }
   }
-
   return hoistNonReactStatics(InjectSaga, WrappedComponent);
 };

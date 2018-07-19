@@ -14,7 +14,7 @@ import {
   Marker,
   Popup,
 } from 'react-leaflet';
-import { icon } from 'leaflet';
+
 import LinearProgress from '@material-ui/core/LinearProgress';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
@@ -51,20 +51,12 @@ import saga from './saga';
 import styles from './styles';
 import AddPerson from '../../components/AddPerson';
 import AddPersonStepper from '../../components/AddPersonStepper';
+import markerIcon from './markerIcon';
 
 const defaultCoords = {
   latitude: 0,
   longitude: 0,
 };
-
-const marketIcon = icon({
-  iconUrl:
-    'https://raw.githubusercontent.com/shierro/leaflet-color-markers/master/img/marker-icon-red.png',
-  iconSize: [25, 41], // size of the icon
-  shadowSize: [50, 64], // size of the shadow
-  iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
-  shadowAnchor: [4, 62], // the same for the shadow
-});
 
 export class MapPage extends React.Component {
   componentDidMount() {
@@ -72,33 +64,28 @@ export class MapPage extends React.Component {
       this.props.setInitialLocation();
     }
   }
-
-  getFloatingLeftButton(mappingPerson) {
+  renderFloatingButton(content, className, onClick) {
+    return (
+      <Button
+        mini
+        variant="fab"
+        aria-label="add"
+        className={className}
+        onClick={onClick}
+      >
+        {content}
+      </Button>
+    );
+  }
+  renderFloatingLeftButton(mappingPerson) {
+    const className = this.props.classes.addPersonButton;
+    let onClick = this.props.addPersonStart;
     if (!this.props.addingPerson) {
-      return (
-        <Button
-          mini
-          variant="fab"
-          aria-label="add"
-          className={this.props.classes.addPersonButton}
-          onClick={this.props.addPersonStart}
-        >
-          <AddPersonButton />
-        </Button>
-      );
+      return this.renderFloatingButton(<AddPersonButton />, className, onClick);
     }
     if (mappingPerson) {
-      return (
-        <Button
-          mini
-          variant="fab"
-          aria-label="add"
-          className={this.props.classes.addPersonButton}
-          onClick={this.props.savePersonData}
-        >
-          <SaveButton />
-        </Button>
-      );
+      onClick = this.props.savePersonData;
+      return this.renderFloatingButton(<SaveButton />, className, onClick);
     }
     return '';
   }
@@ -129,68 +116,90 @@ export class MapPage extends React.Component {
       )
     );
   }
-
+  renderNotSupported() {
+    return (
+      <p>
+        Geolocation is not supported by your browser.. Please download the
+        latest{' '}
+        <a href="https://www.google.com/chrome/" target="_blank">
+          Chrome
+        </a>
+      </p>
+    );
+  }
+  renderHelmet() {
+    return (
+      <Helmet>
+        <title>Maps</title>
+        <meta name="description" content="Maps" />
+      </Helmet>
+    );
+  }
+  renderRecenterButton() {
+    return (
+      <IconButton
+        color="primary"
+        className={this.props.classes.reCenterButton}
+        aria-label="My Location"
+        onClick={this.props.setInitialLocation}
+      >
+        <ReCenter />
+      </IconButton>
+    );
+  }
+  renderMap(latitude, longitude, mappingPerson, newPerson, persons) {
+    return (
+      <LeafletMap center={this.props.initialLocation} zoom={this.props.zoom}>
+        <TileLayer
+          attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+          url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+        />
+        <CircleMarker center={[latitude, longitude]}>
+          <Popup>You are here!</Popup>
+        </CircleMarker>
+        {mappingPerson && (
+          <Marker
+            icon={markerIcon}
+            position={newPerson.location || this.props.initialLocation}
+            draggable
+            onDragEnd={this.props.handleNewPersonPositionChange}
+          />
+        )}
+        {this.renderMarkers(persons)}
+      </LeafletMap>
+    );
+  }
+  renderAddPersonForm(activeStep, mappingPerson, newPerson) {
+    return (
+      <AddPerson
+        activeStep={activeStep}
+        steps={this.props.steps}
+        open={this.props.addingPerson && !mappingPerson}
+        initialLocation={this.props.initialLocation}
+        zoom={this.props.zoom}
+        moveToStep={this.props.moveToStep}
+        handleInputChange={this.props.handleFormChange}
+        cancelAdd={this.props.cancelAdd}
+        newPerson={newPerson}
+      />
+    );
+  }
   render() {
     const { activeStep, newPerson, persons } = this.props;
     const { latitude, longitude } = this.props.coords || defaultCoords;
     const mappingPerson = activeStep >= this.props.steps.length - 1;
     if (!navigator.geolocation) {
-      return (
-        <p>
-          Geolocation is not supported by your browser.. Please download the
-          latest{' '}
-          <a href="https://www.google.com/chrome/" target="_blank">
-            Chrome
-          </a>
-        </p>
-      );
+      return this.renderNotSupported();
     }
     return (
       <div className="maps">
         {this.props.loading && <LinearProgress />}
-        <Helmet>
-          <title>Maps</title>
-          <meta name="description" content="Maps" />
-        </Helmet>
-        <IconButton
-          color="primary"
-          className={this.props.classes.reCenterButton}
-          aria-label="My Location"
-          onClick={this.props.setInitialLocation}
-        >
-          <ReCenter />
-        </IconButton>
-        {this.getFloatingLeftButton(mappingPerson)}
-        <AddPerson
-          activeStep={activeStep}
-          steps={this.props.steps}
-          open={this.props.addingPerson && !mappingPerson}
-          initialLocation={this.props.initialLocation}
-          zoom={this.props.zoom}
-          moveToStep={this.props.moveToStep}
-          handleInputChange={this.props.handleFormChange}
-          cancelAdd={this.props.cancelAdd}
-          newPerson={newPerson}
-        />
+        {this.renderHelmet()}
+        {this.renderRecenterButton()}
+        {this.renderFloatingLeftButton(mappingPerson)}
+        {this.renderAddPersonForm(activeStep, mappingPerson, newPerson)}
         {this.renderStepper()}
-        <LeafletMap center={this.props.initialLocation} zoom={this.props.zoom}>
-          <TileLayer
-            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-            url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-          />
-          <CircleMarker center={[latitude, longitude]}>
-            <Popup>You are here!</Popup>
-          </CircleMarker>
-          {mappingPerson && (
-            <Marker
-              icon={marketIcon}
-              position={newPerson.location || this.props.initialLocation}
-              draggable
-              onDragEnd={this.props.handleNewPersonPositionChange}
-            />
-          )}
-          {this.renderMarkers(persons)}
-        </LeafletMap>
+        {this.renderMap(latitude, longitude, mappingPerson, newPerson, persons)}
       </div>
     );
   }
@@ -262,9 +271,7 @@ export default compose(
   withConnect,
 )(
   geolocated({
-    positionOptions: {
-      enableHighAccuracy: true,
-    },
+    positionOptions: { enableHighAccuracy: true },
     watchPosition: true,
     userDecisionTimeout: 15000,
   })(withStyles(styles)(MapPage)),
