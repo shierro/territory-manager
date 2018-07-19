@@ -41,8 +41,32 @@ const styles = theme => ({
 });
 
 class Header extends React.PureComponent {
-  render() {
+  renderToolbar() {
     const { classes, open, handleDrawerOpen, token } = this.props;
+    return (
+      <Toolbar disableGutters={!open}>
+        {token && (
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            className={classNames(
+              classes.menuButton,
+              open && classes.hide,
+              'drawer-toggle',
+            )}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
+        <NavLink to="/" className={classNames(classes.title)}>
+          <h2>Territory Manager</h2>
+        </NavLink>
+      </Toolbar>
+    );
+  }
+  render() {
+    const { classes, open } = this.props;
     return (
       <AppBar
         position="absolute"
@@ -52,25 +76,7 @@ class Header extends React.PureComponent {
           'header',
         )}
       >
-        <Toolbar disableGutters={!open}>
-          {token && (
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              className={classNames(
-                classes.menuButton,
-                open && classes.hide,
-                'drawer-toggle',
-              )}
-            >
-              <MenuIcon />
-            </IconButton>
-          )}
-          <NavLink to="/" className={classNames(classes.title)}>
-            <h2>Territory Manager</h2>
-          </NavLink>
-        </Toolbar>
+        {this.renderToolbar()}
       </AppBar>
     );
   }

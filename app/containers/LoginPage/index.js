@@ -47,53 +47,74 @@ export class LoginPage extends React.Component {
     e.preventDefault();
     this.props.login(this.state.username, this.state.password);
   }
-
+  renderHeader() {
+    return (
+      <Helmet>
+        <title>LoginPage</title>
+        <meta name="description" content="Description of LoginPage" />
+      </Helmet>
+    );
+  }
+  renderInputFields(username, password) {
+    return (
+      <div>
+        <TextField
+          label="Username"
+          helperText="Enter your username"
+          margin="normal"
+          fullWidth
+          value={username}
+          onChange={e => this.handleChange('username', e.target.value)}
+        />
+        <TextField
+          label="Password"
+          helperText="Enter your password"
+          margin="normal"
+          fullWidth
+          type="password"
+          value={password}
+          onChange={e => this.handleChange('password', e.target.value)}
+        />
+      </div>
+    );
+  }
+  renderErrorBlock(error) {
+    return (
+      <h4
+        style={{ display: !error ? 'none' : 'block' }}
+        className="login__error"
+      >
+        {error}
+      </h4>
+    );
+  }
+  renderFooter(loading) {
+    return (
+      <div className="login__footer">
+        <Button
+          type="submit"
+          variant="raised"
+          color="primary"
+          disabled={loading}
+        >
+          Login
+        </Button>
+      </div>
+    );
+  }
   render() {
     const { username, password } = this.state;
     const { error, loading } = this.props;
     return (
       <Paper elevation={4} className="login">
-        <Helmet>
-          <title>LoginPage</title>
-          <meta name="description" content="Description of LoginPage" />
-        </Helmet>
+        {this.renderHeader()}
         <form onSubmit={this.handleSubmit}>
           <h3>Login</h3>
           <Divider />
-          <TextField
-            label="Username"
-            helperText="Enter your username"
-            margin="normal"
-            fullWidth
-            value={username}
-            onChange={e => this.handleChange('username', e.target.value)}
-          />
-          <TextField
-            label="Password"
-            helperText="Enter your password"
-            margin="normal"
-            fullWidth
-            type="password"
-            value={password}
-            onChange={e => this.handleChange('password', e.target.value)}
-          />
-          <h4
-            style={{ display: !error ? 'none' : 'block' }}
-            className="login__error"
-          >
-            {error}
-          </h4>
+          {this.renderInputFields(username, password)}
+          {this.renderErrorBlock(error)}
           <LinearProgress style={{ display: loading ? 'block' : 'none' }} />
-          <div className="login__footer">
-            <Button
-              type="submit"
-              variant="raised"
-              color="primary"
-              disabled={loading}
-            >
-              Login
-            </Button>
-          </div>
+          {this.renderFooter(loading)}
         </form>
       </Paper>
     );
