@@ -4,9 +4,10 @@ import {
   setInitialLocation,
   addPersonStart,
   savePersonData,
-  goNextStep,
+  moveToStep,
   handleFormChange,
   handleNewPersonPositionChange,
+  cancelAdd,
 } from '../actions';
 
 import {
@@ -83,10 +84,23 @@ describe('mapPageReducer', () => {
     expect(newState.get('initialLocationLoaded')).toEqual(true);
     expect(newState.get('initialLocation').toJS()).toEqual(coords);
   });
-  it('should go to next step correctly', () => {
-    const newState = mapPageReducer(state, goNextStep());
+  it('should move to a step(forward) correctly', () => {
+    const newState = mapPageReducer(state, moveToStep(1));
     expect(newState.get('activeStep')).toEqual(1);
-    expect(newState.get('completed').toJS()).toEqual({ 0: true });
+    expect(newState.get('completed').toJS()).toEqual({
+      0: true,
+      1: false,
+      2: false,
+    });
+  });
+  it('should move to a step(backward) correctly', () => {
+    const newState = mapPageReducer(state.set('activeStep', 2), moveToStep(0));
+    expect(newState.get('activeStep')).toEqual(0);
+    expect(newState.get('completed').toJS()).toEqual({
+      0: false,
+      1: false,
+      2: false,
+    });
   });
   it('should handle handleFormChange action correctly', () => {
     const key = 'foo';
@@ -99,5 +113,12 @@ describe('mapPageReducer', () => {
     const loc = [data.target._latlng.lat, data.target._latlng.lng]; // eslint-disable-line
     const newState = mapPageReducer(state, handleNewPersonPositionChange(data));
     expect(newState.get('newPerson').get('location')).toEqual(loc);
+  });
+  it('should cancel add correctly', () => {
+    const addingState = state.set('activeStep', 3).set('addingPerson', true);
+    const newState = mapPageReducer(addingState, cancelAdd());
+    expect(newState.get('completed')).toEqual(Map());
+    expect(newState.get('activeStep')).toEqual(0);
+    expect(newState.get('addingPerson')).toEqual(false);
   });
 });

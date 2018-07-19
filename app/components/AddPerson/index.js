@@ -1,27 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Popover from '@material-ui/core/Popover';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import NavigateBefore from '@material-ui/icons/NavigateBefore';
+import Cancel from '@material-ui/icons/Cancel';
+import NavigateNext from '@material-ui/icons/NavigateNext';
 import { withStyles } from '@material-ui/core/styles';
 import styles from './styles';
 
 class AddPerson extends React.PureComponent {
   handleSubmit = e => {
     e.preventDefault();
-    this.props.goNextStep();
+    this.props.moveToStep(this.props.activeStep + 1);
   };
   getFormFooter = (classes, activeStep, enableNext) => (
     <div className={classes.buttonContainer}>
-      <Button
-        variant="contained"
-        color="primary"
+      <IconButton
+        disabled={activeStep === 0}
+        className={classes.button}
+        color="secondary"
+        aria-label="Left"
+        onClick={() => this.props.moveToStep(activeStep - 1)}
+      >
+        <NavigateBefore />
+      </IconButton>
+      <IconButton
         disabled={!enableNext}
+        className={classes.button}
+        color="primary"
+        aria-label="Right"
         type="submit"
       >
-        Next
-      </Button>
+        <NavigateNext />
+      </IconButton>
     </div>
   );
   getAddressAndNotesForm = (classes, activeStep) => (
@@ -88,7 +101,17 @@ class AddPerson extends React.PureComponent {
       )}
     </form>
   );
-
+  renderHeader() {
+    return (
+      <IconButton
+        className={this.props.classes.cancelButton}
+        aria-label="Cancel"
+        onClick={this.props.cancelAdd}
+      >
+        <Cancel />
+      </IconButton>
+    );
+  }
   renderStep = (classes, activeStep, newPerson) => {
     switch (activeStep) {
       case 0:
@@ -117,6 +140,7 @@ class AddPerson extends React.PureComponent {
           horizontal: 'center',
         }}
       >
+        {this.renderHeader()}
         {this.renderStep(classes, activeStep, newPerson)}
       </Popover>
     );
@@ -128,8 +152,9 @@ AddPerson.propTypes = {
   activeStep: PropTypes.number.isRequired,
   classes: PropTypes.object,
   newPerson: PropTypes.object,
-  goNextStep: PropTypes.func.isRequired,
   handleInputChange: PropTypes.func.isRequired,
+  moveToStep: PropTypes.func.isRequired,
+  cancelAdd: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(AddPerson);

@@ -14,6 +14,7 @@ import {
   Marker,
   Popup,
 } from 'react-leaflet';
+import { icon } from 'leaflet';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
@@ -40,9 +41,10 @@ import {
   setInitialLocation,
   addPersonStart,
   savePersonData,
-  goNextStep,
   handleFormChange,
   handleNewPersonPositionChange,
+  moveToStep,
+  cancelAdd,
 } from './actions';
 import reducer from './reducer';
 import saga from './saga';
@@ -54,6 +56,15 @@ const defaultCoords = {
   latitude: 0,
   longitude: 0,
 };
+
+const marketIcon = icon({
+  iconUrl:
+    'https://raw.githubusercontent.com/shierro/leaflet-color-markers/master/img/marker-icon-red.png',
+  iconSize: [25, 41], // size of the icon
+  shadowSize: [50, 64], // size of the shadow
+  iconAnchor: [12, 41], // point of the icon which will correspond to marker's location
+  shadowAnchor: [4, 62], // the same for the shadow
+});
 
 export class MapPage extends React.Component {
   componentDidMount() {
@@ -113,6 +124,7 @@ export class MapPage extends React.Component {
           activeStep={this.props.activeStep}
           steps={this.props.steps}
           completed={this.props.completed}
+          stepClicked={this.props.moveToStep}
         />
       )
     );
@@ -155,8 +167,9 @@ export class MapPage extends React.Component {
           open={this.props.addingPerson && !mappingPerson}
           initialLocation={this.props.initialLocation}
           zoom={this.props.zoom}
-          goNextStep={this.props.goNextStep}
+          moveToStep={this.props.moveToStep}
           handleInputChange={this.props.handleFormChange}
+          cancelAdd={this.props.cancelAdd}
           newPerson={newPerson}
         />
         {this.renderStepper()}
@@ -170,6 +183,7 @@ export class MapPage extends React.Component {
           </CircleMarker>
           {mappingPerson && (
             <Marker
+              icon={marketIcon}
               position={newPerson.location || this.props.initialLocation}
               draggable
               onDragEnd={this.props.handleNewPersonPositionChange}
@@ -202,8 +216,9 @@ MapPage.propTypes = {
   addPersonStart: PropTypes.func.isRequired,
   savePersonData: PropTypes.func.isRequired,
   handleFormChange: PropTypes.func.isRequired,
-  goNextStep: PropTypes.func.isRequired,
   handleNewPersonPositionChange: PropTypes.func.isRequired,
+  moveToStep: PropTypes.func.isRequired,
+  cancelAdd: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -219,13 +234,15 @@ const mapStateToProps = createStructuredSelector({
   persons: makeSelectPersons(),
 });
 
+/* istanbul ignore next */
 function mapDispatchToProps(dispatch) {
   return {
     setInitialLocation: () => dispatch(setInitialLocation()),
     addPersonStart: () => dispatch(addPersonStart()),
-    goNextStep: () => dispatch(goNextStep()),
     handleFormChange: (key, value) => dispatch(handleFormChange(key, value)),
     savePersonData: () => dispatch(savePersonData()),
+    moveToStep: step => dispatch(moveToStep(step)),
+    cancelAdd: () => dispatch(cancelAdd()),
     handleNewPersonPositionChange: data =>
       dispatch(handleNewPersonPositionChange(data)),
   };

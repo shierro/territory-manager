@@ -84,6 +84,7 @@ module.exports = require('./webpack.base.babel')({
       description: 'Territory Manager',
       background_color: '#fafafa',
       theme_color: '#b1624d',
+      orientation: 'any',
       icons: [
         {
           src: path.resolve('app/images/icon-512x512.png'),

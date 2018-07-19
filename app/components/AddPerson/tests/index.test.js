@@ -14,7 +14,8 @@ describe('<AddPerson />', () => {
         notes: '',
         address: '',
       },
-      goNextStep: () => true,
+      moveToStep: () => true,
+      cancelAdd: () => true,
       handleInputChange: () => true,
     };
     const rendered = mount(<AddPerson {...props} />);
@@ -34,7 +35,8 @@ describe('<AddPerson />', () => {
         notes: 'note!',
         address: '',
       },
-      goNextStep: () => true,
+      moveToStep: () => true,
+      cancelAdd: () => true,
       handleInputChange: () => true,
     };
     const rendered = mount(<AddPerson {...props} />);
@@ -48,7 +50,8 @@ describe('<AddPerson />', () => {
       open: true,
       activeStep: 5,
       newPerson: {},
-      goNextStep: () => true,
+      moveToStep: () => true,
+      cancelAdd: () => true,
       handleInputChange: () => true,
     };
     const rendered = mount(<AddPerson {...props} />);
@@ -65,7 +68,8 @@ describe('<AddPerson />', () => {
         firstName: 'test',
         lastName: '',
       },
-      goNextStep: () => done(),
+      moveToStep: () => done(),
+      cancelAdd: () => true,
       handleInputChange: () => true,
     };
     const rendered = mount(<AddPerson {...props} />);

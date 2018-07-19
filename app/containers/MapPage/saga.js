@@ -4,6 +4,7 @@ import {
   GET_INITIAL_LOCATION,
   SET_PAGE_ERROR,
   SET_LOADING,
+  ADD_PERSON_START,
 } from './constants';
 import { getLocation } from '../../utils/location';
 
@@ -26,4 +27,5 @@ export default function* watchMapsPageSagas() {
   // It returns task descriptor (just like fork) so we can continue execution
   // It will be cancelled automatically on component unmount
   yield takeLatest(GET_INITIAL_LOCATION, setInitLocation);
+  yield takeLatest(ADD_PERSON_START, setInitLocation);
 }
