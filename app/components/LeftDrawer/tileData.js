@@ -13,77 +13,37 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ReportIcon from '@material-ui/icons/Report';
 import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew';
 
+const renderListItemButton = (Component, primary, key, onClick) => (
+  <ListItem button onClick={onClick} key={key}>
+    <ListItemIcon>
+      <Component />
+    </ListItemIcon>
+    <ListItemText primary={primary} />
+  </ListItem>
+);
 export const mailFolderListItems = (
   <div>
-    <ListItem button>
-      <ListItemIcon>
-        <Home />
-      </ListItemIcon>
-      <ListItemText primary="Home" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <Terrain />
-      </ListItemIcon>
-      <ListItemText primary="Map" />
-    </ListItem>
+    {renderListItemButton(Home, 'Home')}
+    {renderListItemButton(Terrain, 'Map')}
   </div>
 );
 
+const navListItems = [
+  { component: InboxIcon, text: 'Inbox' },
+  { component: StarIcon, text: 'Starred' },
+  { component: SendIcon, text: 'Send mail' },
+  { component: DraftsIcon, text: 'Drafts' },
+  { component: MailIcon, text: 'All mail' },
+  { component: DeleteIcon, text: 'Trash' },
+  { component: ReportIcon, text: 'Spam' },
+];
 export const otherMailFolderListItems = (
   <div>
-    <ListItem button>
-      <ListItemIcon>
-        <InboxIcon />
-      </ListItemIcon>
-      <ListItemText primary="Inbox" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <StarIcon />
-      </ListItemIcon>
-      <ListItemText primary="Starred" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <SendIcon />
-      </ListItemIcon>
-      <ListItemText primary="Send mail" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <DraftsIcon />
-      </ListItemIcon>
-      <ListItemText primary="Drafts" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <MailIcon />
-      </ListItemIcon>
-      <ListItemText primary="All mail" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <DeleteIcon />
-      </ListItemIcon>
-      <ListItemText primary="Trash" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <ReportIcon />
-      </ListItemIcon>
-      <ListItemText primary="Spam" />
-    </ListItem>
+    {navListItems.map(({ component, text }, key) =>
+      renderListItemButton(component, text, key),
+    )}
   </div>
 );
 
-export const actionListItems = logout => (
-  <div>
-    <ListItem button onClick={logout}>
-      <ListItemIcon>
-        <PowerSettingsNew />
-      </ListItemIcon>
-      <ListItemText primary="Logout" />
-    </ListItem>
-  </div>
-);
+export const actionListItems = logout =>
+  renderListItemButton(PowerSettingsNew, 'Logout', null, logout);

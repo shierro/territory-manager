@@ -22,6 +22,14 @@ const persistOptions = {
   blacklist: ['rehydrate'],
 };
 
+const config = {
+  ...offlineConfig,
+  persist,
+  persistAutoRehydrate,
+  persistOptions,
+  offlineStateLens,
+};
+
 const { NODE_ENV } = process.env;
 
 const sagaMiddleware = createSagaMiddleware();
@@ -34,69 +42,29 @@ const transform = state => {
   return state;
 };
 
+// If Redux DevTools Extension is installed use it, otherwise use Redux compose
+/* eslint-disable no-underscore-dangle, indent */
+const getComposeEnhancers = () =>
+  NODE_ENV !== 'production' &&
+  typeof window === 'object' &&
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+        // TODO Try to remove when `react-router-redux` is out of beta, LOCATION_CHANGE should not be fired more than once after hot reloading
+        // Prevent recomputing reducers for `replaceReducer`
+        shouldHotReload: false,
+      })
+    : compose;
+/* eslint-enable */
+
 /* istanbul ignore next */
 const logger = createLogger({ stateTransformer: state => transform(state) });
 
-export default function configureStore(initialState, history) {
-  // Create the store with two middlewares
-  // 1. sagaMiddleware: Makes redux-sagas work
-  // 2. routerMiddleware: Syncs the location/URL path to the state
-  const middlewares = [sagaMiddleware, routerMiddleware(history)];
-
-  /* istanbul ignore next */
-  if (NODE_ENV !== 'test') {
-    middlewares.push(logger);
-  }
-
-  // If Redux DevTools Extension is installed use it, otherwise use Redux compose
-  /* eslint-disable no-underscore-dangle, indent */
-  const composeEnhancers =
-    NODE_ENV !== 'production' &&
-    typeof window === 'object' &&
-    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-          // TODO Try to remove when `react-router-redux` is out of beta, LOCATION_CHANGE should not be fired more than once after hot reloading
-          // Prevent recomputing reducers for `replaceReducer`
-          shouldHotReload: false,
-        })
-      : compose;
-  /* eslint-enable */
-
-  /* istanbul ignore next */
-  const persistCallback = () => {
-    if (store.dispatch) {
-      store.dispatch({ type: 'REHYDRATE_STORE' });
-    }
-  };
-
-  const config = {
-    ...offlineConfig,
-    persist,
-    persistAutoRehydrate,
-    persistOptions,
-    persistCallback,
-    offlineStateLens,
-  };
-
-  const {
-    middleware: offlineMiddleware,
-    enhanceReducer,
-    enhanceStore,
-  } = createOffline(config);
-  middlewares.push(offlineMiddleware);
-  const middleware = applyMiddleware(...middlewares);
-
-  const store = createStore(
-    enhanceReducer(createReducer()),
-    undefined,
-    composeEnhancers(enhanceStore, middleware),
-  );
-
+/* eslint-disable no-param-reassign */
+const addExtentionsAndHotReload = store => {
   // Extensions
   store.runSaga = sagaMiddleware.run;
   store.injectedReducers = {}; // Reducer registry
   store.injectedSagas = {}; // Saga registry
-
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
   if (module.hot) {
@@ -104,6 +72,32 @@ export default function configureStore(initialState, history) {
       store.replaceReducer(createReducer(store.injectedReducers));
     });
   }
-
   return store;
+};
+
+export default function configureStore(initialState, history) {
+  const middlewares = [sagaMiddleware, routerMiddleware(history)];
+  /* istanbul ignore next */
+  if (NODE_ENV !== 'test') {
+    middlewares.push(logger);
+  }
+  /* istanbul ignore next */
+  config.persistCallback = () => {
+    if (store.dispatch) {
+      store.dispatch({ type: 'REHYDRATE_STORE' });
+    }
+  };
+  const {
+    middleware: offlineMiddleware,
+    enhanceReducer,
+    enhanceStore,
+  } = createOffline(config);
+  middlewares.push(offlineMiddleware);
+  const middleware = applyMiddleware(...middlewares);
+  const store = createStore(
+    enhanceReducer(createReducer()),
+    undefined,
+    getComposeEnhancers()(enhanceStore, middleware),
+  );
+  return addExtentionsAndHotReload(store);
 }
