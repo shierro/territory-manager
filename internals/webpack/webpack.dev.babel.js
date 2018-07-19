@@ -68,6 +68,28 @@ module.exports = require('./webpack.base.babel')({
   },
 });
 
+function getDllManifests(dllManifests, dllPath) {
+  return dllManifests.map(manifestPath => {
+    if (!fs.existsSync(path)) {
+      if (!fs.existsSync(manifestPath)) {
+        logger.error(
+          `The following Webpack DLL manifest is missing: ${path.basename(
+            manifestPath,
+          )}`,
+        );
+        logger.error(`Expected to find it in ${dllPath}`);
+        logger.error('Please run: npm run build:dll');
+
+        process.exit(0);
+      }
+    }
+
+    return new webpack.DllReferencePlugin({
+      context: process.cwd(),
+      manifest: require(manifestPath), // eslint-disable-line global-require
+    });
+  });
+}
 /**
  * Select which plugins to use to optimize the bundle's handling of
  * third party dependencies.
@@ -77,14 +99,10 @@ module.exports = require('./webpack.base.babel')({
  *
  */
 function dependencyHandlers() {
-  // Don't do anything during the DLL Build step
-  if (process.env.BUILDING_DLL) {
-    return [];
-  }
-
-  // Don't do anything if package.json does not have a dllPlugin property
-  // Code splitting now included by default in Webpack 4
-  if (!dllPlugin) {
+  // Don't do anything during the DLL Build step - process.env.BUILDING_DLL
+  // Don't do anything if package.json does not have a dllPlugin property - !dllPlugin
+  // Code splitting now included by default in Webpack 4 - !dllPlugin
+  if (process.env.BUILDING_DLL || !dllPlugin) {
     return [];
   }
 
@@ -119,25 +137,5 @@ function dependencyHandlers() {
   const dllManifests = Object.keys(dllPlugin.dlls).map(name =>
     path.join(dllPath, `/${name}.json`),
   );
-
-  return dllManifests.map(manifestPath => {
-    if (!fs.existsSync(path)) {
-      if (!fs.existsSync(manifestPath)) {
-        logger.error(
-          `The following Webpack DLL manifest is missing: ${path.basename(
-            manifestPath,
-          )}`,
-        );
-        logger.error(`Expected to find it in ${dllPath}`);
-        logger.error('Please run: npm run build:dll');
-
-        process.exit(0);
-      }
-    }
-
-    return new webpack.DllReferencePlugin({
-      context: process.cwd(),
-      manifest: require(manifestPath), // eslint-disable-line global-require
-    });
-  });
+  return getDllManifests(dllManifests, dllPath);
 }

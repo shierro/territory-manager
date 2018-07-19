@@ -6,15 +6,16 @@ import isString from 'lodash/isString';
 import checkStore from './checkStore';
 import createReducer from '../reducers';
 
+function checkInvariant(key, reducer) {
+  invariant(
+    isString(key) && !isEmpty(key) && isFunction(reducer),
+    '(app/utils...) injectReducer: Expected `reducer` to be a reducer function',
+  );
+}
 export function injectReducerFactory(store, isValid) {
   return function injectReducer(key, reducer) {
     if (!isValid) checkStore(store);
-
-    invariant(
-      isString(key) && !isEmpty(key) && isFunction(reducer),
-      '(app/utils...) injectReducer: Expected `reducer` to be a reducer function',
-    );
-
+    checkInvariant(key, reducer);
     // Check `store.injectedReducers[key] === reducer` for hot reloading when a key is the same but a reducer is different
     if (
       Reflect.has(store.injectedReducers, key) &&

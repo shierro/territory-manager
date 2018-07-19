@@ -54,6 +54,44 @@ const styles = theme => ({
 const base = process.env.PUBLIC_PATH || '';
 
 class App extends React.Component {
+  renderHeader(drawerOpen, token) {
+    return (
+      <Header
+        open={drawerOpen}
+        handleDrawerOpen={this.props.toggleDrawer}
+        token={token}
+      />
+    );
+  }
+  renderLeftDrawer(drawerOpen, token, location) {
+    return (
+      <LeftDrawer
+        open={drawerOpen}
+        hidden={!token}
+        toggleDrawer={this.props.toggleDrawer}
+        path={location.path}
+        logout={this.props.logout}
+      />
+    );
+  }
+  renderMainContent(classes, token) {
+    return (
+      <main className={classes.content}>
+        <div className={classes.toolbar} />
+        <Switch>
+          <Route exact path={`${base}/login`} component={LoginPage} />
+          <Route exact path={`${base}/`} component={LoginPage} />
+          <PrivateRoute
+            exact
+            path={`${base}/map`}
+            component={MapPage}
+            token={token}
+          />
+          <Route component={NotFoundPage} />
+        </Switch>
+      </main>
+    );
+  }
   render() {
     const { classes, location, token, drawerOpen } = this.props;
     if (!this.props.rehydrated) {
@@ -61,32 +99,9 @@ class App extends React.Component {
     }
     return (
       <div className={classNames(classes.root, 'root-app')}>
-        <Header
-          open={drawerOpen}
-          handleDrawerOpen={this.props.toggleDrawer}
-          token={token}
-        />
-        <LeftDrawer
-          open={drawerOpen}
-          hidden={!token}
-          toggleDrawer={this.props.toggleDrawer}
-          path={location.path}
-          logout={this.props.logout}
-        />
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <Switch>
-            <Route exact path={`${base}/login`} component={LoginPage} />
-            <Route exact path={`${base}/`} component={LoginPage} />
-            <PrivateRoute
-              exact
-              path={`${base}/map`}
-              component={MapPage}
-              token={token}
-            />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </main>
+        {this.renderHeader(drawerOpen, token)}
+        {this.renderLeftDrawer(drawerOpen, token, location)}
+        {this.renderMainContent(classes, token)}
         <Footer />
       </div>
     );

@@ -53,6 +53,19 @@ const styles = theme => ({
 });
 
 class LeftDrawer extends React.PureComponent {
+  renderToggleButton(classes, toggleDrawer, theme) {
+    return (
+      <div className={classes.toolbar}>
+        <IconButton onClick={toggleDrawer}>
+          {theme.direction === 'rtl' ? (
+            <ChevronRightIcon />
+          ) : (
+            <ChevronLeftIcon />
+          )}
+        </IconButton>
+      </div>
+    );
+  }
   render() {
     const { classes, theme, open, toggleDrawer, hidden } = this.props;
     return (
@@ -67,15 +80,7 @@ class LeftDrawer extends React.PureComponent {
         }}
         open={open}
       >
-        <div className={classes.toolbar}>
-          <IconButton onClick={toggleDrawer}>
-            {theme.direction === 'rtl' ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
-        </div>
+        {this.renderToggleButton(classes, toggleDrawer, theme)}
         <Divider />
         <List>{mailFolderListItems}</List>
         <Divider />
