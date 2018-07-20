@@ -135,6 +135,7 @@ const mapStateToProps = createStructuredSelector({
   token: makeSelectToken(),
 });
 
+/* istanbul ignore next */
 function mapDispatchToProps(dispatch) {
   return {
     login: (username, password) => dispatch(doLogin(username, password)),

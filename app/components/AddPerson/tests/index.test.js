@@ -2,17 +2,21 @@ import React from 'react';
 import { mount } from 'enzyme';
 import AddPerson from '../index';
 
+const ageRange = { min: 1, max: 120 };
+
 describe('<AddPerson />', () => {
   it('should render 2 text fields on step 1 successfully', () => {
     const props = {
       open: true,
       activeStep: 0,
       classes: { form: 'form' },
+      ageRange,
       newPerson: {
         firstName: 'name',
         lastName: '',
         notes: '',
         address: '',
+        ageRange,
       },
       moveToStep: () => true,
       cancelAdd: () => true,
@@ -34,7 +38,9 @@ describe('<AddPerson />', () => {
         lastName: '',
         notes: 'note!',
         address: '',
+        ageRange,
       },
+      ageRange,
       moveToStep: () => true,
       cancelAdd: () => true,
       handleInputChange: () => true,
@@ -50,6 +56,7 @@ describe('<AddPerson />', () => {
       open: true,
       activeStep: 5,
       newPerson: {},
+      ageRange,
       moveToStep: () => true,
       cancelAdd: () => true,
       handleInputChange: () => true,
@@ -63,10 +70,12 @@ describe('<AddPerson />', () => {
     const props = {
       open: true,
       activeStep: 0,
+      ageRange,
       classes: { addressForm: 'addressForm' },
       newPerson: {
         firstName: 'test',
         lastName: '',
+        ageRange,
       },
       moveToStep: () => done(),
       cancelAdd: () => true,
