@@ -6,6 +6,17 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
   font-weight: 300;
+
+  .input-range {
+    margin-top: 20px;
+    &__slider {
+      background: $color-sub;
+      border: 1px solid $color-sub;
+    }
+    &__track--active {
+      background: $color-sub;
+    }
+  }
 }
 // header {
 //   margin-left: 240px;
@@ -32,5 +43,6 @@ body {
     position: relative;
     // width: calc(100% - 240px);
   }
+
 }
 

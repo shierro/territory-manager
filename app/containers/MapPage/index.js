@@ -36,6 +36,7 @@ import {
   makeSelectCompleted,
   makeSelectNewPerson,
   makeSelectPersons,
+  makeSelectDefaultAgeRange,
 } from './selectors';
 import {
   setInitialLocation,
@@ -96,6 +97,7 @@ export class MapPage extends React.Component {
         <Popup>
           <h3>
             Name: {persons[key].firstName} {persons[key].lastName}
+            ({persons[key].ageRange.min}-{persons[key].ageRange.max}yo)
           </h3>
           <h4>Address: {persons[key].address}</h4>
           <h4>Notes: {persons[key].notes}</h4>
@@ -180,17 +182,18 @@ export class MapPage extends React.Component {
         moveToStep={this.props.moveToStep}
         handleInputChange={this.props.handleFormChange}
         cancelAdd={this.props.cancelAdd}
+        ageRange={this.props.ageRange}
         newPerson={newPerson}
       />
     );
   }
   render() {
-    const { activeStep, newPerson, persons } = this.props;
-    const { latitude, longitude } = this.props.coords || defaultCoords;
-    const mappingPerson = activeStep >= this.props.steps.length - 1;
     if (!navigator.geolocation) {
       return this.renderNotSupported();
     }
+    const { activeStep, newPerson, persons } = this.props;
+    const { latitude, longitude } = this.props.coords || defaultCoords;
+    const mappingPerson = activeStep >= this.props.steps.length - 1;
     return (
       <div className="maps">
         {this.props.loading && <LinearProgress />}
@@ -228,6 +231,10 @@ MapPage.propTypes = {
   handleNewPersonPositionChange: PropTypes.func.isRequired,
   moveToStep: PropTypes.func.isRequired,
   cancelAdd: PropTypes.func.isRequired,
+  ageRange: PropTypes.shape({
+    min: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired,
+  }),
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -241,6 +248,7 @@ const mapStateToProps = createStructuredSelector({
   completed: makeSelectCompleted(),
   newPerson: makeSelectNewPerson(),
   persons: makeSelectPersons(),
+  ageRange: makeSelectDefaultAgeRange(),
 });
 
 /* istanbul ignore next */

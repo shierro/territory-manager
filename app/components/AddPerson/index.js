@@ -1,13 +1,16 @@
+/* eslint-disable jsx-a11y/label-has-for */
 import React from 'react';
 import PropTypes from 'prop-types';
 import Popover from '@material-ui/core/Popover';
 import TextField from '@material-ui/core/TextField';
-import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import NavigateBefore from '@material-ui/icons/NavigateBefore';
 import Cancel from '@material-ui/icons/Cancel';
 import NavigateNext from '@material-ui/icons/NavigateNext';
 import { withStyles } from '@material-ui/core/styles';
+import InputRange from 'react-input-range';
+import 'react-input-range/lib/css/index.css';
+import Divider from '../Divider';
 import styles from './styles';
 
 class AddPerson extends React.PureComponent {
@@ -93,7 +96,8 @@ class AddPerson extends React.PureComponent {
           this.props.handleInputChange('lastName', target.value)
         }
       />
-      <Divider />
+      {this.renderSlider()}
+      <Divider marginTop={20} />
       {this.getFormFooter(
         classes,
         activeStep,
@@ -101,6 +105,21 @@ class AddPerson extends React.PureComponent {
       )}
     </form>
   );
+  renderSlider() {
+    const { classes } = this.props;
+    return (
+      <div className={classes.sliderContainer}>
+        <label className={classes.ageRangeLabel}>Age range</label>
+        <InputRange
+          // formatLabel={value => `${value}yo`}
+          maxValue={this.props.ageRange.max}
+          minValue={this.props.ageRange.min}
+          value={this.props.newPerson.ageRange}
+          onChange={value => this.props.handleInputChange('ageRange', value)}
+        />
+      </div>
+    );
+  }
   renderHeader() {
     return (
       <IconButton
@@ -155,6 +174,10 @@ AddPerson.propTypes = {
   handleInputChange: PropTypes.func.isRequired,
   moveToStep: PropTypes.func.isRequired,
   cancelAdd: PropTypes.func.isRequired,
+  ageRange: PropTypes.shape({
+    min: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired,
+  }),
 };
 
 export default withStyles(styles)(AddPerson);
