@@ -30,8 +30,6 @@ const config = {
   offlineStateLens,
 };
 
-const { NODE_ENV } = process.env;
-
 const sagaMiddleware = createSagaMiddleware();
 
 /* istanbul ignore next */
@@ -45,7 +43,7 @@ const transform = state => {
 // If Redux DevTools Extension is installed use it, otherwise use Redux compose
 /* eslint-disable no-underscore-dangle, indent */
 const getComposeEnhancers = () =>
-  NODE_ENV !== 'production' &&
+  process.env.NODE_ENV !== 'production' &&
   typeof window === 'object' &&
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
@@ -78,7 +76,7 @@ const addExtentionsAndHotReload = store => {
 export default function configureStore(initialState, history) {
   const middlewares = [sagaMiddleware, routerMiddleware(history)];
   /* istanbul ignore next */
-  if (NODE_ENV !== 'test') {
+  if (process.env.NODE_ENV === 'development') {
     middlewares.push(logger);
   }
   /* istanbul ignore next */
