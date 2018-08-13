@@ -8,8 +8,8 @@ import NavigateBefore from '@material-ui/icons/NavigateBefore';
 import Cancel from '@material-ui/icons/Cancel';
 import NavigateNext from '@material-ui/icons/NavigateNext';
 import { withStyles } from '@material-ui/core/styles';
-import InputRange from 'react-input-range';
 import 'react-input-range/lib/css/index.css';
+import AgeRangeSlider from '../AgeRangeSlider';
 import Divider from '../Divider';
 import styles from './styles';
 
@@ -96,7 +96,11 @@ class AddPerson extends React.PureComponent {
           this.props.handleInputChange('lastName', target.value)
         }
       />
-      {this.renderSlider()}
+      <AgeRangeSlider
+        defaultValue={this.props.ageRange}
+        value={this.props.newPerson.ageRange}
+        onChange={value => this.props.handleInputChange('ageRange', value)}
+      />
       <Divider marginTop={20} />
       {this.getFormFooter(
         classes,
@@ -105,21 +109,6 @@ class AddPerson extends React.PureComponent {
       )}
     </form>
   );
-  renderSlider() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.sliderContainer}>
-        <label className={classes.ageRangeLabel}>Age range</label>
-        <InputRange
-          // formatLabel={value => `${value}yo`}
-          maxValue={this.props.ageRange.max}
-          minValue={this.props.ageRange.min}
-          value={this.props.newPerson.ageRange}
-          onChange={value => this.props.handleInputChange('ageRange', value)}
-        />
-      </div>
-    );
-  }
   renderHeader() {
     return (
       <IconButton
