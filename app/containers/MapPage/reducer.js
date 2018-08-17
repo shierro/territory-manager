@@ -27,7 +27,7 @@ const personSchema = {
   visits: List([]),
 };
 
-const initialState = fromJS({
+export const initialState = fromJS({
   initialLocation: List([0, 0]),
   initialLocationLoaded: false,
   defaultAgeRange: { min: 1, max: 120 },

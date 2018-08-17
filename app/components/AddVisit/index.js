@@ -29,9 +29,17 @@ class AddVisit extends React.Component {
     });
     this.setState({ addingVisit: false });
   }
-  render() {
-    const { classes, person } = this.props;
-    const { addingVisit, visitState, note } = this.state;
+  renderBadge(content, name, icon) {
+    const { classes } = this.props;
+    const { visitState } = this.state;
+    const badge = `${classes.badge} ${visitState === name && classes.selected}`;
+    return (
+      <Badge badgeContent={content} classes={{ badge }}>
+        {icon}
+      </Badge>
+    );
+  }
+  renderHeader(classes, person) {
     const visitTypes = [
       { name: 'found', icon: <CheckCircle color="secondary" /> },
       { name: 'notFound', icon: <NotFound color="error" /> },
@@ -41,7 +49,7 @@ class AddVisit extends React.Component {
       notFound: person.visits.filter(prsn => !prsn.found).length,
     };
     return (
-      <div className={classes.container}>
+      <div>
         <h4 className={classes.visitLabel}>Visits: ({person.visits.length})</h4>
         {visitTypes.map(({ name, icon }, key) => (
           <div className={classes.column} key={`visit-icon-${key + 1}`}>
@@ -51,18 +59,34 @@ class AddVisit extends React.Component {
                 this.setState({ visitState: name, addingVisit: true })
               }
             >
-              <Badge
-                badgeContent={count[name]}
-                classes={{
-                  badge: `${classes.badge} ${visitState === name &&
-                    classes.selected}`,
-                }}
-              >
-                {icon}
-              </Badge>
+              {this.renderBadge(count[name], name, icon)}
             </IconButton>
           </div>
         ))}
+      </div>
+    );
+  }
+  renderActionButtons() {
+    return (
+      <div>
+        <IconButton aria-label="Save" onClick={this.saveVisit}>
+          <Save color="secondary" />
+        </IconButton>
+        <IconButton
+          aria-label="Cancel"
+          onClick={() => this.setState({ addingVisit: false })}
+        >
+          <Cancel color="error" />
+        </IconButton>
+      </div>
+    );
+  }
+  render() {
+    const { classes, person } = this.props;
+    const { addingVisit, note } = this.state;
+    return (
+      <div className={classes.container}>
+        {this.renderHeader(classes, person)}
         <div style={{ display: addingVisit ? 'inline-block' : 'none' }}>
           <TextField
             value={note}
@@ -73,15 +97,7 @@ class AddVisit extends React.Component {
             rowsMax="4"
             fullWidth
           />
-          <IconButton aria-label="Save" onClick={this.saveVisit}>
-            <Save color="secondary" />
-          </IconButton>
-          <IconButton
-            aria-label="Cancel"
-            onClick={() => this.setState({ addingVisit: false })}
-          >
-            <Cancel color="error" />
-          </IconButton>
+          {this.renderActionButtons()}
         </div>
       </div>
     );
