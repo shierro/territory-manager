@@ -5,10 +5,10 @@ plugins:
     config:
       languages:
         - javascript
-  eslint:
-    enabled: true
-    config:
-      config: .eslintrc.js
+  # eslint:
+  #   enabled: true
+  #   config:
+  #     config: .eslintrc.js
 
 exclude_patterns:
   - node_modules/
