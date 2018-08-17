@@ -1,17 +1,15 @@
-import { addPersonStart, cancelAdd } from '../actions';
-import { ADD_PERSON_START, CANCEL_ADD } from '../constants';
+/* eslint-disable import/no-named-as-default-member */
+import { mapPageActions } from '../actions';
+import * as constants from '../constants';
+
+const constsArray = Object.keys(constants).map(idx => constants[idx]);
+const actions = mapPageActions(result => result);
 
 describe('MapPage actions', () => {
-  it('has a type of ADD_PERSON_START', () => {
-    const expected = {
-      type: ADD_PERSON_START,
-    };
-    expect(addPersonStart()).toEqual(expected);
-  });
-  it('has a type of CANCEL_ADD', () => {
-    const expected = {
-      type: CANCEL_ADD,
-    };
-    expect(cancelAdd()).toEqual(expected);
+  Object.keys(actions).forEach(action => {
+    const { type } = actions[action]();
+    it(`has a type [${type}]`, () => {
+      expect(constsArray.indexOf(type) > -1).toEqual(true);
+    });
   });
 });

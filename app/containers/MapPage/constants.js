@@ -12,3 +12,6 @@ export const SET_STEP = 'app/MapPage/SET_STEP';
 export const CANCEL_ADD = 'app/MapPage/CANCEL_ADD';
 export const UPDATE_NEW_MARKER_LOCATION =
   'app/MapPage/UPDATE_NEW_MARKER_LOCATION';
+export const PERSON_UPDATE = 'app/MapPage/PERSON_UPDATE';
+export const PERSON_CLICK = 'app/MapPage/PERSON_CLICK';
+export const SAVE_VISIT = 'app/MapPage/SAVE_VISIT';

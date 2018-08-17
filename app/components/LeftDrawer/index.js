@@ -13,7 +13,6 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import {
   mailFolderListItems,
   otherMailFolderListItems,
@@ -53,21 +52,17 @@ const styles = theme => ({
 });
 
 class LeftDrawer extends React.PureComponent {
-  renderToggleButton(classes, toggleDrawer, theme) {
+  renderToggleButton(classes, toggleDrawer) {
     return (
       <div className={classes.toolbar}>
         <IconButton onClick={toggleDrawer}>
-          {theme.direction === 'rtl' ? (
-            <ChevronRightIcon />
-          ) : (
-            <ChevronLeftIcon />
-          )}
+          <ChevronLeftIcon />
         </IconButton>
       </div>
     );
   }
   render() {
-    const { classes, theme, open, toggleDrawer, hidden } = this.props;
+    const { classes, open, toggleDrawer, hidden } = this.props;
     return (
       <Drawer
         style={{ display: hidden && 'none' }}
@@ -80,7 +75,7 @@ class LeftDrawer extends React.PureComponent {
         }}
         open={open}
       >
-        {this.renderToggleButton(classes, toggleDrawer, theme)}
+        {this.renderToggleButton(classes, toggleDrawer)}
         <Divider />
         <List>{mailFolderListItems}</List>
         <Divider />
@@ -95,7 +90,6 @@ class LeftDrawer extends React.PureComponent {
 
 LeftDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
   open: PropTypes.bool.isRequired,
   hidden: PropTypes.bool.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
