@@ -37,6 +37,8 @@ import configureStore from './configureStore';
 // Import i18n messages
 import { translationMessages } from './i18n';
 
+import themeStyles from './theme';
+
 // Import CSS reset and Global Styles
 import './styles/_index.scss';
 
@@ -46,22 +48,7 @@ const history = createHistory({ basename: '/territory-manager' });
 const store = configureStore(initialState, history);
 const MOUNT_NODE = document.getElementById('app');
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: '#9fffe0',
-      main: '#69f0ae',
-      dark: '#2bbd7e',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#b5ffff',
-      main: '#80d8ff',
-      dark: '#49a7cc',
-      contrastText: '#fff',
-    },
-  },
-});
+const theme = createMuiTheme(themeStyles);
 
 const render = messages => {
   ReactDOM.render(
