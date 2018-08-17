@@ -13,10 +13,19 @@ import AgeRangeSlider from '../AgeRangeSlider';
 import Divider from '../Divider';
 import styles from './styles';
 
+const sameTextFieldProps = {
+  InputLabelProps: { shrink: true },
+  fullWidth: true,
+  margin: 'normal',
+};
+
 class AddPerson extends React.PureComponent {
   handleSubmit = e => {
     e.preventDefault();
     this.props.moveToStep(this.props.activeStep + 1);
+  };
+  inputChange = ({ target }, key) => {
+    this.props.handleInputChange(key, target.value);
   };
   getFormFooter = (classes, activeStep, enableNext) => (
     <div className={classes.buttonContainer}>
@@ -40,31 +49,24 @@ class AddPerson extends React.PureComponent {
       </IconButton>
     </div>
   );
+
   getAddressAndNotesForm = (classes, activeStep) => (
     <form className={classes.addressForm} onSubmit={this.handleSubmit}>
       <TextField
+        {...sameTextFieldProps}
         label="Address"
-        InputLabelProps={{ shrink: true }}
         placeholder="Address"
         helperText="Specify the address of the person"
-        fullWidth
-        margin="normal"
         value={this.props.newPerson.address}
-        onChange={({ target }) =>
-          this.props.handleInputChange('address', target.value)
-        }
+        onChange={e => this.inputChange(e, 'address')}
       />
       <TextField
+        {...sameTextFieldProps}
         label="Notes"
-        InputLabelProps={{ shrink: true }}
         placeholder="Notes"
         helperText="You can add some notes"
-        fullWidth
-        margin="normal"
         value={this.props.newPerson.notes}
-        onChange={({ target }) =>
-          this.props.handleInputChange('notes', target.value)
-        }
+        onChange={e => this.inputChange(e, 'notes')}
       />
       {this.getFormFooter(classes, activeStep, true)}
     </form>
@@ -72,13 +74,11 @@ class AddPerson extends React.PureComponent {
   getInformationForm = (classes, activeStep, newPerson) => (
     <form className={classes.form} onSubmit={this.handleSubmit}>
       <TextField
+        {...sameTextFieldProps}
         label="First name"
-        InputLabelProps={{ shrink: true }}
         placeholder="first name"
         helperText="Speficy first name of person"
-        fullWidth
         required
-        margin="normal"
         value={this.props.newPerson.firstName}
         onChange={({ target }) =>
           this.props.handleInputChange('firstName', target.value)
@@ -86,11 +86,9 @@ class AddPerson extends React.PureComponent {
       />
       <TextField
         label="Last name"
-        InputLabelProps={{ shrink: true }}
+        {...sameTextFieldProps}
         placeholder="last name"
         helperText="Speficy last name of person"
-        fullWidth
-        margin="normal"
         value={this.props.newPerson.lastName}
         onChange={({ target }) =>
           this.props.handleInputChange('lastName', target.value)

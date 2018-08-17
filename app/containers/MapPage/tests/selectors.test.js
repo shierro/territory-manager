@@ -24,85 +24,85 @@ describe('selectMapPage', () => {
   });
 
   it('should select the initialLocation state', () => {
-    const ticketsSelector = makeSelectInitialLocation();
+    const initialLocationSelector = makeSelectInitialLocation();
     const initialLocation = List([5, 5]);
-    const mockedState = fromJS({ mapPage: { initialLocation } });
-    expect(ticketsSelector(mockedState)).toEqual([5, 5]);
+    const mapState = fromJS({ mapPage: { initialLocation } });
+    expect(initialLocationSelector(mapState)).toEqual([5, 5]);
   });
 
   it('should select the initialLocationLoaded state', () => {
-    const ticketsSelector = makeSelectInitialLocationLoaded();
+    const initLocLoadedSelector = makeSelectInitialLocationLoaded();
     const initialLocationLoaded = true;
-    const mockedState = fromJS({ mapPage: { initialLocationLoaded } });
-    expect(ticketsSelector(mockedState)).toEqual(initialLocationLoaded);
+    const mapState2 = fromJS({ mapPage: { initialLocationLoaded } });
+    expect(initLocLoadedSelector(mapState2)).toEqual(initialLocationLoaded);
   });
 
-  it('should select the initialLocationLoaded state', () => {
-    const ticketsSelector = makeSelectZoom();
+  it('should select the zoom state', () => {
+    const zoomSelector = makeSelectZoom();
     const zoom = 16;
-    const mockedState = fromJS({ mapPage: { zoom } });
-    expect(ticketsSelector(mockedState)).toEqual(zoom);
+    const mapState3 = fromJS({ mapPage: { zoom } });
+    expect(zoomSelector(mapState3)).toEqual(zoom);
   });
 
   it('should select the addingPerson state', () => {
-    const ticketsSelector = makeSelectAddingPerson();
+    const addingPersonSelector = makeSelectAddingPerson();
     const addingPerson = true;
-    const mockedState = fromJS({ mapPage: { addingPerson } });
-    expect(ticketsSelector(mockedState)).toEqual(addingPerson);
+    const mapState4 = fromJS({ mapPage: { addingPerson } });
+    expect(addingPersonSelector(mapState4)).toEqual(addingPerson);
   });
 
   it('should select the loading state', () => {
-    const ticketsSelector = makeSelectLoading();
+    const loadingSelector = makeSelectLoading();
     const loading = true;
-    const mockedState = fromJS({ mapPage: { loading } });
-    expect(ticketsSelector(mockedState)).toEqual(loading);
+    const mapState5 = fromJS({ mapPage: { loading } });
+    expect(loadingSelector(mapState5)).toEqual(loading);
   });
 
   it('should select the steps state', () => {
-    const ticketsSelector = makeSelectSteps();
+    const stepsSelector = makeSelectSteps();
     const steps = ['step1', 'step2'];
-    const mockedState = fromJS({ mapPage: { steps } });
-    expect(ticketsSelector(mockedState)).toEqual(steps);
+    const mapState6 = fromJS({ mapPage: { steps } });
+    expect(stepsSelector(mapState6)).toEqual(steps);
   });
 
   it('should select the newPerson state', () => {
-    const ticketsSelector = makeSelectNewPerson();
+    const newPersonSelector = makeSelectNewPerson();
     const newPerson = { firstName: 'test' };
-    const mockedState = fromJS({ mapPage: { newPerson } });
-    expect(ticketsSelector(mockedState)).toEqual(newPerson);
+    const mapState7 = fromJS({ mapPage: { newPerson } });
+    expect(newPersonSelector(mapState7)).toEqual(newPerson);
   });
 
   it('should select the completed state', () => {
-    const ticketsSelector = makeSelectCompleted();
+    const completedSelector = makeSelectCompleted();
     const completed = { 1: true };
-    const mockedState = fromJS({ mapPage: { completed } });
-    expect(ticketsSelector(mockedState)).toEqual(completed);
+    const mapState8 = fromJS({ mapPage: { completed } });
+    expect(completedSelector(mapState8)).toEqual(completed);
   });
 
   it('should select the activeStep state', () => {
-    const ticketsSelector = makeSelectActiveStep();
+    const activeStepSelector = makeSelectActiveStep();
     const activeStep = 1;
-    const mockedState = fromJS({ mapPage: { activeStep } });
-    expect(ticketsSelector(mockedState)).toEqual(activeStep);
+    const mapState9 = fromJS({ mapPage: { activeStep } });
+    expect(activeStepSelector(mapState9)).toEqual(activeStep);
   });
 
   it('should select the people state', () => {
-    const ticketsSelector = makeSelectPeople();
+    const peopleSelector = makeSelectPeople();
     const people = { firstName: 'test' };
-    const mockedState = fromJS({ mapPage: { people } });
-    expect(ticketsSelector(mockedState)).toEqual(people);
+    const mapState10 = fromJS({ mapPage: { people } });
+    expect(peopleSelector(mapState10)).toEqual(people);
   });
 
   it('should select the defaultAgeRange state', () => {
     const selector = makeSelectDefaultAgeRange();
     const defaultAgeRange = { min: 1, max: 5 };
-    const mockedState = fromJS({ mapPage: { defaultAgeRange } });
-    expect(selector(mockedState)).toEqual(defaultAgeRange);
+    const mapState11 = fromJS({ mapPage: { defaultAgeRange } });
+    expect(selector(mapState11)).toEqual(defaultAgeRange);
   });
   it('should select the personLabels state', () => {
-    const selector = makeSelectPersonLabels();
+    const personLabelsSelector = makeSelectPersonLabels();
     const personLabels = { test: 'test' };
-    const mockedState = fromJS({ mapPage: { personLabels } });
-    expect(selector(mockedState)).toEqual(personLabels);
+    const mapState12 = fromJS({ mapPage: { personLabels } });
+    expect(personLabelsSelector(mapState12)).toEqual(personLabels);
   });
 });
