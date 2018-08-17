@@ -54,18 +54,18 @@ class AddPerson extends React.PureComponent {
     <form className={classes.addressForm} onSubmit={this.handleSubmit}>
       <TextField
         {...sameTextFieldProps}
-        label="Address"
         placeholder="Address"
-        helperText="Specify the address of the person"
         value={this.props.newPerson.address}
+        label="Address"
+        helperText="Specify the address of the person"
         onChange={e => this.inputChange(e, 'address')}
       />
       <TextField
-        {...sameTextFieldProps}
-        label="Notes"
         placeholder="Notes"
+        label="Notes"
         helperText="You can add some notes"
         value={this.props.newPerson.notes}
+        {...sameTextFieldProps}
         onChange={e => this.inputChange(e, 'notes')}
       />
       {this.getFormFooter(classes, activeStep, true)}
@@ -74,25 +74,21 @@ class AddPerson extends React.PureComponent {
   getInformationForm = (classes, activeStep, newPerson) => (
     <form className={classes.form} onSubmit={this.handleSubmit}>
       <TextField
-        {...sameTextFieldProps}
-        label="First name"
         placeholder="first name"
+        label="First name"
         helperText="Speficy first name of person"
         required
         value={this.props.newPerson.firstName}
-        onChange={({ target }) =>
-          this.props.handleInputChange('firstName', target.value)
-        }
+        {...sameTextFieldProps}
+        onChange={e => this.inputChange(e, 'firstName')}
       />
       <TextField
-        label="Last name"
-        {...sameTextFieldProps}
         placeholder="last name"
         helperText="Speficy last name of person"
         value={this.props.newPerson.lastName}
-        onChange={({ target }) =>
-          this.props.handleInputChange('lastName', target.value)
-        }
+        label="Last name"
+        onChange={e => this.inputChange(e, 'lastName')}
+        {...sameTextFieldProps}
       />
       <AgeRangeSlider
         defaultValue={this.props.ageRange}
@@ -132,19 +128,17 @@ class AddPerson extends React.PureComponent {
     const { open, classes, activeStep, newPerson } = this.props;
     const horizontalCenter = Math.floor(window.innerWidth / 2);
     const verticalCener = Math.floor(window.innerHeight / 2);
+    const style = {
+      vertical: 'center',
+      horizontal: 'center',
+    };
     return (
       <Popover
         open={open}
         anchorReference="anchorPosition"
         anchorPosition={{ top: verticalCener, left: horizontalCenter }}
-        anchorOrigin={{
-          vertical: 'center',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'center',
-          horizontal: 'center',
-        }}
+        anchorOrigin={style}
+        transformOrigin={style}
       >
         {this.renderHeader()}
         {this.renderStep(classes, activeStep, newPerson)}
