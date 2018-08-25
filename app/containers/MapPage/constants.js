@@ -15,3 +15,5 @@ export const UPDATE_NEW_MARKER_LOCATION =
 export const PERSON_UPDATE = 'app/MapPage/PERSON_UPDATE';
 export const PERSON_CLICK = 'app/MapPage/PERSON_CLICK';
 export const SAVE_VISIT = 'app/MapPage/SAVE_VISIT';
+export const TOGGLE_ADDING_VISIT = 'app/MapPage/TOGGLE_ADDING_VISIT';
+export const POPUP_CLOSE = 'app/MapPage/POPUP_CLOSE';
