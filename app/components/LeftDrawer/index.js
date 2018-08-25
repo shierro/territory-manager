@@ -1,9 +1,3 @@
-/**
- *
- * LeftDrawer
- *
- */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -18,38 +12,7 @@ import {
   otherMailFolderListItems,
   actionListItems,
 } from './tileData';
-
-const drawerWidth = 240;
-
-const styles = theme => ({
-  drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing.unit * 7,
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing.unit * 9,
-    },
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-});
+import styles from './styles';
 
 class LeftDrawer extends React.PureComponent {
   renderToggleButton(classes, toggleDrawer) {
@@ -63,17 +26,14 @@ class LeftDrawer extends React.PureComponent {
   }
   render() {
     const { classes, open, toggleDrawer, hidden } = this.props;
+    const { drawerPaper, drawerPaperClose } = classes;
+    const paper = classNames(drawerPaper, !open && drawerPaperClose);
     return (
       <Drawer
+        classes={{ paper }}
+        open={open}
         style={{ display: hidden && 'none' }}
         variant="permanent"
-        classes={{
-          paper: classNames(
-            classes.drawerPaper,
-            !open && classes.drawerPaperClose,
-          ),
-        }}
-        open={open}
       >
         {this.renderToggleButton(classes, toggleDrawer)}
         <Divider />

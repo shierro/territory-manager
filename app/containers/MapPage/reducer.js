@@ -13,6 +13,8 @@ import {
   PERSON_UPDATE,
   PERSON_CLICK,
   SAVE_VISIT,
+  TOGGLE_ADDING_VISIT,
+  POPUP_CLOSE,
 } from './constants';
 
 const personSchema = {
@@ -49,6 +51,7 @@ export const initialState = fromJS({
     ageRange: 'Age Range',
     visits: 'Visits',
   },
+  addingVisit: false,
 });
 
 function setInitialLocation(state, action) {
@@ -121,9 +124,13 @@ function personUpdate(state, action) {
   );
 }
 
+function toggleAddingVisit(state) {
+  return state.set('addingVisit', !state.get('addingVisit'));
+}
+
 function addPersonVisit(state, action) {
   const date = new Date();
-  return state.updateIn(
+  return toggleAddingVisit(state).updateIn(
     ['people', state.get('personCurrentlyEditing'), 'visits'],
     visits => visits.push({ ...action.visitData, date }),
   );
@@ -157,6 +164,10 @@ function mapPageReducer(state = initialState, action) {
       return state.set('personCurrentlyEditing', parseInt(action.index, 10));
     case SAVE_VISIT:
       return addPersonVisit(state, action);
+    case TOGGLE_ADDING_VISIT:
+      return toggleAddingVisit(state);
+    case POPUP_CLOSE:
+      return state.set('addingVisit', false);
     default:
       return state;
   }

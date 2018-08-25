@@ -126,4 +126,14 @@ describe('mapPageReducer', () => {
     const newState = mapPageReducer(state, acts.handlePersonClick(index));
     expect(newState.get('personCurrentlyEditing')).toEqual(index);
   });
+
+  it('should toggle addingVisit correctly', () => {
+    const newState = mapPageReducer(state, acts.toggleAddingVisit());
+    expect(newState.get('addingVisit')).toEqual(true);
+  });
+
+  it('should set addingVisit=false when popup closes', () => {
+    const newState = mapPageReducer(state, acts.onPopupClose());
+    expect(newState.get('addingVisit')).toEqual(false);
+  });
 });

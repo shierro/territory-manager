@@ -44,9 +44,10 @@ class PersonDetails extends React.PureComponent {
           this.props.handlePersonUpdate(prop, target.value)
         }
         disabled={!editMode}
-        fullWidth
         InputLabelProps={{ shrink: true }}
         label={personLabels[prop]}
+        placeholder={`Add ${personLabels[prop]}...`}
+        fullWidth
       />
     ));
     return this.addAgeRangeSlider(inputs, classes, person);

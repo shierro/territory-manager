@@ -14,6 +14,7 @@ import {
   makeSelectPeople,
   makeSelectDefaultAgeRange,
   makeSelectPersonLabels,
+  makeSelectAddingVisit,
 } from '../selectors';
 
 describe('selectMapPage', () => {
@@ -104,5 +105,11 @@ describe('selectMapPage', () => {
     const personLabels = { test: 'test' };
     const mapState12 = fromJS({ mapPage: { personLabels } });
     expect(personLabelsSelector(mapState12)).toEqual(personLabels);
+  });
+  it('should select addingVisit state correctly', () => {
+    const addingVisitSelector = makeSelectAddingVisit();
+    const addingVisit = true;
+    const mapState13 = fromJS({ mapPage: { addingVisit } });
+    expect(addingVisitSelector(mapState13)).toEqual(addingVisit);
   });
 });
