@@ -1,5 +1,5 @@
-import { fromJS, List, Map } from 'immutable';
-import mapPageReducer from '../reducer';
+import { fromJS, Map } from 'immutable';
+import mapPageReducer, { initialState } from '../reducer';
 import { mapPageActions } from '../actions';
 
 import {
@@ -9,49 +9,17 @@ import {
 } from '../constants';
 
 const acts = mapPageActions(result => result);
+const initState = initialState.toJS();
+const completed = {
+  0: true,
+  1: false,
+  2: false,
+};
 
 describe('mapPageReducer', () => {
-  const personSchema = {
-    firstName: '',
-    lastName: '',
-    notes: '',
-    address: '',
-    ageRange: {
-      min: 1,
-      max: 119,
-    },
-    visits: List([]),
-  };
-  const initStateObject = {
-    initialLocation: List([0, 0]),
-    initialLocationLoaded: false,
-    defaultAgeRange: { min: 1, max: 120 },
-    loading: false,
-    addingPerson: false,
-    zoom: 16,
-    error: Map(),
-    people: Map(),
-    steps: List(['Info', 'Address & Notes', 'Map Location']),
-    activeStep: 0,
-    completed: Map(),
-    newPerson: Map(personSchema),
-    personCurrentlyEditing: 0,
-    personLabels: {
-      firstName: 'First Name',
-      lastName: 'Last Name',
-      notes: 'Notes',
-      address: 'Address',
-      ageRange: 'Age Range',
-      visits: 'Visits',
-    },
-  };
   let state;
   beforeEach(() => {
-    state = fromJS(initStateObject);
-  });
-
-  it('returns the initial state', () => {
-    expect(mapPageReducer(undefined, {})).toEqual(fromJS(initStateObject));
+    state = fromJS(initState);
   });
 
   it('should handle setInitialLocation action correctly', () => {
@@ -96,23 +64,16 @@ describe('mapPageReducer', () => {
   it('should move to a step(forward) correctly', () => {
     const newState = mapPageReducer(state, acts.moveToStep(1));
     expect(newState.get('activeStep')).toEqual(1);
-    expect(newState.get('completed').toJS()).toEqual({
-      0: true,
-      1: false,
-      2: false,
-    });
+    expect(newState.get('completed').toJS()).toEqual(completed);
   });
   it('should move to a step(backward) correctly', () => {
     const newState = mapPageReducer(
       state.set('activeStep', 2),
       acts.moveToStep(0),
     );
+    completed[0] = false;
     expect(newState.get('activeStep')).toEqual(0);
-    expect(newState.get('completed').toJS()).toEqual({
-      0: false,
-      1: false,
-      2: false,
-    });
+    expect(newState.get('completed').toJS()).toEqual(completed);
   });
   it('should handle handleFormChange action correctly', () => {
     const key = 'foo';
@@ -164,5 +125,15 @@ describe('mapPageReducer', () => {
     const index = 1;
     const newState = mapPageReducer(state, acts.handlePersonClick(index));
     expect(newState.get('personCurrentlyEditing')).toEqual(index);
+  });
+
+  it('should toggle addingVisit correctly', () => {
+    const newState = mapPageReducer(state, acts.toggleAddingVisit());
+    expect(newState.get('addingVisit')).toEqual(true);
+  });
+
+  it('should set addingVisit=false when popup closes', () => {
+    const newState = mapPageReducer(state, acts.onPopupClose());
+    expect(newState.get('addingVisit')).toEqual(false);
   });
 });

@@ -15,7 +15,21 @@ class PersonDetails extends React.PureComponent {
       editMode: false,
     };
   }
-
+  addAgeRangeSlider(inputs, classes, person) {
+    const { editMode } = this.state;
+    inputs.push(
+      <div key="age-range-key" className={classes.ageRangeContainer}>
+        <AgeRangeSlider
+          defaultValue={this.props.defaultAgeRange}
+          value={person.ageRange}
+          onChange={val => this.props.handlePersonUpdate('ageRange', val)}
+          disabled={!editMode}
+        />
+        <Divider marginTop={20} />
+      </div>,
+    );
+    return inputs;
+  }
   renderInputs() {
     const { classes, person, personLabels, textFields } = this.props;
     const { editMode } = this.state;
@@ -30,23 +44,13 @@ class PersonDetails extends React.PureComponent {
           this.props.handlePersonUpdate(prop, target.value)
         }
         disabled={!editMode}
-        fullWidth
         InputLabelProps={{ shrink: true }}
         label={personLabels[prop]}
+        placeholder={`Add ${personLabels[prop]}...`}
+        fullWidth
       />
     ));
-    inputs.push(
-      <div key="age-range-key" className={classes.ageRangeContainer}>
-        <AgeRangeSlider
-          defaultValue={this.props.defaultAgeRange}
-          value={person.ageRange}
-          onChange={val => this.props.handlePersonUpdate('ageRange', val)}
-          disabled={!editMode}
-        />
-        <Divider marginTop={20} />
-      </div>,
-    );
-    return inputs;
+    return this.addAgeRangeSlider(inputs, classes, person);
   }
   render() {
     const { classes, person, personLabels } = this.props;

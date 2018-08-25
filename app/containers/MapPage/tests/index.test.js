@@ -47,10 +47,10 @@ describe('<MapPage />', () => {
   });
 
   it('should render page with loading indicator and add button', () => {
+    navigator.geolocation = true;
     pageProps.loading = true;
     pageProps.addingPerson = false;
     pageProps.activeStep = 1;
-    navigator.geolocation = true;
     const renderedComponent = shallow(<MapPage {...pageProps} />);
     expect(renderedComponent.contains(<LinearProgress />)).toEqual(true);
     expect(renderedComponent.contains(<AddPersonButton />)).toEqual(true);
@@ -58,8 +58,6 @@ describe('<MapPage />', () => {
   it('should render page with empty floating', () => {
     pageProps.loading = false;
     pageProps.addingPerson = true;
-    pageProps.activeStep = 1;
-    navigator.geolocation = true;
     const renderedComponent = shallow(<MapPage {...pageProps} />);
     expect(renderedComponent.contains(<AddPersonButton />)).toEqual(false);
     expect(renderedComponent.contains(<SaveButton />)).toEqual(false);

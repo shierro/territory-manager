@@ -9,6 +9,8 @@ import {
   CANCEL_ADD,
   PERSON_CLICK,
   SAVE_VISIT,
+  TOGGLE_ADDING_VISIT,
+  POPUP_CLOSE,
 } from './constants';
 
 export function setInitialLocation() {
@@ -51,19 +53,26 @@ export function saveVisit(visitData) {
   return { type: SAVE_VISIT, visitData };
 }
 
-export function mapPageActions(dispatch) {
-  return {
-    setInitialLocation: () => dispatch(setInitialLocation()),
-    addPersonStart: () => dispatch(addPersonStart()),
-    handleFormChange: (key, value) => dispatch(handleFormChange(key, value)),
-    savePersonData: () => dispatch(savePersonData()),
-    moveToStep: step => dispatch(moveToStep(step)),
-    cancelAdd: () => dispatch(cancelAdd()),
-    handleNewPersonPositionChange: data =>
-      dispatch(handleNewPersonPositionChange(data)),
-    handlePersonUpdate: (key, value) =>
-      dispatch(handlePersonUpdate(key, value)),
-    handlePersonClick: index => dispatch(handlePersonClick(index)),
-    saveVisit: visitData => dispatch(saveVisit(visitData)),
-  };
+export function toggleAddingVisit() {
+  return { type: TOGGLE_ADDING_VISIT };
 }
+
+export function onPopupClose() {
+  return { type: POPUP_CLOSE };
+}
+
+export const mapPageActions = dispatch => ({
+  setInitialLocation: () => dispatch(setInitialLocation()),
+  addPersonStart: () => dispatch(addPersonStart()),
+  handleFormChange: (key, value) => dispatch(handleFormChange(key, value)),
+  savePersonData: () => dispatch(savePersonData()),
+  moveToStep: step => dispatch(moveToStep(step)),
+  cancelAdd: () => dispatch(cancelAdd()),
+  handleNewPersonPositionChange: data =>
+    dispatch(handleNewPersonPositionChange(data)),
+  handlePersonUpdate: (key, value) => dispatch(handlePersonUpdate(key, value)),
+  handlePersonClick: index => dispatch(handlePersonClick(index)),
+  saveVisit: visitData => dispatch(saveVisit(visitData)),
+  toggleAddingVisit: () => dispatch(toggleAddingVisit()),
+  onPopupClose: () => dispatch(onPopupClose()),
+});

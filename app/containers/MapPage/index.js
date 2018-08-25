@@ -1,5 +1,3 @@
-/* eslint-disable react/prefer-stateless-function */
-
 import React from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -81,16 +79,21 @@ export class MapPage extends React.Component {
         position={people[key].location}
         onClick={() => this.props.handlePersonClick(key)}
       >
-        <Popup>
-          <PersonDetails
+        <Popup onClose={this.props.onPopupClose}>
+          {!this.props.addingVisit && (
+            <PersonDetails
+              person={people[key]}
+              defaultAgeRange={this.props.ageRange}
+              personLabels={this.props.personLabels}
+              handlePersonUpdate={this.props.handlePersonUpdate}
+            />
+          )}
+          <AddVisit
             person={people[key]}
-            defaultAgeRange={this.props.ageRange}
-            personLabels={this.props.personLabels}
-            handlePersonUpdate={(prop, value) =>
-              this.props.handlePersonUpdate(prop, value)
-            }
+            saveVisit={this.props.saveVisit}
+            addingVisit={this.props.addingVisit}
+            toggleAddingVisit={this.props.toggleAddingVisit}
           />
-          <AddVisit person={people[key]} saveVisit={this.props.saveVisit} />
         </Popup>
       </Marker>
     ));
