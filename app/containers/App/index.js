@@ -54,6 +54,16 @@ const styles = theme => ({
 const base = process.env.PUBLIC_PATH || '';
 
 class App extends React.Component {
+  getPrivateRoutes(token) {
+    return [
+      {
+        key: 'map-route',
+        path: `${base}/map`,
+        component: MapPage,
+        token,
+      },
+    ];
+  }
   renderHeader(drawerOpen, token) {
     return (
       <Header
@@ -81,12 +91,9 @@ class App extends React.Component {
         <Switch>
           <Route exact path={`${base}/login`} component={LoginPage} />
           <Route exact path={`${base}/`} component={LoginPage} />
-          <PrivateRoute
-            exact
-            path={`${base}/map`}
-            component={MapPage}
-            token={token}
-          />
+          {this.getPrivateRoutes(token).map(props => (
+            <PrivateRoute {...props} />
+          ))}
           <Route component={NotFoundPage} />
         </Switch>
       </main>
