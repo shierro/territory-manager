@@ -11,8 +11,9 @@ import {
   makeSelectNewPerson,
   makeSelectSteps,
   makeSelectActiveStep,
-  makeSelectPersons,
+  makeSelectPeople,
   makeSelectDefaultAgeRange,
+  makeSelectPersonLabels,
 } from '../selectors';
 
 describe('selectMapPage', () => {
@@ -85,11 +86,11 @@ describe('selectMapPage', () => {
     expect(ticketsSelector(mockedState)).toEqual(activeStep);
   });
 
-  it('should select the persons state', () => {
-    const ticketsSelector = makeSelectPersons();
-    const persons = { firstName: 'test' };
-    const mockedState = fromJS({ mapPage: { persons } });
-    expect(ticketsSelector(mockedState)).toEqual(persons);
+  it('should select the people state', () => {
+    const ticketsSelector = makeSelectPeople();
+    const people = { firstName: 'test' };
+    const mockedState = fromJS({ mapPage: { people } });
+    expect(ticketsSelector(mockedState)).toEqual(people);
   });
 
   it('should select the defaultAgeRange state', () => {
@@ -97,5 +98,11 @@ describe('selectMapPage', () => {
     const defaultAgeRange = { min: 1, max: 5 };
     const mockedState = fromJS({ mapPage: { defaultAgeRange } });
     expect(selector(mockedState)).toEqual(defaultAgeRange);
+  });
+  it('should select the personLabels state', () => {
+    const selector = makeSelectPersonLabels();
+    const personLabels = { test: 'test' };
+    const mockedState = fromJS({ mapPage: { personLabels } });
+    expect(selector(mockedState)).toEqual(personLabels);
   });
 });
