@@ -1,7 +1,4 @@
-/* eslint-disable react/prefer-stateless-function */
-
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
@@ -20,39 +17,23 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import ReCenter from '@material-ui/icons/MyLocation';
 import SaveButton from '@material-ui/icons/CheckCircle';
-import AddPersonButton from '@material-ui/icons/Add';
+import Add from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/core/styles';
 
 import injectSaga from 'utils/injectSaga';
 import injectReducer from 'utils/injectReducer';
-import {
-  makeSelectInitialLocation,
-  makeSelectInitialLocationLoaded,
-  makeSelectZoom,
-  makeSelectLoading,
-  makeSelectAddingPerson,
-  makeSelectSteps,
-  makeSelectActiveStep,
-  makeSelectCompleted,
-  makeSelectNewPerson,
-  makeSelectPersons,
-  makeSelectDefaultAgeRange,
-} from './selectors';
-import {
-  setInitialLocation,
-  addPersonStart,
-  savePersonData,
-  handleFormChange,
-  handleNewPersonPositionChange,
-  moveToStep,
-  cancelAdd,
-} from './actions';
+import { allSelectors } from './selectors';
+import { mapPageActions } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import styles from './styles';
 import AddPerson from '../../components/AddPerson';
+import PersonDetails from '../../components/PersonDetails';
 import AddPersonStepper from '../../components/AddPersonStepper';
+import AddVisit from '../../components/AddVisit';
+
 import markerIcon from './markerIcon';
+import propTypes from './propTypes';
 
 const defaultCoords = {
   latitude: 0,
@@ -82,7 +63,7 @@ export class MapPage extends React.Component {
     const className = this.props.classes.addPersonButton;
     let onClick = this.props.addPersonStart;
     if (!this.props.addingPerson) {
-      return this.renderFloatingButton(<AddPersonButton />, className, onClick);
+      return this.renderFloatingButton(<Add />, className, onClick);
     }
     if (mappingPerson) {
       onClick = this.props.savePersonData;
@@ -91,16 +72,28 @@ export class MapPage extends React.Component {
     return '';
   }
 
-  renderMarkers(persons) {
-    return Object.keys(persons).map(key => (
-      <Marker key={key} position={persons[key].location}>
-        <Popup>
-          <h3>
-            Name: {persons[key].firstName} {persons[key].lastName}
-            ({persons[key].ageRange.min}-{persons[key].ageRange.max}yo)
-          </h3>
-          <h4>Address: {persons[key].address}</h4>
-          <h4>Notes: {persons[key].notes}</h4>
+  renderMarkers(people) {
+    return Object.keys(people).map(key => (
+      <Marker
+        key={key}
+        position={people[key].location}
+        onClick={() => this.props.handlePersonClick(key)}
+      >
+        <Popup onClose={this.props.onPopupClose}>
+          {!this.props.addingVisit && (
+            <PersonDetails
+              person={people[key]}
+              defaultAgeRange={this.props.ageRange}
+              personLabels={this.props.personLabels}
+              handlePersonUpdate={this.props.handlePersonUpdate}
+            />
+          )}
+          <AddVisit
+            person={people[key]}
+            saveVisit={this.props.saveVisit}
+            addingVisit={this.props.addingVisit}
+            toggleAddingVisit={this.props.toggleAddingVisit}
+          />
         </Popup>
       </Marker>
     ));
@@ -149,7 +142,7 @@ export class MapPage extends React.Component {
       </IconButton>
     );
   }
-  renderMap(latitude, longitude, mappingPerson, newPerson, persons) {
+  renderMap(latitude, longitude, mappingPerson, newPerson, people) {
     return (
       <LeafletMap center={this.props.initialLocation} zoom={this.props.zoom}>
         <TileLayer
@@ -167,7 +160,7 @@ export class MapPage extends React.Component {
             onDragEnd={this.props.handleNewPersonPositionChange}
           />
         )}
-        {this.renderMarkers(persons)}
+        {this.renderMarkers(people)}
       </LeafletMap>
     );
   }
@@ -191,7 +184,7 @@ export class MapPage extends React.Component {
     if (!navigator.geolocation) {
       return this.renderNotSupported();
     }
-    const { activeStep, newPerson, persons } = this.props;
+    const { activeStep, newPerson, people } = this.props;
     const { latitude, longitude } = this.props.coords || defaultCoords;
     const mappingPerson = activeStep >= this.props.steps.length - 1;
     return (
@@ -202,72 +195,17 @@ export class MapPage extends React.Component {
         {this.renderFloatingLeftButton(mappingPerson)}
         {this.renderAddPersonForm(activeStep, mappingPerson, newPerson)}
         {this.renderStepper()}
-        {this.renderMap(latitude, longitude, mappingPerson, newPerson, persons)}
+        {this.renderMap(latitude, longitude, mappingPerson, newPerson, people)}
       </div>
     );
   }
 }
 
-MapPage.propTypes = {
-  classes: PropTypes.object.isRequired,
-  completed: PropTypes.object.isRequired,
-  newPerson: PropTypes.object.isRequired,
-  persons: PropTypes.object.isRequired,
-  coords: PropTypes.shape({
-    latitude: PropTypes.number,
-    longitude: PropTypes.number,
-  }),
-  initialLocationLoaded: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired,
-  addingPerson: PropTypes.bool.isRequired,
-  initialLocation: PropTypes.array.isRequired,
-  steps: PropTypes.array.isRequired,
-  zoom: PropTypes.number.isRequired,
-  activeStep: PropTypes.number.isRequired,
-  setInitialLocation: PropTypes.func.isRequired,
-  addPersonStart: PropTypes.func.isRequired,
-  savePersonData: PropTypes.func.isRequired,
-  handleFormChange: PropTypes.func.isRequired,
-  handleNewPersonPositionChange: PropTypes.func.isRequired,
-  moveToStep: PropTypes.func.isRequired,
-  cancelAdd: PropTypes.func.isRequired,
-  ageRange: PropTypes.shape({
-    min: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired,
-  }),
-};
-
-const mapStateToProps = createStructuredSelector({
-  initialLocation: makeSelectInitialLocation(),
-  initialLocationLoaded: makeSelectInitialLocationLoaded(),
-  zoom: makeSelectZoom(),
-  loading: makeSelectLoading(),
-  addingPerson: makeSelectAddingPerson(),
-  steps: makeSelectSteps(),
-  activeStep: makeSelectActiveStep(),
-  completed: makeSelectCompleted(),
-  newPerson: makeSelectNewPerson(),
-  persons: makeSelectPersons(),
-  ageRange: makeSelectDefaultAgeRange(),
-});
-
-/* istanbul ignore next */
-function mapDispatchToProps(dispatch) {
-  return {
-    setInitialLocation: () => dispatch(setInitialLocation()),
-    addPersonStart: () => dispatch(addPersonStart()),
-    handleFormChange: (key, value) => dispatch(handleFormChange(key, value)),
-    savePersonData: () => dispatch(savePersonData()),
-    moveToStep: step => dispatch(moveToStep(step)),
-    cancelAdd: () => dispatch(cancelAdd()),
-    handleNewPersonPositionChange: data =>
-      dispatch(handleNewPersonPositionChange(data)),
-  };
-}
+MapPage.propTypes = propTypes;
 
 const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
+  createStructuredSelector(allSelectors), // map selectors to props
+  dispatch => mapPageActions(dispatch), // map action to props
 );
 
 const withReducer = injectReducer({ key: 'mapPage', reducer });

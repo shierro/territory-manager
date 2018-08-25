@@ -8,15 +8,24 @@ import NavigateBefore from '@material-ui/icons/NavigateBefore';
 import Cancel from '@material-ui/icons/Cancel';
 import NavigateNext from '@material-ui/icons/NavigateNext';
 import { withStyles } from '@material-ui/core/styles';
-import InputRange from 'react-input-range';
 import 'react-input-range/lib/css/index.css';
+import AgeRangeSlider from '../AgeRangeSlider';
 import Divider from '../Divider';
 import styles from './styles';
+
+const sameTextFieldProps = {
+  InputLabelProps: { shrink: true },
+  fullWidth: true,
+  margin: 'normal',
+};
 
 class AddPerson extends React.PureComponent {
   handleSubmit = e => {
     e.preventDefault();
     this.props.moveToStep(this.props.activeStep + 1);
+  };
+  inputChange = ({ target }, key) => {
+    this.props.handleInputChange(key, target.value);
   };
   getFormFooter = (classes, activeStep, enableNext) => (
     <div className={classes.buttonContainer}>
@@ -40,31 +49,24 @@ class AddPerson extends React.PureComponent {
       </IconButton>
     </div>
   );
+
   getAddressAndNotesForm = (classes, activeStep) => (
     <form className={classes.addressForm} onSubmit={this.handleSubmit}>
       <TextField
-        label="Address"
-        InputLabelProps={{ shrink: true }}
+        {...sameTextFieldProps}
         placeholder="Address"
-        helperText="Specify the address of the person"
-        fullWidth
-        margin="normal"
         value={this.props.newPerson.address}
-        onChange={({ target }) =>
-          this.props.handleInputChange('address', target.value)
-        }
+        label="Address"
+        helperText="Specify the address of the person"
+        onChange={e => this.inputChange(e, 'address')}
       />
       <TextField
-        label="Notes"
-        InputLabelProps={{ shrink: true }}
         placeholder="Notes"
+        label="Notes"
         helperText="You can add some notes"
-        fullWidth
-        margin="normal"
         value={this.props.newPerson.notes}
-        onChange={({ target }) =>
-          this.props.handleInputChange('notes', target.value)
-        }
+        {...sameTextFieldProps}
+        onChange={e => this.inputChange(e, 'notes')}
       />
       {this.getFormFooter(classes, activeStep, true)}
     </form>
@@ -72,31 +74,27 @@ class AddPerson extends React.PureComponent {
   getInformationForm = (classes, activeStep, newPerson) => (
     <form className={classes.form} onSubmit={this.handleSubmit}>
       <TextField
-        label="First name"
-        InputLabelProps={{ shrink: true }}
         placeholder="first name"
+        label="First name"
         helperText="Speficy first name of person"
-        fullWidth
         required
-        margin="normal"
         value={this.props.newPerson.firstName}
-        onChange={({ target }) =>
-          this.props.handleInputChange('firstName', target.value)
-        }
+        {...sameTextFieldProps}
+        onChange={e => this.inputChange(e, 'firstName')}
       />
       <TextField
-        label="Last name"
-        InputLabelProps={{ shrink: true }}
         placeholder="last name"
         helperText="Speficy last name of person"
-        fullWidth
-        margin="normal"
         value={this.props.newPerson.lastName}
-        onChange={({ target }) =>
-          this.props.handleInputChange('lastName', target.value)
-        }
+        label="Last name"
+        onChange={e => this.inputChange(e, 'lastName')}
+        {...sameTextFieldProps}
       />
-      {this.renderSlider()}
+      <AgeRangeSlider
+        defaultValue={this.props.ageRange}
+        value={this.props.newPerson.ageRange}
+        onChange={value => this.props.handleInputChange('ageRange', value)}
+      />
       <Divider marginTop={20} />
       {this.getFormFooter(
         classes,
@@ -105,21 +103,6 @@ class AddPerson extends React.PureComponent {
       )}
     </form>
   );
-  renderSlider() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.sliderContainer}>
-        <label className={classes.ageRangeLabel}>Age range</label>
-        <InputRange
-          // formatLabel={value => `${value}yo`}
-          maxValue={this.props.ageRange.max}
-          minValue={this.props.ageRange.min}
-          value={this.props.newPerson.ageRange}
-          onChange={value => this.props.handleInputChange('ageRange', value)}
-        />
-      </div>
-    );
-  }
   renderHeader() {
     return (
       <IconButton
@@ -145,19 +128,17 @@ class AddPerson extends React.PureComponent {
     const { open, classes, activeStep, newPerson } = this.props;
     const horizontalCenter = Math.floor(window.innerWidth / 2);
     const verticalCener = Math.floor(window.innerHeight / 2);
+    const style = {
+      vertical: 'center',
+      horizontal: 'center',
+    };
     return (
       <Popover
         open={open}
         anchorReference="anchorPosition"
         anchorPosition={{ top: verticalCener, left: horizontalCenter }}
-        anchorOrigin={{
-          vertical: 'center',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'center',
-          horizontal: 'center',
-        }}
+        anchorOrigin={style}
+        transformOrigin={style}
       >
         {this.renderHeader()}
         {this.renderStep(classes, activeStep, newPerson)}

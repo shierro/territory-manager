@@ -5,10 +5,6 @@ import AddPersonButton from '@material-ui/icons/Add';
 import SaveButton from '@material-ui/icons/CheckCircle';
 import { MapPage } from '../index';
 const pageProps = {
-  coords: {
-    latitude: 5,
-    longitude: 5,
-  },
   initialLocationLoaded: false,
   initialLocation: [5, 5],
   ageRange: { min: 1, max: 10 },
@@ -20,7 +16,7 @@ const pageProps = {
   newPerson: {},
   activeStep: 0,
   addingPerson: false,
-  persons: { 1: { location: [1, 1], ageRange: { min: 1, max: 10 } } },
+  people: { 1: { location: [1, 1], ageRange: { min: 1, max: 10 } } },
   setInitialLocation: () => true,
   addPersonStart: () => true,
   savePersonData: () => true,
@@ -28,6 +24,10 @@ const pageProps = {
   moveToStep: () => true,
   cancelAdd: () => true,
   handleNewPersonPositionChange: () => true,
+  handlePersonUpdate: () => true,
+  handlePersonClick: () => true,
+  personLabels: {},
+  personCurrentlyEditing: 1,
 };
 
 describe('<MapPage />', () => {
@@ -47,10 +47,10 @@ describe('<MapPage />', () => {
   });
 
   it('should render page with loading indicator and add button', () => {
+    navigator.geolocation = true;
     pageProps.loading = true;
     pageProps.addingPerson = false;
     pageProps.activeStep = 1;
-    navigator.geolocation = true;
     const renderedComponent = shallow(<MapPage {...pageProps} />);
     expect(renderedComponent.contains(<LinearProgress />)).toEqual(true);
     expect(renderedComponent.contains(<AddPersonButton />)).toEqual(true);
@@ -58,8 +58,6 @@ describe('<MapPage />', () => {
   it('should render page with empty floating', () => {
     pageProps.loading = false;
     pageProps.addingPerson = true;
-    pageProps.activeStep = 1;
-    navigator.geolocation = true;
     const renderedComponent = shallow(<MapPage {...pageProps} />);
     expect(renderedComponent.contains(<AddPersonButton />)).toEqual(false);
     expect(renderedComponent.contains(<SaveButton />)).toEqual(false);

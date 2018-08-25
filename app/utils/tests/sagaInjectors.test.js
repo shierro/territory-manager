@@ -22,6 +22,12 @@ describe.skip('injectors', () => {
   let injectSaga;
   let ejectSaga;
 
+  const beforeEachFunc = () => {
+    store = configureStore({}, memoryHistory);
+    injectSaga = injectSagaFactory(store, true);
+    ejectSaga = ejectSagaFactory(store, true);
+  };
+
   describe('getInjectors', () => {
     beforeEach(() => {
       store = configureStore({}, memoryHistory);
@@ -44,11 +50,7 @@ describe.skip('injectors', () => {
   });
 
   describe('ejectSaga helper', () => {
-    beforeEach(() => {
-      store = configureStore({}, memoryHistory);
-      injectSaga = injectSagaFactory(store, true);
-      ejectSaga = ejectSagaFactory(store, true);
-    });
+    beforeEach(beforeEachFunc);
 
     it('should check a store if the second argument is falsy', () => {
       const eject = ejectSagaFactory({});
@@ -119,11 +121,7 @@ describe.skip('injectors', () => {
   });
 
   describe('injectSaga helper', () => {
-    beforeEach(() => {
-      store = configureStore({}, memoryHistory);
-      injectSaga = injectSagaFactory(store, true);
-      ejectSaga = ejectSagaFactory(store, true);
-    });
+    beforeEach(beforeEachFunc);
 
     it('should check a store if the second argument is falsy', () => {
       const inject = injectSagaFactory({});
