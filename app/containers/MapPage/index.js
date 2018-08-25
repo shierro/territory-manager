@@ -85,9 +85,7 @@ export class MapPage extends React.Component {
               person={people[key]}
               defaultAgeRange={this.props.ageRange}
               personLabels={this.props.personLabels}
-              handlePersonUpdate={(prop, value) =>
-                this.props.handlePersonUpdate(prop, value)
-              }
+              handlePersonUpdate={this.props.handlePersonUpdate}
             />
           )}
           <AddVisit
