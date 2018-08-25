@@ -16,6 +16,9 @@ const styles = theme => ({
     marginLeft: 10,
     border: `2px solid ${theme.palette.grey[200]}`,
   },
+  noteField: {
+    minWidth: 167,
+  },
 });
 
 export default styles;

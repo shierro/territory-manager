@@ -38,6 +38,9 @@ export const makeSelectDefaultAgeRange = () =>
 export const makeSelectPersonLabels = () =>
   createSelector(selectMapPage, state => state.get('personLabels').toJS());
 
+export const makeSelectAddingVisit = () =>
+  createSelector(selectMapPage, state => state.get('addingVisit'));
+
 export const allSelectors = {
   initialLocation: makeSelectInitialLocation(),
   initialLocationLoaded: makeSelectInitialLocationLoaded(),
@@ -51,4 +54,5 @@ export const allSelectors = {
   people: makeSelectPeople(),
   ageRange: makeSelectDefaultAgeRange(),
   personLabels: makeSelectPersonLabels(),
+  addingVisit: makeSelectAddingVisit(),
 };
