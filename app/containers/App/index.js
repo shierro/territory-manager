@@ -11,6 +11,7 @@ import LeftDrawer from 'components/LeftDrawer';
 import PrivateRoute from 'components/PrivateRoute';
 import LoginPage from 'containers/LoginPage/Loadable';
 import MapPage from 'containers/MapPage/Loadable';
+import PersonDetailsPage from 'containers/PersonDetailsPage/Loadable';
 import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
@@ -60,6 +61,12 @@ class App extends React.Component {
         key: 'map-route',
         path: `${base}/map`,
         component: MapPage,
+        token,
+      },
+      {
+        key: 'personDetails',
+        path: `${base}/people/:id`,
+        component: PersonDetailsPage,
         token,
       },
     ];

@@ -205,7 +205,7 @@ MapPage.propTypes = propTypes;
 
 const withConnect = connect(
   createStructuredSelector(allSelectors), // map selectors to props
-  dispatch => mapPageActions(dispatch), // map action to props
+  mapPageActions, // map action to props
 );
 
 const withReducer = injectReducer({ key: 'mapPage', reducer });
