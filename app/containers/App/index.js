@@ -28,29 +28,7 @@ import {
 import { logout, toggleDrawer } from './actions';
 import reducer from './reducer';
 import saga from './saga';
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    height: '100vh',
-    zIndex: 1,
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'flex',
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
-  },
-});
+import styles from './styles';
 
 const base = process.env.PUBLIC_PATH || '';
 
@@ -59,13 +37,13 @@ class App extends React.Component {
     return [
       {
         key: 'map-route',
-        path: `${base}/map`,
+        path: `${base}/people/map`,
         component: MapPage,
         token,
       },
       {
         key: 'personDetails',
-        path: `${base}/people/:id`,
+        path: `${base}/people/list/:id`,
         component: PersonDetailsPage,
         token,
       },
@@ -86,7 +64,8 @@ class App extends React.Component {
         open={drawerOpen}
         hidden={!token}
         toggleDrawer={this.props.toggleDrawer}
-        path={location.path}
+        path={location.pathname}
+        history={this.props.history}
         logout={this.props.logout}
       />
     );

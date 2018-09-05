@@ -26,6 +26,9 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
+  nested: {
+    paddingLeft: theme.spacing.unit * 4,
+  },
 });
 
 export default styles;
