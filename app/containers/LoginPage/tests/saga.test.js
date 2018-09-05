@@ -26,7 +26,7 @@ describe('LoginPage Sagas', () => {
       const response = 'token';
       const putDescriptor = generator.next(response).value;
       expect(putDescriptor).toEqual(put(setToken(response)));
-      const nextRoute = '/map';
+      const nextRoute = '/people/map';
       const putDescriptor2 = generator.next(nextRoute).value;
       expect(putDescriptor2).toEqual(put(push(nextRoute)));
     });
@@ -53,8 +53,8 @@ describe('LoginPage Sagas', () => {
       const generator = loginFake({ username: 'admin', password: 'admin' });
       const callDescriptor = generator.next({}).value;
       expect(callDescriptor).toEqual(put(setToken('testToken')));
-      const callDescriptor2 = generator.next('/map').value;
-      expect(callDescriptor2).toEqual(put(push('/map')));
+      const callDescriptor2 = generator.next('/people/map').value;
+      expect(callDescriptor2).toEqual(put(push('/people/map')));
     });
 
     it('should call the setError action if the response errors - generic', () => {

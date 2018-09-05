@@ -15,8 +15,8 @@ describe('<AddVisit />', () => {
   it('should render with 4 IconButtons successfully', () => {
     const rendered = mount(<AddVisit {...props} />);
     expect(rendered.length).toEqual(1);
-    rendered.find('CheckCircle').simulate('click');
-    expect(rendered.find('IconButton').length).toEqual(4);
+    rendered.find('button[aria-label="Found"]').simulate('click');
+    expect(rendered.find('button').length).toEqual(4);
   });
 
   it('should edit and save visit successfully', done => {
@@ -27,12 +27,12 @@ describe('<AddVisit />', () => {
     };
     const rendered = mount(<AddVisit {...props} />);
     expect(rendered.length).toEqual(1);
-    rendered.find('CheckCircle').simulate('click');
+    rendered.find('button[aria-label="Found"]').simulate('click');
     rendered
       .find('textarea')
       .at(2)
       .simulate('change', event);
-    rendered.find('Save').simulate('click');
+    rendered.find('button[aria-label="Save"]').simulate('click');
   });
 
   it('should not toggle addingVisit when its already open', done => {
@@ -40,8 +40,8 @@ describe('<AddVisit />', () => {
     props.addingVisit = true;
     const rendered = mount(<AddVisit {...props} />);
     expect(rendered.length).toEqual(1);
-    rendered.find('CheckCircle').simulate('click');
-    rendered.find('VoiceOverOff').simulate('click');
+    rendered.find('button[aria-label="Found"]').simulate('click');
+    rendered.find('button[aria-label="NotFound"]').simulate('click');
     expect(rendered.prop('addingVisit')).toEqual(props.addingVisit);
     setTimeout(done, 100);
   });

@@ -15,7 +15,7 @@ export function* login({ data }) {
   try {
     const response = yield call(axios.post, requestURL, data);
     yield put(setToken(response));
-    yield put(push('/map'));
+    yield put(push('/people/map'));
   } catch (err) {
     const error = !err.response
       ? 'Something went wrong. Try again later'
@@ -28,7 +28,7 @@ export function* loginFake({ username, password }) {
   try {
     if (username === 'admin' && password === 'admin') {
       yield put(setToken('testToken'));
-      return yield put(push('/map'));
+      return yield put(push('/people/map'));
     }
     return yield put(setError('Invalid credentials'));
   } catch (err) {

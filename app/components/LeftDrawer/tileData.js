@@ -1,49 +1,55 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Home from '@material-ui/icons/Home';
 import Terrain from '@material-ui/icons/Terrain';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import StarIcon from '@material-ui/icons/Star';
-import SendIcon from '@material-ui/icons/Send';
-import MailIcon from '@material-ui/icons/Mail';
-import DeleteIcon from '@material-ui/icons/Delete';
-import ReportIcon from '@material-ui/icons/Report';
+import People from '@material-ui/icons/People';
 import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew';
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import ViewList from '@material-ui/icons/ViewList';
+import List from '@material-ui/core/List';
 
-const renderListItemButton = (Component, primary, key, onClick) => (
-  <ListItem button onClick={onClick} key={key}>
+const renderListItemButton = (Component, primary, liProps, content) => (
+  <ListItem button {...liProps}>
     <ListItemIcon>
       <Component />
     </ListItemIcon>
-    <ListItemText primary={primary} />
+    <ListItemText inset primary={primary} />
+    {content}
   </ListItem>
 );
-export const mailFolderListItems = (
-  <div>
-    {renderListItemButton(Home, 'Home')}
-    {renderListItemButton(Terrain, 'Map')}
-  </div>
-);
 
-const navListItems = [
-  { component: InboxIcon, text: 'Inbox' },
-  { component: StarIcon, text: 'Starred' },
-  { component: SendIcon, text: 'Send mail' },
-  { component: DraftsIcon, text: 'Drafts' },
-  { component: MailIcon, text: 'All mail' },
-  { component: DeleteIcon, text: 'Trash' },
-  { component: ReportIcon, text: 'Spam' },
-];
-export const otherMailFolderListItems = (
+export const mainFolderListItems = params => (
   <div>
-    {navListItems.map(({ component, text }, key) =>
-      renderListItemButton(component, text, key),
+    {renderListItemButton(Home, 'Home', {
+      onClick: () => params.history.push('/home'),
+    })}
+    {renderListItemButton(
+      People,
+      'People',
+      { onClick: params.foldPeople },
+      params.peopleFolded ? <ExpandLess /> : <ExpandMore />,
     )}
+    <Collapse in={params.peopleFolded} timeout="auto" unmountOnExit>
+      <List component="div" disablePadding>
+        {renderListItemButton(ViewList, 'List View', {
+          selected: params.path === '/people/list',
+          className: params.nestedClass,
+          onClick: () => params.history.push('/people/list'),
+        })}
+        {renderListItemButton(Terrain, 'Map View', {
+          selected: params.path === '/people/map',
+          className: params.nestedClass,
+          onClick: () => params.history.push('/people/map'),
+        })}
+      </List>
+    </Collapse>
   </div>
 );
 
-export const actionListItems = logout =>
-  renderListItemButton(PowerSettingsNew, 'Logout', null, logout);
+export const actionListItems = onClick =>
+  renderListItemButton(PowerSettingsNew, 'Logout', { onClick });
