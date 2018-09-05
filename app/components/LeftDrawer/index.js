@@ -7,14 +7,14 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import {
-  mailFolderListItems,
-  otherMailFolderListItems,
-  actionListItems,
-} from './tileData';
+import { mainFolderListItems, actionListItems } from './tileData';
 import styles from './styles';
 
 class LeftDrawer extends React.PureComponent {
+  state = { folded: { people: true } };
+  handleClick = () => {
+    this.setState(state => ({ folded: { people: !state.folded.people } }));
+  };
   renderToggleButton(classes, toggleDrawer) {
     return (
       <div className={classes.toolbar}>
@@ -25,9 +25,19 @@ class LeftDrawer extends React.PureComponent {
     );
   }
   render() {
-    const { classes, open, toggleDrawer, hidden } = this.props;
-    const { drawerPaper, drawerPaperClose } = classes;
+    const { classes, open, toggleDrawer, hidden, path, history } = this.props;
+    const {
+      folded: { people },
+    } = this.state;
+    const { drawerPaper, drawerPaperClose, nested } = classes;
     const paper = classNames(drawerPaper, !open && drawerPaperClose);
+    const navProps = {
+      foldPeople: this.handleClick,
+      nestedClass: open ? nested : '',
+      peopleFolded: people,
+      path,
+      history,
+    };
     return (
       <Drawer
         classes={{ paper }}
@@ -37,11 +47,9 @@ class LeftDrawer extends React.PureComponent {
       >
         {this.renderToggleButton(classes, toggleDrawer)}
         <Divider />
-        <List>{mailFolderListItems}</List>
+        <List component="nav">{mainFolderListItems(navProps)}</List>
         <Divider />
-        <List>{otherMailFolderListItems}</List>
-        <Divider />
-        <List>{actionListItems(this.props.logout)}</List>
+        <List component="nav">{actionListItems(this.props.logout)}</List>
         <Divider />
       </Drawer>
     );
@@ -54,6 +62,8 @@ LeftDrawer.propTypes = {
   hidden: PropTypes.bool.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
+  path: PropTypes.string.isRequired,
+  history: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(LeftDrawer);

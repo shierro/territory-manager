@@ -35,7 +35,7 @@ export class LoginPage extends React.Component {
 
   componentDidMount() {
     if (this.props.token) {
-      this.props.history.push('/map');
+      this.props.history.push('/people/map');
     }
   }
 

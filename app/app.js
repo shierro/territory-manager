@@ -58,7 +58,7 @@ const render = messages => {
           <CssBaseline />
           <LanguageProvider messages={messages}>
             <ConnectedRouter history={history}>
-              <App />
+              <App history={history} />
             </ConnectedRouter>
           </LanguageProvider>
         </MuiThemeProvider>

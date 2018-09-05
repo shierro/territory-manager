@@ -9,6 +9,8 @@ describe('<LeftDrawer />', () => {
     hidden: true,
     toggleDrawer: () => false,
     logout: () => true,
+    history: {},
+    path: '/people/map',
   };
   it('should render with an opened drawer', () => {
     const wrapper = mount(<LeftDrawer {...props} />);
