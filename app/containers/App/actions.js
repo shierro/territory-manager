@@ -18,3 +18,8 @@ export function toggleDrawer() {
     type: TOGGLE_DRAWER,
   };
 }
+
+export const appActions = dispatch => ({
+  logout: () => dispatch(logout()),
+  toggleDrawer: () => dispatch(toggleDrawer()),
+});

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
-class PrivateRoute extends React.Component {
+class PrivateRoute extends React.PureComponent {
   render() {
     const { component: Component, token, ...rest } = this.props;
     return (

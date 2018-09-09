@@ -1,15 +1,9 @@
 /* eslint-disable import/no-named-as-default-member */
 import { mapPageActions } from '../actions';
 import * as constants from '../constants';
+import actionsTester from '../../../utils/actionsTester';
 
-const constsArray = Object.keys(constants).map(idx => constants[idx]);
-const actions = mapPageActions(result => result);
+const mapConstants = Object.keys(constants).map(idx => constants[idx]);
+const mapActions = mapPageActions(result => result);
 
-describe('MapPage actions', () => {
-  Object.keys(actions).forEach(action => {
-    const { type } = actions[action]();
-    it(`has a type [${type}]`, () => {
-      expect(constsArray.indexOf(type) > -1).toEqual(true);
-    });
-  });
-});
+describe('MapPage actions', () => actionsTester(mapActions, mapConstants));

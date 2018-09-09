@@ -24,20 +24,21 @@ class LeftDrawer extends React.PureComponent {
       </div>
     );
   }
-  render() {
-    const { classes, open, toggleDrawer, hidden, path, history } = this.props;
-    const {
-      folded: { people },
-    } = this.state;
-    const { drawerPaper, drawerPaperClose, nested } = classes;
-    const paper = classNames(drawerPaper, !open && drawerPaperClose);
-    const navProps = {
+  getNavProps() {
+    const { classes, open, path, history } = this.props;
+    const { nested } = classes;
+    return {
       foldPeople: this.handleClick,
       nestedClass: open ? nested : '',
-      peopleFolded: people,
+      peopleFolded: this.state.folded.people,
       path,
       history,
     };
+  }
+  render() {
+    const { classes, open, toggleDrawer, hidden } = this.props;
+    const { drawerPaper, drawerPaperClose } = classes;
+    const paper = classNames(drawerPaper, !open && drawerPaperClose);
     return (
       <Drawer
         classes={{ paper }}
@@ -47,7 +48,7 @@ class LeftDrawer extends React.PureComponent {
       >
         {this.renderToggleButton(classes, toggleDrawer)}
         <Divider />
-        <List component="nav">{mainFolderListItems(navProps)}</List>
+        <List component="nav">{mainFolderListItems(this.getNavProps())}</List>
         <Divider />
         <List component="nav">{actionListItems(this.props.logout)}</List>
         <Divider />
