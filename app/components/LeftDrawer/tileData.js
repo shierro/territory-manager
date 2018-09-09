@@ -13,8 +13,12 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import ViewList from '@material-ui/icons/ViewList';
 import List from '@material-ui/core/List';
 
-const renderListItemButton = (Component, primary, liProps, content) => (
-  <ListItem button {...liProps}>
+const renderListItemButton = (Component, primary, params, content) => (
+  <ListItem
+    button
+    selected={params.path === params.navPath}
+    onClick={params.onClick || (() => params.history.push(params.navPath))}
+  >
     <ListItemIcon>
       <Component />
     </ListItemIcon>
@@ -23,33 +27,36 @@ const renderListItemButton = (Component, primary, liProps, content) => (
   </ListItem>
 );
 
+const getParams = (navPath, params) => ({
+  ...params,
+  navPath,
+});
+
 export const mainFolderListItems = params => (
   <div>
-    {renderListItemButton(Home, 'Home', {
-      onClick: () => params.history.push('/home'),
-    })}
+    {renderListItemButton(Home, 'Home', getParams('/home', params))}
     {renderListItemButton(
       People,
       'People',
-      { onClick: params.foldPeople },
+      getParams('', { ...params, onClick: params.foldPeople }),
       params.peopleFolded ? <ExpandLess /> : <ExpandMore />,
     )}
     <Collapse in={params.peopleFolded} timeout="auto" unmountOnExit>
       <List component="div" disablePadding>
-        {renderListItemButton(ViewList, 'List View', {
-          selected: params.path === '/people/list',
-          className: params.nestedClass,
-          onClick: () => params.history.push('/people/list'),
-        })}
-        {renderListItemButton(Terrain, 'Map View', {
-          selected: params.path === '/people/map',
-          className: params.nestedClass,
-          onClick: () => params.history.push('/people/map'),
-        })}
+        {renderListItemButton(
+          ViewList,
+          'List View',
+          getParams('/people/list', params),
+        )}
+        {renderListItemButton(
+          Terrain,
+          'Map View',
+          getParams('/people/map', params),
+        )}
       </List>
     </Collapse>
   </div>
 );
 
 export const actionListItems = onClick =>
-  renderListItemButton(PowerSettingsNew, 'Logout', { onClick });
+  renderListItemButton(PowerSettingsNew, 'Logout', { onClick, navPath: '' });

@@ -1,100 +1,36 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Route } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import classNames from 'classnames';
 
 import Footer from 'components/Footer';
-import Header from 'components/Header';
-import LeftDrawer from 'components/LeftDrawer';
-import PrivateRoute from 'components/PrivateRoute';
-import LoginPage from 'containers/LoginPage/Loadable';
-import MapPage from 'containers/MapPage/Loadable';
-import PersonDetailsPage from 'containers/PersonDetailsPage/Loadable';
-import NotFoundPage from 'containers/NotFoundPage/Loadable';
 import injectReducer from 'utils/injectReducer';
 import injectSaga from 'utils/injectSaga';
 
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import {
-  makeSelectLocation,
-  makeSelectToken,
-  makeSelectDrawerOpen,
-  makeSelectRehydrated,
-} from './selectors';
-import { logout, toggleDrawer } from './actions';
+import { appSelectors } from './selectors';
+import { appActions as mapActionsToProps } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import styles from './styles';
-
-const base = process.env.PUBLIC_PATH || '';
+import renderHeader from './header';
+import renderLeftDrawer from './leftDrawer';
+import renderMainContent from './mainContent';
 
 class App extends React.Component {
-  getPrivateRoutes(token) {
-    return [
-      {
-        key: 'map-route',
-        path: `${base}/people/map`,
-        component: MapPage,
-        token,
-      },
-      {
-        key: 'personDetails',
-        path: `${base}/people/list/:id`,
-        component: PersonDetailsPage,
-        token,
-      },
-    ];
-  }
-  renderHeader(drawerOpen, token) {
-    return (
-      <Header
-        open={drawerOpen}
-        handleDrawerOpen={this.props.toggleDrawer}
-        token={token}
-      />
-    );
-  }
-  renderLeftDrawer(drawerOpen, token, location) {
-    return (
-      <LeftDrawer
-        open={drawerOpen}
-        hidden={!token}
-        toggleDrawer={this.props.toggleDrawer}
-        path={location.pathname}
-        history={this.props.history}
-        logout={this.props.logout}
-      />
-    );
-  }
-  renderMainContent(classes, token) {
-    return (
-      <main className={classes.content}>
-        <div className={classes.toolbar} />
-        <Switch>
-          <Route exact path={`${base}/login`} component={LoginPage} />
-          <Route exact path={`${base}/`} component={LoginPage} />
-          {this.getPrivateRoutes(token).map(props => (
-            <PrivateRoute {...props} />
-          ))}
-          <Route component={NotFoundPage} />
-        </Switch>
-      </main>
-    );
-  }
   render() {
-    const { classes, location, token, drawerOpen } = this.props;
+    const { classes, token, drawerOpen } = this.props;
     if (!this.props.rehydrated) {
       return <LinearProgress />;
     }
     return (
       <div className={classNames(classes.root, 'root-app')}>
-        {this.renderHeader(drawerOpen, token)}
-        {this.renderLeftDrawer(drawerOpen, token, location)}
-        {this.renderMainContent(classes, token)}
+        {renderHeader(drawerOpen, token, this.props.toggleDrawer)}
+        {renderLeftDrawer(this.props)}
+        {renderMainContent(this.props)}
         <Footer />
       </div>
     );
@@ -104,30 +40,16 @@ class App extends React.Component {
 App.propTypes = {
   classes: PropTypes.object.isRequired,
   token: PropTypes.string.isRequired,
-  location: PropTypes.object.isRequired,
-  logout: PropTypes.func.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
   drawerOpen: PropTypes.bool.isRequired,
   rehydrated: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = createStructuredSelector({
-  location: makeSelectLocation(),
-  token: makeSelectToken(),
-  drawerOpen: makeSelectDrawerOpen(),
-  rehydrated: makeSelectRehydrated(),
-});
-
-function mapDispatchToProps(dispatch) {
-  return {
-    logout: () => dispatch(logout()),
-    toggleDrawer: () => dispatch(toggleDrawer()),
-  };
-}
+const mapSelectorsToProps = createStructuredSelector(appSelectors);
 
 const withConnect = connect(
-  mapStateToProps,
-  mapDispatchToProps,
+  mapSelectorsToProps,
+  mapActionsToProps,
 );
 
 const withReducer = injectReducer({ key: 'App', reducer });

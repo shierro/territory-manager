@@ -12,7 +12,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import styles from './styles';
 
-class AddVisit extends React.Component {
+class AddVisit extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
