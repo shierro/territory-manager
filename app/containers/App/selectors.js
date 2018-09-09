@@ -17,3 +17,10 @@ export const makeSelectRehydrated = () =>
   createSelector(selectRehydrate, rehydrateState => rehydrateState);
 
 export { selectRoute, selectApp, selectRehydrate };
+
+export const appSelectors = {
+  location: makeSelectLocation(),
+  token: makeSelectToken(),
+  drawerOpen: makeSelectDrawerOpen(),
+  rehydrated: makeSelectRehydrated(),
+};
