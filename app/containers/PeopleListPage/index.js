@@ -51,8 +51,50 @@ function getSorting(order, orderBy) {
 }
 
 export class PeopleListPage extends React.Component {
+  renderTableBody(data, order, orderBy) {
+    const { rowsPerPage, page, history } = this.props;
+    return stableSort(data, getSorting(order, orderBy))
+      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+      .map((n, i) => (
+        <TableRow hover tabIndex={-1} key={i}>
+          <TableCell>{n.firstName}</TableCell>
+          <TableCell>{n.lastName}</TableCell>
+          <TableCell>
+            {n.ageRange.min}-{n.ageRange.max}
+          </TableCell>
+          <TableCell>{n.visits.length}</TableCell>
+          <TableCell>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => history.push(`/person/${i}`)}
+            >
+              Details
+            </Button>
+          </TableCell>
+        </TableRow>
+      ));
+  }
+  renderTablePagination(data, rowsPerPage, page) {
+    return (
+      <TablePagination
+        component="div"
+        count={data.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        backIconButtonProps={{
+          'aria-label': 'Previous Page',
+        }}
+        nextIconButtonProps={{
+          'aria-label': 'Next Page',
+        }}
+        onChangePage={this.props.handleChangePage}
+        onChangeRowsPerPage={this.props.handleChangeRowsPerPage}
+      />
+    );
+  }
   render() {
-    const { data, order, orderBy, history } = this.props;
+    const { data, order, orderBy } = this.props;
     const { rowsPerPage, page, classes } = this.props;
     return (
       <Paper className={classes.root}>
@@ -65,45 +107,10 @@ export class PeopleListPage extends React.Component {
               onRequestSort={this.props.handleRequestSort}
               rowCount={data.length}
             />
-            <TableBody>
-              {stableSort(data, getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((n, i) => (
-                  <TableRow hover tabIndex={-1} key={i}>
-                    <TableCell>{n.firstName}</TableCell>
-                    <TableCell>{n.lastName}</TableCell>
-                    <TableCell>
-                      {n.ageRange.min}-{n.ageRange.max}
-                    </TableCell>
-                    <TableCell>{n.visits.length}</TableCell>
-                    <TableCell>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => history.push(`/person/${i}`)}
-                      >
-                        Details
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
+            <TableBody>{this.renderTableBody(data, order, orderBy)}</TableBody>
           </Table>
         </div>
-        <TablePagination
-          component="div"
-          count={data.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          backIconButtonProps={{
-            'aria-label': 'Previous Page',
-          }}
-          nextIconButtonProps={{
-            'aria-label': 'Next Page',
-          }}
-          onChangePage={this.props.handleChangePage}
-          onChangeRowsPerPage={this.props.handleChangeRowsPerPage}
-        />
+        {this.renderTablePagination(data, rowsPerPage, page)}
       </Paper>
     );
   }

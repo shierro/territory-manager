@@ -19,36 +19,39 @@ class EnhancedTableHead extends React.Component {
     this.props.onRequestSort(event, property);
   };
 
+  renderCellContent(row) {
+    const { order, orderBy } = this.props;
+    return (
+      <Tooltip
+        title="Sort"
+        placement={row.numeric ? 'bottom-end' : 'bottom-start'}
+        enterDelay={300}
+      >
+        <TableSortLabel
+          active={orderBy === row.id}
+          direction={order}
+          onClick={this.createSortHandler(row.id)}
+        >
+          {row.label}
+        </TableSortLabel>
+      </Tooltip>
+    );
+  }
+
   render() {
     const { order, orderBy } = this.props;
-
     return (
       <TableHead>
         <TableRow>
-          {rows.map(
-            row => (
-              <TableCell
-                key={row.id}
-                numeric={row.numeric}
-                sortDirection={orderBy === row.id ? order : false}
-              >
-                <Tooltip
-                  title="Sort"
-                  placement={row.numeric ? 'bottom-end' : 'bottom-start'}
-                  enterDelay={300}
-                >
-                  <TableSortLabel
-                    active={orderBy === row.id}
-                    direction={order}
-                    onClick={this.createSortHandler(row.id)}
-                  >
-                    {row.label}
-                  </TableSortLabel>
-                </Tooltip>
-              </TableCell>
-            ),
-            this,
-          )}
+          {rows.map(row => (
+            <TableCell
+              key={row.id}
+              numeric={row.numeric}
+              sortDirection={orderBy === row.id ? order : false}
+            >
+              {this.renderCellContent(row)}
+            </TableCell>
+          ))}
         </TableRow>
       </TableHead>
     );
