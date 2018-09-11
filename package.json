@@ -187,7 +187,7 @@
     "redux-saga": "0.16.0",
     "reselect": "3.0.1",
     "sanitize.css": "4.1.0",
-    "styled-components": "3.4.0",
+    "styled-components": "3.4.6",
     "typeface-roboto": "^0.0.54",
     "warning": "4.0.1",
     "whatwg-fetch": "2.0.4"
