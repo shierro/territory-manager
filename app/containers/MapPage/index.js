@@ -12,6 +12,8 @@ import {
   Popup,
 } from 'react-leaflet';
 
+import 'leaflet/dist/leaflet.css';
+
 import LinearProgress from '@material-ui/core/LinearProgress';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
