@@ -13,6 +13,7 @@ import {
 } from 'react-leaflet';
 
 import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
 import LinearProgress from '@material-ui/core/LinearProgress';
 import IconButton from '@material-ui/core/IconButton';
@@ -36,6 +37,15 @@ import AddVisit from '../../components/AddVisit';
 
 import markerIcon from './markerIcon';
 import propTypes from './propTypes';
+
+delete L.Icon.Default.prototype._getIconUrl; // eslint-disable-line
+
+/* eslint-disable global-require */
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: require('leaflet/dist/images/marker-icon-2x.png'),
+  iconUrl: require('leaflet/dist/images/marker-icon.png'),
+  shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
+});
 
 const defaultCoords = {
   latitude: 0,
