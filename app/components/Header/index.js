@@ -7,38 +7,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { NavLink } from 'react-router-dom';
-import './_Header.scss';
-
-const drawerWidth = 240;
-
-const styles = theme => ({
-  appBar: {
-    height: 60,
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  menuButton: {
-    marginLeft: 12,
-    marginRight: 12,
-  },
-  hide: {
-    display: 'none',
-  },
-  title: {
-    marginLeft: 12,
-  },
-});
+import styles from './styles';
+import img from '../../images/icon-512x512.png';
 
 class Header extends React.PureComponent {
   renderToolbar() {
@@ -59,8 +29,12 @@ class Header extends React.PureComponent {
             <MenuIcon />
           </IconButton>
         )}
-        <NavLink to="/" className={classNames(classes.title)}>
-          <h2>Territory Manager</h2>
+        <NavLink to="/" className={classes.title}>
+          <img src={img} alt="LOGO" className={classes.logoContainer} />
+          <div className={classes.appNameContainer}>
+            <span className={classes.appName}>Territory</span>
+            <span className={classes.appName}>Manager</span>
+          </div>
         </NavLink>
       </Toolbar>
     );

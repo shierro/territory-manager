@@ -9,4 +9,7 @@ export const mainStyles = theme => ({
   tableWrapper: {
     overflowX: 'auto',
   },
+  cell: {
+    padding: '0 5px',
+  },
 });

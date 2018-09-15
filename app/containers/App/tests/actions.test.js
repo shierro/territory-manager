@@ -6,4 +6,4 @@ import actionsTester from '../../../utils/actionsTester';
 const appConstants = Object.keys(constants).map(idx => constants[idx]);
 const appActs = appActions(result => result);
 
-describe('MapPage actions', () => actionsTester(appActs, appConstants));
+describe('AppPage actions', () => actionsTester(appActs, appConstants));

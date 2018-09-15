@@ -106,7 +106,7 @@ class AddVisit extends React.PureComponent {
     const { classes, person, addingVisit } = this.props;
     const { note } = this.state;
     return (
-      <div className={classes.container}>
+      <div className={`${classes.container}`}>
         {this.renderHeader(classes, person)}
         <div style={{ display: addingVisit ? 'inline-block' : 'none' }}>
           <TextField

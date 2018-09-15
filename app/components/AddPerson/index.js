@@ -8,7 +8,6 @@ import NavigateBefore from '@material-ui/icons/NavigateBefore';
 import Cancel from '@material-ui/icons/Cancel';
 import NavigateNext from '@material-ui/icons/NavigateNext';
 import { withStyles } from '@material-ui/core/styles';
-import 'react-input-range/lib/css/index.css';
 import AgeRangeSlider from '../AgeRangeSlider';
 import Divider from '../Divider';
 import styles from './styles';

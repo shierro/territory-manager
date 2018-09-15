@@ -17,9 +17,11 @@ describe('LoginPage Sagas', () => {
     let generator;
     beforeEach(() => {
       generator = login({ data: {} });
+      const callDescriptor = generator.next({}).value;
+      expect(callDescriptor).toEqual(put(setError('')));
       const requestURL = 'http://localhost:4000/api/login';
-      const callDescriptor = generator.next(axios.get, requestURL).value;
-      expect(callDescriptor).toMatchSnapshot();
+      const callDescriptor2 = generator.next(axios.get, requestURL).value;
+      expect(callDescriptor2).toMatchSnapshot();
     });
 
     it('should dispatch the setToken & redirect if login is successfull', () => {
@@ -49,12 +51,14 @@ describe('LoginPage Sagas', () => {
   });
 
   describe('loginFake Saga', () => {
-    it('should dispatch the setTickets action if it requests the data successfully', () => {
+    it('should dispatch the setToken action if it requests the data successfully', () => {
       const generator = loginFake({ username: 'admin', password: 'admin' });
       const callDescriptor = generator.next({}).value;
-      expect(callDescriptor).toEqual(put(setToken('testToken')));
-      const callDescriptor2 = generator.next('/people/map').value;
-      expect(callDescriptor2).toEqual(put(push('/people/map')));
+      expect(callDescriptor).toEqual(put(setError('')));
+      const callDescriptor2 = generator.next({}).value;
+      expect(callDescriptor2).toEqual(put(setToken('testToken')));
+      const callDescriptor3 = generator.next('/people/map').value;
+      expect(callDescriptor3).toEqual(put(push('/people/map')));
     });
 
     it('should call the setError action if the response errors - generic', () => {

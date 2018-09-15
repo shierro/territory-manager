@@ -76,7 +76,7 @@ PersonDetails.propTypes = {
     min: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired,
   }),
-  personLabels: PropTypes.object.isRequired,
+  personLabels: PropTypes.object,
   classes: PropTypes.object.isRequired,
   textFields: PropTypes.arrayOf(PropTypes.string),
   handlePersonUpdate: PropTypes.func.isRequired,
@@ -84,6 +84,15 @@ PersonDetails.propTypes = {
 
 PersonDetails.defaultProps = {
   textFields: ['firstName', 'lastName', 'notes', 'address'],
+  personLabels: {
+    firstName: 'First Name',
+    lastName: 'Last Name',
+    notes: 'Notes',
+    address: 'Address',
+    ageRange: 'Age Range',
+    visits: 'Visits',
+  },
+  defaultAgeRange: { min: 1, max: 120 },
 };
 
 export default withStyles(styles)(PersonDetails);

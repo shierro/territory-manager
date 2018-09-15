@@ -18,7 +18,7 @@ describe('<Header />', () => {
     );
     expect(rendered.length).toEqual(1);
     expect(rendered.find('header').length).toEqual(1);
-    expect(rendered.find('h2').length).toEqual(1);
+    expect(rendered.find('img').length).toEqual(1);
     expect(rendered.find('button.drawer-toggle').length).toEqual(1);
   });
 });

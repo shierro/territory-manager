@@ -1,4 +1,23 @@
-import { SET_TOKEN, LOGOUT, TOGGLE_DRAWER } from './constants';
+import {
+  SET_TOKEN,
+  LOGOUT,
+  TOGGLE_DRAWER,
+  SORT,
+  PAGE_CHANGE,
+  ROWS_PER_PAGE_CHANGE,
+} from './constants';
+
+export function handleRequestSort(property) {
+  return { type: SORT, property };
+}
+
+export function handleChangePage(page) {
+  return { type: PAGE_CHANGE, page };
+}
+
+export function handleChangeRowsPerPage({ target }) {
+  return { type: ROWS_PER_PAGE_CHANGE, rowsPerPage: target.value };
+}
 
 export function setToken(token) {
   return {
