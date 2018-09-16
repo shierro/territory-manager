@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import classNames from 'classnames';
+import { withRouter } from 'react-router-dom';
 
 import Footer from 'components/Footer';
 import injectReducer from 'utils/injectReducer';
@@ -55,8 +56,10 @@ const withConnect = connect(
 const withReducer = injectReducer({ key: 'App', reducer });
 const withSaga = injectSaga({ key: 'App', saga });
 
-export default compose(
-  withReducer,
-  withSaga,
-  withConnect,
-)(withStyles(styles, { withTheme: true })(App));
+export default withRouter(
+  compose(
+    withReducer,
+    withSaga,
+    withConnect,
+  )(withStyles(styles, { withTheme: true })(App)),
+);
