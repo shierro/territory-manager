@@ -13,3 +13,6 @@ export const DEFAULT_LOCALE = 'en';
 export const SET_TOKEN = 'app/App/SET_TOKEN';
 export const LOGOUT = 'app/App/LOGOUT';
 export const TOGGLE_DRAWER = 'app/App/TOGGLE_DRAWER';
+export const SORT = 'app/App/SORT';
+export const PAGE_CHANGE = 'app/App/PAGE_CHANGE';
+export const ROWS_PER_PAGE_CHANGE = 'app/App/ROWS_PER_PAGE_CHANGE';

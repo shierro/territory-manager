@@ -59,4 +59,7 @@ export const mainFolderListItems = params => (
 );
 
 export const actionListItems = onClick =>
-  renderListItemButton(PowerSettingsNew, 'Logout', { onClick, navPath: '' });
+  renderListItemButton(PowerSettingsNew, 'Logout', {
+    onClick,
+    navPath: '/login',
+  });

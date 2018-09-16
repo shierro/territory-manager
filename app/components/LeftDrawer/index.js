@@ -44,7 +44,8 @@ class LeftDrawer extends React.PureComponent {
         classes={{ paper }}
         open={open}
         style={{ display: hidden && 'none' }}
-        variant="permanent"
+        onBackdropClick={toggleDrawer}
+        variant="temporary"
       >
         {this.renderToggleButton(classes, toggleDrawer)}
         <Divider />

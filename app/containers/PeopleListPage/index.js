@@ -21,53 +21,30 @@ import { pageActions } from './actions';
 import reducer from './reducer';
 import saga from './saga';
 import EnhancedTableToolbar from './tableToolbar';
-import EnhancedTableHead from './tableHead';
+import TableHead from '../../components/TableHead';
 import { mainStyles as styles } from './styles';
-
-function desc(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function stableSort(array, cmp) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = cmp(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map(el => el[0]);
-}
-
-function getSorting(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => desc(a, b, orderBy)
-    : (a, b) => -desc(a, b, orderBy);
-}
+import columns from './tableColumns';
+import { stableSort, getSorting } from '../../utils/sorting';
+import { objToArray } from '../../utils/parser';
 
 export class PeopleListPage extends React.Component {
-  renderTableBody(data, order, orderBy) {
-    const { rowsPerPage, page, history } = this.props;
-    return stableSort(data, getSorting(order, orderBy))
+  renderTableBody(people, order, orderBy) {
+    const { rowsPerPage, page, history, classes } = this.props;
+    return stableSort(people, getSorting(order, orderBy))
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       .map((n, i) => (
         <TableRow hover tabIndex={-1} key={i}>
-          <TableCell>{n.firstName}</TableCell>
-          <TableCell>{n.lastName}</TableCell>
-          <TableCell>
+          <TableCell className={classes.cell}>{n.firstName}</TableCell>
+          <TableCell className={classes.cell}>{n.lastName}</TableCell>
+          <TableCell className={classes.cell}>
             {n.ageRange.min}-{n.ageRange.max}
           </TableCell>
-          <TableCell>{n.visits.length}</TableCell>
-          <TableCell>
+          <TableCell className={classes.cell}>{n.visits.length}</TableCell>
+          <TableCell className={classes.cell}>
             <Button
               variant="contained"
               color="secondary"
-              onClick={() => history.push(`/person/${i}`)}
+              onClick={() => history.push(`/person/${n.id}`)}
             >
               Details
             </Button>
@@ -96,28 +73,31 @@ export class PeopleListPage extends React.Component {
   render() {
     const { data, order, orderBy } = this.props;
     const { rowsPerPage, page, classes } = this.props;
+    const people = objToArray(data);
     return (
       <Paper className={classes.root}>
         <EnhancedTableToolbar />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
-            <EnhancedTableHead
+            <TableHead
+              columns={columns}
               order={order}
               orderBy={orderBy}
               onRequestSort={this.props.handleRequestSort}
-              rowCount={data.length}
             />
-            <TableBody>{this.renderTableBody(data, order, orderBy)}</TableBody>
+            <TableBody>
+              {this.renderTableBody(people, order, orderBy)}
+            </TableBody>
           </Table>
         </div>
-        {this.renderTablePagination(data, rowsPerPage, page)}
+        {this.renderTablePagination(people, rowsPerPage, page)}
       </Paper>
     );
   }
 }
 
 PeopleListPage.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.object.isRequired,
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
   rowsPerPage: PropTypes.number.isRequired,

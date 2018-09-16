@@ -13,6 +13,7 @@ import config from '../../../config';
 export function* login({ data }) {
   const requestURL = `${config.apiHost}/api/login`;
   try {
+    yield put(setError(''));
     const response = yield call(axios.post, requestURL, data);
     yield put(setToken(response));
     yield put(push('/people/map'));
@@ -26,6 +27,7 @@ export function* login({ data }) {
 
 export function* loginFake({ username, password }) {
   try {
+    yield put(setError(''));
     if (username === 'admin' && password === 'admin') {
       yield put(setToken('testToken'));
       return yield put(push('/people/map'));

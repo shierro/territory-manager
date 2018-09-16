@@ -1,13 +1,15 @@
-import { defaultAction } from '../actions';
-import { DEFAULT_ACTION } from '../constants';
+/* eslint-disable import/no-named-as-default-member */
+import { pageActions } from '../actions';
+import * as constants from '../../App/constants';
+import * as constants2 from '../../MapPage/constants';
+import actionsTester from '../../../utils/actionsTester';
 
-describe('PersonDetailsPage actions', () => {
-  describe('Default Action', () => {
-    it('has a type of DEFAULT_ACTION', () => {
-      const expected = {
-        type: DEFAULT_ACTION,
-      };
-      expect(defaultAction()).toEqual(expected);
-    });
-  });
-});
+const mergedConstants = { ...constants, ...constants2 };
+
+const pplListConstants = Object.keys(mergedConstants).map(
+  idx => mergedConstants[idx],
+);
+const PersonDetailsActions = pageActions(result => result);
+
+describe('PersonDetailsPage actions', () =>
+  actionsTester(PersonDetailsActions, pplListConstants));

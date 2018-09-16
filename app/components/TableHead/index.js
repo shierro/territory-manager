@@ -6,15 +6,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
-const rows = [
-  { id: 'firstName', numeric: false, label: 'First name' },
-  { id: 'lastName', numeric: false, label: 'Last Name' },
-  { id: 'ageRange', numeric: false, label: 'Age Range' },
-  { id: 'visits', numeric: true, label: 'Visits' },
-  { id: 'actions', numeric: false, label: 'Actions' },
-];
-
-class EnhancedTableHead extends React.Component {
+class EnhancedTableHead extends React.PureComponent {
   createSortHandler = property => event => {
     this.props.onRequestSort(event, property);
   };
@@ -39,17 +31,18 @@ class EnhancedTableHead extends React.Component {
   }
 
   render() {
-    const { order, orderBy } = this.props;
+    const { order, orderBy, columns } = this.props;
     return (
       <TableHead>
         <TableRow>
-          {rows.map(row => (
+          {columns.map(col => (
             <TableCell
-              key={row.id}
-              numeric={row.numeric}
-              sortDirection={orderBy === row.id ? order : false}
+              style={{ padding: '0 5px' }}
+              key={col.id}
+              numeric={col.numeric}
+              sortDirection={orderBy === col.id ? order : false}
             >
-              {this.renderCellContent(row)}
+              {this.renderCellContent(col)}
             </TableCell>
           ))}
         </TableRow>
@@ -62,6 +55,7 @@ EnhancedTableHead.propTypes = {
   onRequestSort: PropTypes.func.isRequired,
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
+  columns: PropTypes.array.isRequired,
 };
 
 export default EnhancedTableHead;
