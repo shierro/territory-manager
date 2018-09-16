@@ -1,6 +1,11 @@
 import { createSelector } from 'reselect';
-import { makeSelectPeople } from '../MapPage/selectors';
-import { makeSelectOrder, makeSelectOrderBy } from '../App/selectors';
+import { makeSelectPeople, makeSelectAddingVisit } from '../MapPage/selectors';
+import {
+  makeSelectOrder,
+  makeSelectOrderBy,
+  makeSelectPage,
+  makeSelectRowsPerPage,
+} from '../App/selectors';
 
 export const personDetailsPage = state => state.get('personDetailsPage');
 
@@ -15,4 +20,7 @@ export const allSelectors = {
   people: makeSelectPeople(),
   order: makeSelectOrder(),
   orderBy: makeSelectOrderBy(),
+  page: makeSelectPage(),
+  rowsPerPage: makeSelectRowsPerPage(),
+  addingVisit: makeSelectAddingVisit(),
 };

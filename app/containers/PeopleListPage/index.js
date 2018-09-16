@@ -10,7 +10,6 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import TablePagination from '@material-ui/core/TablePagination';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
@@ -22,6 +21,7 @@ import reducer from './reducer';
 import saga from './saga';
 import EnhancedTableToolbar from './tableToolbar';
 import TableHead from '../../components/TableHead';
+import TablePagination from '../../components/TablePagination';
 import { mainStyles as styles } from './styles';
 import columns from './tableColumns';
 import { stableSort, getSorting } from '../../utils/sorting';
@@ -52,28 +52,10 @@ export class PeopleListPage extends React.Component {
         </TableRow>
       ));
   }
-  renderTablePagination(data, rowsPerPage, page) {
-    return (
-      <TablePagination
-        component="div"
-        count={data.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        backIconButtonProps={{
-          'aria-label': 'Previous Page',
-        }}
-        nextIconButtonProps={{
-          'aria-label': 'Next Page',
-        }}
-        onChangePage={this.props.handleChangePage}
-        onChangeRowsPerPage={this.props.handleChangeRowsPerPage}
-      />
-    );
-  }
   render() {
-    const { data, order, orderBy } = this.props;
-    const { rowsPerPage, page, classes } = this.props;
+    const { data, order, orderBy, classes } = this.props;
     const people = objToArray(data);
+    const paginationProps = { ...this.props, count: people.length };
     return (
       <Paper className={classes.root}>
         <EnhancedTableToolbar />
@@ -90,7 +72,7 @@ export class PeopleListPage extends React.Component {
             </TableBody>
           </Table>
         </div>
-        {this.renderTablePagination(people, rowsPerPage, page)}
+        <TablePagination {...paginationProps} />
       </Paper>
     );
   }

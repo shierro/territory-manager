@@ -3,7 +3,7 @@ const styles = () => ({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 700,
+    minWidth: 400,
   },
   cell: {
     padding: 0,
@@ -23,6 +23,9 @@ const styles = () => ({
   },
   row: {
     display: 'block',
+  },
+  dialogContent: {
+    overflowX: 'hidden',
   },
 });
 

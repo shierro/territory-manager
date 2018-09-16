@@ -1,13 +1,13 @@
 import styles from '../styles';
 
-describe('map page styles', () => {
+describe('person details page styles', () => {
   it('should return styles correctly', () => {
     expect(styles()).toEqual({
       tableWrapper: {
         overflowX: 'auto',
       },
       table: {
-        minWidth: 700,
+        minWidth: 400,
       },
       cell: {
         padding: 0,
@@ -27,6 +27,9 @@ describe('map page styles', () => {
       },
       row: {
         display: 'block',
+      },
+      dialogContent: {
+        overflowX: 'hidden',
       },
     });
   });

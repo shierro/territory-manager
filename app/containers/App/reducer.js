@@ -11,8 +11,8 @@ import {
 const initialState = fromJS({
   token: '',
   drawerOpen: false,
-  order: 'asc',
-  orderBy: 'firstName',
+  order: 'desc',
+  orderBy: 'date',
   page: 0,
   rowsPerPage: 5,
 });

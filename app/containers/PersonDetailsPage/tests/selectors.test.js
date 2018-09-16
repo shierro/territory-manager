@@ -1,5 +1,9 @@
 import { fromJS } from 'immutable';
-import { makeSelectTitle, personDetailsPage } from '../selectors';
+import {
+  makeSelectTitle,
+  personDetailsPage,
+  makeSelectVisitsTitle,
+} from '../selectors';
 
 describe('selectPersonDetailsPageDomain', () => {
   it('should select the whole pageDetailsPage state', () => {
@@ -13,5 +17,11 @@ describe('selectPersonDetailsPageDomain', () => {
     const title = 'my test title';
     const pageState = fromJS({ personDetailsPage: { title } });
     expect(titleSelector(pageState)).toEqual(title);
+  });
+  it('should select title correctly', () => {
+    const visitsTitleSelector = makeSelectVisitsTitle();
+    const visitsTitle = 'my visits';
+    const pageState = fromJS({ personDetailsPage: { visitsTitle } });
+    expect(visitsTitleSelector(pageState)).toEqual(visitsTitle);
   });
 });

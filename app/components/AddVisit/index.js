@@ -17,7 +17,7 @@ class AddVisit extends React.PureComponent {
     super(props);
     this.state = {
       note: '',
-      visitState: '',
+      visitState: 'found',
     };
     this.saveVisit = this.saveVisit.bind(this);
     this.startVisitAdd = this.startVisitAdd.bind(this);
