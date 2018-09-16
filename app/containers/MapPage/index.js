@@ -84,7 +84,7 @@ export class MapPage extends React.Component {
     return '';
   }
 
-  renderMarkers(people) {
+  renderMarkers(people, history) {
     return Object.keys(people).map(key => (
       <Marker
         key={key}
@@ -93,12 +93,20 @@ export class MapPage extends React.Component {
       >
         <Popup onClose={this.props.onPopupClose}>
           {!this.props.addingVisit && (
-            <PersonDetails
-              person={people[key]}
-              defaultAgeRange={this.props.ageRange}
-              personLabels={this.props.personLabels}
-              handlePersonUpdate={this.props.handlePersonUpdate}
-            />
+            <div className={this.props.classes.popupContainer}>
+              <PersonDetails
+                person={people[key]}
+                handlePersonUpdate={this.props.handlePersonUpdate}
+              />
+              <Button
+                className={this.props.classes.detailsButton}
+                variant="contained"
+                color="secondary"
+                onClick={() => history.push(`/person/${key}`)}
+              >
+                View Details
+              </Button>
+            </div>
           )}
           <AddVisit
             person={people[key]}
@@ -172,7 +180,7 @@ export class MapPage extends React.Component {
             onDragEnd={this.props.handleNewPersonPositionChange}
           />
         )}
-        {this.renderMarkers(people)}
+        {this.renderMarkers(people, this.props.history)}
       </LeafletMap>
     );
   }

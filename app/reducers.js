@@ -9,6 +9,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import mapPageReducer from 'containers/MapPage/reducer';
 import loginPageReducer from 'containers/LoginPage/reducer';
+import peopleListPageReducer from 'containers/PeopleListPage/reducer';
 /*
  * routeReducer
  *
@@ -51,6 +52,7 @@ export function rehydrateReducer(state = false, action) {
 export default function createReducer(injectedReducers) {
   return combineReducers({
     mapPage: mapPageReducer,
+    peopleListPage: peopleListPageReducer,
     loginPage: loginPageReducer,
     rehydrate: rehydrateReducer,
     route: routeReducer,

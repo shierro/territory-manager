@@ -7,11 +7,11 @@ import { PeopleListPage } from '../index';
 
 describe('<PeopleListPage />', () => {
   const pageProps = {
-    data: [
-      { firstName: 'fn', visits: [1, 2, 3], ageRange: { min: 1, max: 5 } },
-      { firstName: 'fn2', visits: [1, 2, 3, 5], ageRange: { min: 5, max: 10 } },
-    ],
-    order: 'asc',
+    data: {
+      0: { firstName: 'fn', visits: [1, 2, 3], ageRange: { min: 1, max: 5 } },
+      1: { visits: [1, 2, 3, 5], ageRange: { min: 5, max: 10 } },
+    },
+    order: 'desc',
     orderBy: 'firstName',
     rowsPerPage: 5,
     page: 1,

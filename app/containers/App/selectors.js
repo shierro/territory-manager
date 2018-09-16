@@ -16,6 +16,15 @@ export const makeSelectDrawerOpen = () =>
 export const makeSelectRehydrated = () =>
   createSelector(selectRehydrate, rehydrateState => rehydrateState);
 
+export const makeSelectOrder = () =>
+  createSelector(selectApp, state => state.get('order'));
+export const makeSelectOrderBy = () =>
+  createSelector(selectApp, state => state.get('orderBy'));
+export const makeSelectPage = () =>
+  createSelector(selectApp, state => state.get('page'));
+export const makeSelectRowsPerPage = () =>
+  createSelector(selectApp, state => state.get('rowsPerPage'));
+
 export { selectRoute, selectApp, selectRehydrate };
 
 export const appSelectors = {

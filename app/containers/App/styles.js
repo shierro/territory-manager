@@ -3,9 +3,10 @@ const styles = theme => ({
     flexGrow: 1,
     height: '100vh',
     zIndex: 1,
-    overflow: 'hidden',
+    fontFamily: 'Roboto',
+    // overflow: 'hidden',
     position: 'relative',
-    display: 'flex',
+    // display: 'flex',
   },
   toolbar: {
     display: 'flex',

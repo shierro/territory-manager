@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { withStyles } from '@material-ui/core/styles';
 // import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -16,11 +17,10 @@ import injectReducer from 'utils/injectReducer';
 
 import { makeSelectError, makeSelectLoading } from './selectors';
 import { makeSelectToken } from '../App/selectors';
-
 import { doLogin } from './actions';
-
 import reducer from './reducer';
 import saga from './saga';
+import styles from './styles';
 
 export class LoginPage extends React.Component {
   constructor(props) {
@@ -82,7 +82,7 @@ export class LoginPage extends React.Component {
     return (
       <h4
         style={{ display: !error ? 'none' : 'block' }}
-        className="login__error"
+        className={this.props.classes.error}
       >
         {error}
       </h4>
@@ -90,7 +90,7 @@ export class LoginPage extends React.Component {
   }
   renderFooter(loading) {
     return (
-      <div className="login__footer">
+      <div className={this.props.classes.footer}>
         <Button
           type="submit"
           variant="raised"
@@ -104,9 +104,9 @@ export class LoginPage extends React.Component {
   }
   render() {
     const { username, password } = this.state;
-    const { error, loading } = this.props;
+    const { error, loading, classes } = this.props;
     return (
-      <Paper elevation={4} className="login">
+      <Paper elevation={4} className={classes.container}>
         {this.renderHeader()}
         <form onSubmit={this.handleSubmit}>
           <h3>Login</h3>
@@ -127,6 +127,7 @@ LoginPage.propTypes = {
   login: PropTypes.func.isRequired,
   token: PropTypes.string,
   history: PropTypes.object,
+  classes: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
@@ -154,4 +155,4 @@ export default compose(
   withReducer,
   withSaga,
   withConnect,
-)(LoginPage);
+)(withStyles(styles)(LoginPage));
