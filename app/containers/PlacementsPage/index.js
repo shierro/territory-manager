@@ -78,7 +78,8 @@ export class PlacementsPage extends React.Component {
     return (
       <Paper elevation={1} className={classes.container}>
         <Typography variant="headline" classes={{ root: classes.title }}>
-          {title}
+          {title} {` - `}
+          <span>{grouping}</span>
         </Typography>
         <Divider marginTop={10} />
         <div className={classes.content}>
