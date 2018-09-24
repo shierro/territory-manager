@@ -10,56 +10,83 @@ import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew';
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
+import Placements from '@material-ui/icons/Assignment';
 import ViewList from '@material-ui/icons/ViewList';
 import List from '@material-ui/core/List';
 
-const renderListItemButton = (Component, primary, params, content) => (
-  <ListItem
-    button
-    selected={params.path === params.navPath}
-    onClick={params.onClick || (() => params.history.push(params.navPath))}
-  >
-    <ListItemIcon>
-      <Component />
-    </ListItemIcon>
-    <ListItemText inset primary={primary} />
-    {content}
-  </ListItem>
-);
-
-const getParams = (navPath, params) => ({
-  ...params,
-  navPath,
-});
-
-export const mainFolderListItems = params => (
-  <div>
-    {renderListItemButton(Home, 'Home', getParams('/home', params))}
-    {renderListItemButton(
-      People,
-      'People',
-      getParams('', { ...params, onClick: params.foldPeople }),
-      params.peopleFolded ? <ExpandLess /> : <ExpandMore />,
-    )}
-    <Collapse in={params.peopleFolded} timeout="auto" unmountOnExit>
-      <List component="div" disablePadding>
-        {renderListItemButton(
-          ViewList,
-          'List View',
-          getParams('/people/list', params),
-        )}
-        {renderListItemButton(
-          Terrain,
-          'Map View',
-          getParams('/people/map', params),
-        )}
-      </List>
-    </Collapse>
-  </div>
-);
-
-export const actionListItems = onClick =>
-  renderListItemButton(PowerSettingsNew, 'Logout', {
-    onClick,
-    navPath: '/login',
+export const mainFolderListItems = params => {
+  const getLiProps = nested => ({
+    classes: {
+      root: `${params.classes.liRoot} ${nested && params.classes.liNested}`,
+      button: params.classes.liButton,
+      divider: params.classes.liDivider,
+    },
+    button: true,
+    divider: true,
   });
+  return (
+    <div>
+      <ListItem
+        {...getLiProps()}
+        selected={params.path === '/home'}
+        onClick={() => params.history.push('/home')}
+      >
+        <ListItemIcon>
+          <Home />
+        </ListItemIcon>
+        <ListItemText inset primary="Home" />
+      </ListItem>
+      <ListItem
+        {...getLiProps()}
+        selected={params.path === '/placements'}
+        onClick={() => params.history.push('/placements')}
+      >
+        <ListItemIcon>
+          <Placements />
+        </ListItemIcon>
+        <ListItemText inset primary="Placements" />
+      </ListItem>
+      <ListItem {...getLiProps()} onClick={params.foldPeople}>
+        <ListItemIcon>
+          <People />
+        </ListItemIcon>
+        <ListItemText inset primary="People" />
+        {params.peopleFolded ? (
+          <ExpandLess color="secondary" />
+        ) : (
+          <ExpandMore color="secondary" />
+        )}
+      </ListItem>
+      <Collapse in={params.peopleFolded} timeout="auto" unmountOnExit>
+        <List component="div" disablePadding>
+          <ListItem
+            {...getLiProps(true)}
+            selected={params.path === '/people/list'}
+            onClick={() => params.history.push('/people/list')}
+          >
+            <ListItemIcon>
+              <ViewList />
+            </ListItemIcon>
+            <ListItemText inset primary="List View" />
+          </ListItem>
+          <ListItem
+            {...getLiProps(true)}
+            selected={params.path === '/people/map'}
+            onClick={() => params.history.push('/people/map')}
+          >
+            <ListItemIcon>
+              <Terrain />
+            </ListItemIcon>
+            <ListItemText inset primary="Map View" />
+          </ListItem>
+        </List>
+      </Collapse>
+      <ListItem {...getLiProps()} onClick={params.logout}>
+        <ListItemIcon>
+          <PowerSettingsNew />
+        </ListItemIcon>
+        <ListItemText inset primary="Logout" />
+      </ListItem>
+    </div>
+  );
+};

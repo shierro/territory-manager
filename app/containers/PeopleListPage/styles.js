@@ -1,10 +1,10 @@
-export const mainStyles = theme => ({
+export const mainStyles = () => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
   },
   table: {
     minWidth: 500,
+    marginLeft: 10,
   },
   tableWrapper: {
     overflowX: 'auto',

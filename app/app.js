@@ -30,7 +30,8 @@ import LanguageProvider from 'containers/LanguageProvider';
 /* eslint-disable import/no-unresolved, import/extensions */
 import '!file-loader?name=[name].[ext]!./images/favicon.ico';
 import 'file-loader?name=[name].[ext]!./.htaccess';
-import 'typeface-roboto';
+// import 'typeface-roboto';
+import 'typeface-montserrat';
 /* eslint-enable import/no-unresolved, import/extensions */
 
 import configureStore from './configureStore';

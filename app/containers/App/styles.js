@@ -3,7 +3,6 @@ const styles = theme => ({
     flexGrow: 1,
     height: '100vh',
     zIndex: 1,
-    fontFamily: 'Roboto',
     // overflow: 'hidden',
     position: 'relative',
     // display: 'flex',

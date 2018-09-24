@@ -26,9 +26,20 @@ const styles = theme => ({
     padding: '0 8px',
     ...theme.mixins.toolbar,
   },
-  nested: {
+  liNested: {
     paddingLeft: theme.spacing.unit * 4,
   },
+  liRoot: {
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  liButton: {
+    color: theme.palette.secondary.main,
+  },
+  liDivider: {
+    color: theme.palette.secondary.main,
+  },
+  list: { padding: 0 },
 });
 
 export default styles;

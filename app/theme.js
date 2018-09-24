@@ -1,4 +1,8 @@
 export default {
+  typography: {
+    fontFamily: 'Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif',
+    fontSize: 14,
+  },
   palette: {
     primary: {
       light: '#9fffe0',
@@ -11,6 +15,13 @@ export default {
       main: '#80d8ff',
       dark: '#49a7cc',
       contrastText: '#fff',
+    },
+  },
+  overrides: {
+    MuiListItemIcon: {
+      root: {
+        color: undefined,
+      },
     },
   },
 };

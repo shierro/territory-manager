@@ -7,7 +7,7 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainFolderListItems, actionListItems } from './tileData';
+import { mainFolderListItems } from './tileData';
 import styles from './styles';
 
 class LeftDrawer extends React.PureComponent {
@@ -18,21 +18,17 @@ class LeftDrawer extends React.PureComponent {
   renderToggleButton(classes, toggleDrawer) {
     return (
       <div className={classes.toolbar}>
-        <IconButton onClick={toggleDrawer}>
+        <IconButton onClick={toggleDrawer} className={classes.liButton}>
           <ChevronLeftIcon />
         </IconButton>
       </div>
     );
   }
   getNavProps() {
-    const { classes, open, path, history } = this.props;
-    const { nested } = classes;
     return {
+      ...this.props,
       foldPeople: this.handleClick,
-      nestedClass: open ? nested : '',
       peopleFolded: this.state.folded.people,
-      path,
-      history,
     };
   }
   render() {
@@ -49,10 +45,9 @@ class LeftDrawer extends React.PureComponent {
       >
         {this.renderToggleButton(classes, toggleDrawer)}
         <Divider />
-        <List component="nav">{mainFolderListItems(this.getNavProps())}</List>
-        <Divider />
-        <List component="nav">{actionListItems(this.props.logout)}</List>
-        <Divider />
+        <List component="nav" classes={{ root: classes.list }}>
+          {mainFolderListItems(this.getNavProps())}
+        </List>
       </Drawer>
     );
   }
@@ -63,9 +58,6 @@ LeftDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
   hidden: PropTypes.bool.isRequired,
   toggleDrawer: PropTypes.func.isRequired,
-  logout: PropTypes.func.isRequired,
-  path: PropTypes.string.isRequired,
-  history: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles, { withTheme: true })(LeftDrawer);

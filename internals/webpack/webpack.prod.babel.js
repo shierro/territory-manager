@@ -82,8 +82,8 @@ module.exports = require('./webpack.base.babel')({
       name: 'Territory Manager',
       short_name: 'TM',
       description: 'Territory Manager',
-      background_color: '#fafafa',
-      theme_color: '#b1624d',
+      background_color: '#69f0ae',
+      theme_color: '#69f0ae',
       orientation: 'any',
       icons: [
         {

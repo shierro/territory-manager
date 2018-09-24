@@ -18,7 +18,14 @@ import createReducer from './reducers';
 
 const persistOptions = {
   key: 'root',
-  whitelist: ['mapPage', 'loginPage', 'App', 'route', 'peopleListPage'],
+  whitelist: [
+    'mapPage',
+    'loginPage',
+    'App',
+    'route',
+    'peopleListPage',
+    'placementsPage',
+  ],
   blacklist: ['rehydrate'],
 };
 
