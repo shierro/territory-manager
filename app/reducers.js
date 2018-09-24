@@ -10,6 +10,7 @@ import languageProviderReducer from 'containers/LanguageProvider/reducer';
 import mapPageReducer from 'containers/MapPage/reducer';
 import loginPageReducer from 'containers/LoginPage/reducer';
 import peopleListPageReducer from 'containers/PeopleListPage/reducer';
+import placementsPageReducer from 'containers/PlacementsPage/reducer';
 /*
  * routeReducer
  *
@@ -54,6 +55,7 @@ export default function createReducer(injectedReducers) {
     mapPage: mapPageReducer,
     peopleListPage: peopleListPageReducer,
     loginPage: loginPageReducer,
+    placementsPage: placementsPageReducer,
     rehydrate: rehydrateReducer,
     route: routeReducer,
     language: languageProviderReducer,
