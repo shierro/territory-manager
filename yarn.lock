@@ -9468,9 +9468,9 @@ sane@^2.0.0:
   optionalDependencies:
     fsevents "^1.2.3"
 
-sanitize.css@7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/sanitize.css/-/sanitize.css-7.0.1.tgz#fded48dd9d91f64afcbce4997b0d8add689c8aff"
+sanitize.css@8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/sanitize.css/-/sanitize.css-8.0.0.tgz#b025845b772a2c0c996e62e3b2d1bbf10ca78e37"
 
 sass-graph@^2.2.4:
   version "2.2.4"
