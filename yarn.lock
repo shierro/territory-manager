@@ -7755,9 +7755,9 @@ object.values@^1.0.4:
     function-bind "^1.1.0"
     has "^1.0.1"
 
-offline-plugin@5.0.5:
-  version "5.0.5"
-  resolved "https://registry.yarnpkg.com/offline-plugin/-/offline-plugin-5.0.5.tgz#e9b16c569d19899af9c923f5bc260705578ffeba"
+offline-plugin@5.0.6:
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/offline-plugin/-/offline-plugin-5.0.6.tgz#7a7b244220cddb8a8cabecb172ec5c0be03e74b2"
   dependencies:
     deep-extend "^0.5.1"
     ejs "^2.3.4"
