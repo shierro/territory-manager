@@ -246,7 +246,7 @@
     "node-plop": "0.16.0",
     "node-sass": "^4.9.0",
     "null-loader": "0.1.1",
-    "offline-plugin": "5.0.5",
+    "offline-plugin": "5.0.7",
     "plop": "2.1.0",
     "postcss-loader": "^2.1.5",
     "pre-commit": "1.2.2",
