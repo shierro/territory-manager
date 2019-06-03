@@ -9468,9 +9468,10 @@ sane@^2.0.0:
   optionalDependencies:
     fsevents "^1.2.3"
 
-sanitize.css@7.0.1:
-  version "7.0.1"
-  resolved "https://registry.yarnpkg.com/sanitize.css/-/sanitize.css-7.0.1.tgz#fded48dd9d91f64afcbce4997b0d8add689c8aff"
+sanitize.css@10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/sanitize.css/-/sanitize.css-10.0.0.tgz#b5cb2547e96d8629a60947544665243b1dc3657a"
+  integrity sha512-vTxrZz4dX5W86M6oVWVdOVe72ZiPs41Oi7Z6Km4W5Turyz28mrXSJhhEBZoRtzJWIv3833WKVwLSDWWkEfupMg==
 
 sass-graph@^2.2.4:
   version "2.2.4"
