@@ -187,7 +187,7 @@
     "redux": "4.0.0",
     "redux-immutable": "4.0.0",
     "redux-offline-immutable-config": "^1.0.0",
-    "redux-saga": "0.16.0",
+    "redux-saga": "1.1.1",
     "reselect": "3.0.1",
     "sanitize.css": "7.0.1",
     "styled-components": "3.4.0",
