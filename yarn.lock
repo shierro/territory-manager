@@ -2883,9 +2883,14 @@ data-urls@^1.0.0:
     whatwg-mimetype "^2.0.0"
     whatwg-url "^6.4.0"
 
-date-fns@^1.27.2, date-fns@^1.29.0:
+date-fns@^1.27.2:
   version "1.29.0"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.29.0.tgz#12e609cdcb935127311d04d33334e2960a2a54e6"
+
+date-fns@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.4.0.tgz#e02d1d08ce80ae1db3de40a0028c9f54203d034b"
+  integrity sha512-xS547fK1omgCgOGbyU0fBY2pdeXQ9/WO/PMsVgX1jtF56dXNHrV3Z+GKWIOE7IG+UEeu+fTyTlnIvBKbxXxdSw==
 
 date-now@^0.1.4:
   version "0.1.4"
