@@ -243,7 +243,7 @@
     "jest-styled-components": "5.0.1",
     "lint-staged": "7.2.1",
     "ngrok": "3.0.1",
-    "node-plop": "0.16.0",
+    "node-plop": "0.23.0",
     "node-sass": "^4.9.0",
     "null-loader": "0.1.1",
     "offline-plugin": "5.0.5",
