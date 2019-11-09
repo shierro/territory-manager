@@ -155,7 +155,7 @@
     "@redux-offline/redux-offline": "^2.4.0",
     "axios": "^0.18.0",
     "babel-polyfill": "6.26.0",
-    "chalk": "^2.4.1",
+    "chalk": "^3.0.0",
     "chart.js": "^2.7.2",
     "compression": "1.7.3",
     "cross-env": "5.2.0",
