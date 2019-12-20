@@ -256,7 +256,7 @@
     "rimraf": "2.6.2",
     "sass-loader": "^7.0.3",
     "shelljs": "^0.8.2",
-    "style-loader": "0.21.0",
+    "style-loader": "1.1.1",
     "stylelint": "9.4.0",
     "stylelint-config-recommended": "2.1.0",
     "stylelint-config-styled-components": "0.1.1",
