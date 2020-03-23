@@ -250,7 +250,7 @@
     "plop": "2.1.0",
     "postcss-loader": "^2.1.5",
     "pre-commit": "1.2.2",
-    "prettier": "1.13.5",
+    "prettier": "2.0.2",
     "react-test-renderer": "16.4.2",
     "redux-logger": "^3.0.6",
     "rimraf": "2.6.2",
